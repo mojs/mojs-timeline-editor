@@ -6,33 +6,9 @@
 
 ## Installation
 
+**Not avaliable on `npm` or `CDN`s yet.**
+
 The `MojsTimelineEditor` depends on `mojs >= 0.225.2`, tween autoupdates available for `mojs >= 0.276.2`. Please make sure you've linked [mojs](https://github.com/legomushroom/mojs) library first.
-
-[CDN](https://www.jsdelivr.com/)(pending approval):
-
-```
-<script src="//cdn.jsdelivr.net/mojs-timeline-editor/latest/mojs-timeline-editor.min.js"></script>
-```
-
-[NPM](https://www.npmjs.com/):
-
-```
-[sudo] npm install mojs-timeline-editor
-```
-
-[Bower](http://bower.io/):
-
-```
-bower install mojs-timeline-editor
-```
-
-Import `MojsTimelineEditor` constructor to your code (depends on your environment) :
-
-```javascript
-const MojsTimelineEditor = require('mojs-player').default;
-// or
-import MojsTimelineEditor from 'mojs-player';
-```
 
 If you installed it with script link - you should have `MojsTimelineEditor` global.
 
@@ -64,7 +40,13 @@ Run [webpack](https://webpack.github.io/):
 webpack
 ```
 
-Please make sure you started a `feature branch` with the `feature name` (better from the `dev` branch) before making changes.
+[optional] Run `gulp` for `liverload`, please make sure that you have `livereload` extension installed in your browser (see [livereload usage notes](https://github.com/napcs/node-livereload)):
+
+```
+gulp
+```
+
+[comment]: # (Please make sure you started a `feature branch` with the `feature name` ( from the `dev` branch) before making changes.)
 
 ## License
 
