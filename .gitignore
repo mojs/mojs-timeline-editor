@@ -1,0 +1,5 @@
+app/build/*.hot-update.js
+app/build/*.hot-update.json
+node_modules
+npm-debug.log
+.DS_Store

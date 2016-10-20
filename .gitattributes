@@ -1,0 +1,3 @@
+app/build/mojs-curve-editor.js merge=ours
+app/build/mojs-curve-editor.min.js merge=ours
+*.postcss.css.json merge=ours

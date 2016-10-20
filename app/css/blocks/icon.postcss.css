@@ -1,0 +1,35 @@
+
+@import '../assets/globals.postcss.css';
+
+$size: 32;
+.icon {
+  position:     relative;
+  width:        calc( 32 * $PX );
+  height:       calc( 32 * $PX );
+  cursor:       pointer;
+  fill:         white;
+  display:      block;
+
+  & > svg {
+    position:   absolute;
+    left:       0;
+    top:        0;
+    width:      100%;
+    height:     100%;
+    fill:       inherit;
+    & > use {
+      fill:       inherit;
+    }
+  }
+
+  &:after {
+    content:    '';
+    position:   absolute;
+    left:       0;
+    top:        0;
+    right:      0;
+    bottom:     0;
+    z-index:    1;
+  }
+
+}
