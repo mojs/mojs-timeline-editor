@@ -1,8 +1,8 @@
 # mojs timeline-editor
 
-<img width="444" src="https://github.com/legomushroom/mojs-timeline-editor/blob/master/mockups/timeline-editor.png?raw=true" alt="mojs-timeline-editor" />
+<img width="444" src="https://github.com/legomushroom/mojs-timeline-editor/blob/master/mockups/timeline-editor@2x.png?raw=true" alt="mojs-timeline-editor" />
 
-`MojsTimelineEditor` is a GUI plugin for interactive `custom easings`/`property curves` editing while crafting your animations. Part of `mojs` tools.
+`MojsTimelineEditor` is a GUI plugin for interactive `html`/`custom points`/`timeline` editing while crafting your animations. Part of `mojs` tools.
 
 ## Installation
 
