@@ -32,7 +32,7 @@ module.exports = {
   },
   postcss: function () {
       return {
-          defaults: [ require('precss'), require('postcss-cssnext'), require('postcss-modules') ],
+          defaults: [ require('precss'), require('postcss-cssnext'), require('postcss-modules'), require('postcss-automath') ],
           cleaner:  [autoprefixer({ browsers: ['last 2 versions'] })]
       };
   },

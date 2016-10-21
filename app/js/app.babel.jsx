@@ -1,11 +1,13 @@
 import { Provider } from 'preact-redux';
 import {  render, h } from 'preact';
+import Icon from './components/icon';
 import TimelineEditor from './components/timeline-editor';
-
 
 render(
   <Provider store={{}}>
-    <TimelineEditor />
+    <TimelineEditor>
+      <Icon shape="mojs-logo"/>
+    </TimelineEditor>
   </Provider>,
   document.body
 );

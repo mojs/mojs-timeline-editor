@@ -4,8 +4,8 @@
 $size: 32;
 .icon {
   position:     relative;
-  width:        calc( 32 * $PX );
-  height:       calc( 32 * $PX );
+  width:        32*$PX;
+  height:       32*$PX;
   cursor:       pointer;
   fill:         white;
   display:      block;
