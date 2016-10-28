@@ -1,0 +1,14 @@
+@import '../assets/globals.postcss.css';
+
+$panel-width: 165*$PX;
+
+.left-panel {
+  position: absolute;
+  right: $panel-width;
+  bottom: 0;
+  left: 0;
+  width: $panel-width;
+  min-height: 40*$PX;
+
+  background: $c-purple;
+}

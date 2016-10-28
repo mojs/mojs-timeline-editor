@@ -1,13 +1,14 @@
 
 @import '../assets/globals.postcss.css';
 
-$size: 32;
+$icon-size: 8*$PX;
+
 .icon {
   position:     relative;
-  width:        32*$PX;
-  height:       32*$PX;
+  width:        $icon-size;
+  height:       $icon-size;
   cursor:       pointer;
-  fill:         white;
+  fill:         $c-white;
   display:      block;
 
   & > svg {
@@ -31,5 +32,4 @@ $size: 32;
     bottom:     0;
     z-index:    1;
   }
-
 }

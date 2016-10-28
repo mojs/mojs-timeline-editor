@@ -1,0 +1,8 @@
+@import '../assets/globals.postcss.css';
+
+.main-panel {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  color: white;
+}
