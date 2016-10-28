@@ -5,8 +5,8 @@
   right: 0;
   bottom: 0;
   left: 165*$PX;
-  min-height: 40*$PX;
-  
+  height: 100%;
+
   color: $c-white;
   background: $c-light-purple;
 }

@@ -8,7 +8,7 @@ render(
   <Provider store={{}}>
     <TimelineEditor>
       {/*<Icon shape="mojs-logo"/>*/}
-      <MainPanel/>
+      <MainPanel isHidden={false} isPlayer={true}/>
     </TimelineEditor>
   </Provider>,
   document.body

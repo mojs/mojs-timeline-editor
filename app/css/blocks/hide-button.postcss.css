@@ -12,6 +12,7 @@ $icon-size: 8*$PX;
   display: inline-block;
   width: $button-width;
   height: $button-height;
+  cursor: pointer;
 
   &__icon-container {
     position: absolute;
@@ -24,7 +25,7 @@ $icon-size: 8*$PX;
     border-top-right-radius: $BRADIUS;
     background: $c-purple;
   }
-  
+
   & [data-component="icon"] {
     position: absolute;
     top: ($button-height - $icon-size) / 2;
@@ -33,6 +34,12 @@ $icon-size: 8*$PX;
     width: $icon-size;
     height: $icon-size;
     margin-top: 1*$PX;
+  }
+
+  &--is-hidden [data-component="icon"] {
+    margin-top: 0;
+    transition: transform 0.2s;
+    transform: rotate( 180deg );
   }
 
   &:hover {

@@ -8,7 +8,7 @@ $panel-width: 165*$PX;
   bottom: 0;
   left: 0;
   width: $panel-width;
-  min-height: 40*$PX;
+  height: 100%;
 
   background: $c-purple;
 }

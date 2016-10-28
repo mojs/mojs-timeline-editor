@@ -9,7 +9,7 @@ class RightPanel extends Component {
   render () {
     return (
       <div className={CLASSES['right-panel']}>
-        <HideButton/>
+        <HideButton {...this.props}/>
         <ResizeHandle/>
       </div>
     );
