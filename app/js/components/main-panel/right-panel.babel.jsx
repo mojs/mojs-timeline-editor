@@ -10,7 +10,7 @@ class RightPanel extends Component {
     return (
       <div className={CLASSES['right-panel']}>
         <HideButton {...this.props}/>
-        <ResizeHandle/>
+        <ResizeHandle {...this.props}/>
       </div>
     );
   }

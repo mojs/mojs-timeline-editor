@@ -30,8 +30,6 @@ module.exports = {
       }
     ]
   },
-  // NOTE: we have some issues with using calc and auto-math plugins
-  // e.g. widht: calc(100% - 165*PX); — doesn't work properly
   postcss: function () {
       return {
           defaults: [ require('precss'), require('postcss-cssnext'), require('postcss-modules'), require('postcss-automath') ],

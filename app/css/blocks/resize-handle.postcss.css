@@ -14,12 +14,12 @@ $icon-size: 32*$PX;
   margin-left: 5*$PX;
   cursor: n-resize;
   overflow: hidden;
-  border-top-left-radius: 3*$PX;
-  border-top-right-radius: 3*$PX;
+  border-top-left-radius: $BRADIUS;
+  border-top-right-radius: $BRADIUS;
   transform-origin: 50% 100%;
   background: $c-purple;
-  box-shadow: inset 0 0 0 1*$PX$c-light-purple;
-  
+  box-shadow: inset 0 0 0 1*$PX $c-light-purple;
+
   &:after {
     content:      '';
     position:     absolute;
@@ -29,7 +29,7 @@ $icon-size: 32*$PX;
     bottom:       0;
     z-index:      2;
   }
-  
+
   & [data-component="icon"] {
     width: $icon-size;
     height: $icon-size;
@@ -42,15 +42,5 @@ $icon-size: 32*$PX;
 
   &:hover {
     opacity: .85;
-  }
-
-  &--right {
-    transform:  rotate(90deg);
-    cursor:     e-resize;
-  }
-
-  &--bottom {
-    transform:  rotate(180deg);
-    cursor:     s-resize;
   }
 }

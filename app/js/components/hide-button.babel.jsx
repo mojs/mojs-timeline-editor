@@ -7,7 +7,9 @@ require('../../css/blocks/hide-button');
 class HideButton extends Component {
   constructor() {
     super();
-    this.state.isHiddenMode = false;
+    this.state = {
+      isHiddenMode: false
+    };
     this.changeVisibility = this.changeVisibility.bind(this);
   }
 
