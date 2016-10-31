@@ -2,6 +2,7 @@
   "presets": ["es2015", "stage-0"],
   "plugins": [
     'transform-runtime',
-    ["transform-react-jsx", { "pragma":"h" }]
+    ["transform-react-jsx", { "pragma":"h" }],
+    'transform-decorators-legacy'
   ]
 }

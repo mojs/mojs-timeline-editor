@@ -28,7 +28,7 @@ class ResizeHandle extends Component {
         e.stopPropagation();
       })
       .on('panend', (e) => {
-        this.props.onResizeEnd();
+        this.props.onResizeEnd(e);
         e.stopPropagation();
       });
   }
