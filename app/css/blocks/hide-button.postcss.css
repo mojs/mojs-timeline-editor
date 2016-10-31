@@ -1,0 +1,52 @@
+@import '../assets/globals.postcss.css';
+
+$button-height: 16*$PX;
+$button-width: 22*$PX;
+$icon-size: 8*$PX;
+
+.hide-button {
+  position: relative;;
+  top: -$button-height;
+  left: 50%;
+
+  display: inline-block;
+  width: $button-width;
+  height: $button-height;
+  cursor: pointer;
+
+  &__icon-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    border-top-left-radius: $BRADIUS;
+    border-top-right-radius: $BRADIUS;
+    background: $c-purple;
+  }
+
+  & [data-component="icon"] {
+    position: absolute;
+    top: ($button-height - $icon-size) / 2;
+    left: ($button-width - $icon-size) / 2;
+    display: inline-block;
+    width: $icon-size;
+    height: $icon-size;
+    margin-top: 1*$PX;
+  }
+
+  &--is-hidden [data-component="icon"] {
+    margin-top: 0;
+    transition: transform 0.2s;
+    transform: rotate( 180deg );
+  }
+
+  &:hover {
+    opacity: .85;
+  }
+
+  &:active {
+    opacity: 1;
+  }
+}

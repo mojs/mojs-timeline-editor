@@ -1,0 +1,46 @@
+@import '../assets/globals.postcss.css';
+
+$handle-width: 32*$PX;
+$handle-height: 16*$PX;
+$icon-size: 32*$PX;
+
+.resize-handle {
+  position: relative;
+  top: -$handle-height;
+  left: 50%;
+  display: inline-block;
+  width: $handle-width;
+  height: $handle-height;
+  margin-left: 5*$PX;
+  cursor: n-resize;
+  overflow: hidden;
+  border-top-left-radius: $BRADIUS;
+  border-top-right-radius: $BRADIUS;
+  transform-origin: 50% 100%;
+  background: $c-purple;
+  box-shadow: inset 0 0 0 1*$PX $c-light-purple;
+
+  &:after {
+    content:      '';
+    position:     absolute;
+    left:         0;
+    top:          0;
+    right:        0;
+    bottom:       0;
+    z-index:      2;
+  }
+
+  & [data-component="icon"] {
+    width: $icon-size;
+    height: $icon-size;
+    position: absolute;
+    margin-top: 1*$PX;
+    top: ($handle-height - $icon-size) / 2;
+    left: ($handle-width - $icon-size) / 2;
+    display: inline-block;
+  }
+
+  &:hover {
+    opacity: .85;
+  }
+}
