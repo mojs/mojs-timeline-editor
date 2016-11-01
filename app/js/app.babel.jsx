@@ -1,14 +1,13 @@
 import { Provider } from 'preact-redux';
 import {  render, h } from 'preact';
-// import Icon from './components/icon';
+
 import TimelineEditor from './components/timeline-editor';
-import MainPanel from './components/main-panel/main-panel';
+import MainPanelContainer from './components/main-panel/main-panel-container';
 
 render(
   <Provider store={{}}>
     <TimelineEditor>
-      {/*<Icon shape="mojs-logo"/>*/}
-      <MainPanel isHidden={false} isPlayerPassed={true}/>
+      <MainPanelContainer isPlayerPassed={true}/>
     </TimelineEditor>
   </Provider>,
   document.body

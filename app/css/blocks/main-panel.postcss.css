@@ -9,18 +9,7 @@ $player-height: 40*$PX;
   height: 100*$PX;
   color: white;
 
-  transition: height 0.5s;
-
-  &--is-hidden-with-player {
-    height: $player-height !important;
+  &--smooth-transition {
+    transition: height 0.4s;
   }
-
-  &--is-hidden-no-player {
-    height: 0 !important;
-  }
-
-  &--is-resizing {
-    transition: height 0s;
-  }
-
 }

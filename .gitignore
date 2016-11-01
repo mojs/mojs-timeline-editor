@@ -1,5 +1,4 @@
-app/build/*.hot-update.js
-app/build/*.hot-update.json
+app/build/
 node_modules
 npm-debug.log
 .DS_Store

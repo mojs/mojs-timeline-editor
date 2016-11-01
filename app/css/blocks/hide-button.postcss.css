@@ -34,6 +34,7 @@ $icon-size: 8*$PX;
     width: $icon-size;
     height: $icon-size;
     margin-top: 1*$PX;
+    transition: transform 0.2s;
   }
 
   &--is-hidden [data-component="icon"] {

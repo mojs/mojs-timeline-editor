@@ -8,12 +8,9 @@ require('../../css/blocks/resize-handle');
 
 class ResizeHandle extends Component {
   render () {
-    const className = `${CLASSES['resize-handle']}`;
-
     return (
-      <div
-        className={ `${className}` }
-        data-component="resize-handle">
+      <div className={ CLASSES['resize-handle'] }
+           data-component="resize-handle">
         <Icon shape="ellipsis" />
       </div>
     );
@@ -24,7 +21,7 @@ class ResizeHandle extends Component {
 
     mc.add(new Hammer.Pan({ threshold: 0 }));
     mc.on('pan', (e) => {
-        this.props.onResizeStart(e);
+        this.props.onResizeStart(e.deltaY);
         e.stopPropagation();
       })
       .on('panend', (e) => {
