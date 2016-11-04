@@ -55,6 +55,9 @@ class MainPanel extends Component {
     this.setState({ deltaY: 0 });
   }
 
+
+  // HELPERS
+
   _getClassNames() {
     const {store} = this.context;
     const {state} = this.props;
@@ -79,8 +82,10 @@ class MainPanel extends Component {
       store.dispatch({ type: 'MAIN_PANEL_SET_HIDDEN', data: false });
     }
     // if we drag the panel and it is not in `isHidden` state, set that state
+    // and reset prevHeight to add user the ability to expand the panel,
+    // otherwise it will stick at the bottom
     if (height === this._getMinHeight() && !state.isHidden) {
-      store.dispatch({ type: 'MAIN_PANEL_SET_HIDDEN', data: true });
+      store.dispatch({ type: 'MAIN_PANEL_RESET_YPREV' });
     }
   }
 
