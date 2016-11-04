@@ -1,17 +1,18 @@
-import { Provider } from 'preact-redux';
-import {  render, h } from 'preact';
+import {Provider} from 'preact-redux';
+import {render, h} from 'preact';
 
+import store from './store';
 import TimelineEditor from './components/timeline-editor';
-import MainPanelContainer from './components/main-panel/main-panel-container';
+import persist from './helpers/persist';
 
 render(
-  <Provider store={{}}>
-    <TimelineEditor>
-      <MainPanelContainer isPlayerPassed={true}/>
-    </TimelineEditor>
+  <Provider store={store}>
+    <TimelineEditor isPlayerPassed={true} />
   </Provider>,
   document.body
 );
+
+persist(store);
 
 // /*
 //   API wrapper above the app itself.

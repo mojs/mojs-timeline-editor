@@ -31,16 +31,15 @@ $icon-size: 32*$PX;
   }
 
   & [data-component="icon"] {
-    width: $icon-size;
-    height: $icon-size;
-    position: absolute;
-    margin-top: 1*$PX;
-    top: ($handle-height - $icon-size) / 2;
-    left: ($handle-width - $icon-size) / 2;
-    display: inline-block;
+    position:   absolute;
+    top:        ($handle-height - $icon-size) / 2;
+    left:       ($handle-width - $icon-size) / 2;
+    width:      $icon-size;
+    height:     $icon-size;
+    display:    inline-block;
   }
 
   &:hover {
-    opacity: .85;
+    opacity:    .85;
   }
 }

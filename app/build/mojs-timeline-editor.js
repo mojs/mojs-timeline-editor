@@ -67,26 +67,27 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _preact = __webpack_require__(3);
 
+	var _store = __webpack_require__(150);
+
+	var _store2 = _interopRequireDefault(_store);
+
 	var _timelineEditor = __webpack_require__(20);
 
 	var _timelineEditor2 = _interopRequireDefault(_timelineEditor);
 
-	var _mainPanel = __webpack_require__(113);
+	var _persist = __webpack_require__(154);
 
-	var _mainPanel2 = _interopRequireDefault(_mainPanel);
+	var _persist2 = _interopRequireDefault(_persist);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	// import Icon from './components/icon';
 	(0, _preact.render)((0, _preact.h)(
 	  _preactRedux.Provider,
-	  { store: {} },
-	  (0, _preact.h)(
-	    _timelineEditor2.default,
-	    null,
-	    (0, _preact.h)(_mainPanel2.default, { isHidden: false, isPlayerPassed: true })
-	  )
+	  { store: _store2.default },
+	  (0, _preact.h)(_timelineEditor2.default, { isPlayerPassed: true })
 	), document.body);
+
+	(0, _persist2.default)(_store2.default);
 
 	// /*
 	//   API wrapper above the app itself.
@@ -2514,14 +2515,19 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _preact = __webpack_require__(3);
 
+	var _mainPanel = __webpack_require__(123);
+
+	var _mainPanel2 = _interopRequireDefault(_mainPanel);
+
 	var _icons = __webpack_require__(107);
 
 	var _icons2 = _interopRequireDefault(_icons);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	var _constants = __webpack_require__(149);
 
-	var CLASSES = __webpack_require__(108);
-	__webpack_require__(109);
+	var _constants2 = _interopRequireDefault(_constants);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var TimelineEditor = function (_Component) {
 	  (0, _inherits3.default)(TimelineEditor, _Component);
@@ -2534,13 +2540,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	  (0, _createClass3.default)(TimelineEditor, [{
 	    key: 'render',
 	    value: function render() {
+	      var store = this.context.store;
+
+	      var state = store.getState();
+
 	      return (0, _preact.h)(
 	        'div',
-	        { className: CLASSES['timeline-editor'],
-	          'data-component': 'timeline-editor' },
+	        null,
 	        (0, _preact.h)(_icons2.default, null),
-	        this.props.children
+	        (0, _preact.h)(_mainPanel2.default, { state: state.mainPanel, isPlayerPassed: true })
 	      );
+	    }
+	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var store = this.context.store;
+
+	      store.subscribe(this.forceUpdate.bind(this));
 	    }
 	  }]);
 	  return TimelineEditor;
@@ -4097,54 +4113,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = Icons;
 
 /***/ },
-/* 108 */
-/***/ function(module, exports) {
-
-	module.exports = {
-		"timeline-editor": "_timeline-editor_2ydhr_4"
-	};
-
-/***/ },
-/* 109 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(110);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(112)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/postcss-loader/index.js!./../../../node_modules/source-map-loader/index.js!./timeline-editor.postcss.css", function() {
-				var newContent = require("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/postcss-loader/index.js!./../../../node_modules/source-map-loader/index.js!./timeline-editor.postcss.css");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 110 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(111)();
-	// imports
-
-
-	// module
-	exports.push([module.id, "/*$PX:      1/16rem;*/\n\n._timeline-editor_2ydhr_4 {  }\n", ""]);
-
-	// exports
-
-
-/***/ },
+/* 108 */,
+/* 109 */,
+/* 110 */,
 /* 111 */
 /***/ function(module, exports) {
 
@@ -4453,7 +4424,134 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 113 */
+/* 113 */,
+/* 114 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(115), __esModule: true };
+
+/***/ },
+/* 115 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(116);
+	var $Object = __webpack_require__(34).Object;
+	module.exports = function getOwnPropertyDescriptor(it, key){
+	  return $Object.getOwnPropertyDescriptor(it, key);
+	};
+
+/***/ },
+/* 116 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// 19.1.2.6 Object.getOwnPropertyDescriptor(O, P)
+	var toIObject                 = __webpack_require__(68)
+	  , $getOwnPropertyDescriptor = __webpack_require__(95).f;
+
+	__webpack_require__(32)('getOwnPropertyDescriptor', function(){
+	  return function getOwnPropertyDescriptor(it, key){
+	    return $getOwnPropertyDescriptor(toIObject(it), key);
+	  };
+	});
+
+/***/ },
+/* 117 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	exports.__esModule = true;
+
+	var _assign = __webpack_require__(118);
+
+	var _assign2 = _interopRequireDefault(_assign);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = _assign2.default || function (target) {
+	  for (var i = 1; i < arguments.length; i++) {
+	    var source = arguments[i];
+
+	    for (var key in source) {
+	      if (Object.prototype.hasOwnProperty.call(source, key)) {
+	        target[key] = source[key];
+	      }
+	    }
+	  }
+
+	  return target;
+	};
+
+/***/ },
+/* 118 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(119), __esModule: true };
+
+/***/ },
+/* 119 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(120);
+	module.exports = __webpack_require__(34).Object.assign;
+
+/***/ },
+/* 120 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// 19.1.3.1 Object.assign(target, source)
+	var $export = __webpack_require__(33);
+
+	$export($export.S + $export.F, 'Object', {assign: __webpack_require__(121)});
+
+/***/ },
+/* 121 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	// 19.1.2.1 Object.assign(target, source, ...)
+	var getKeys  = __webpack_require__(66)
+	  , gOPS     = __webpack_require__(90)
+	  , pIE      = __webpack_require__(91)
+	  , toObject = __webpack_require__(24)
+	  , IObject  = __webpack_require__(69)
+	  , $assign  = Object.assign;
+
+	// should work with symbols and should have deterministic property order (V8 bug)
+	module.exports = !$assign || __webpack_require__(43)(function(){
+	  var A = {}
+	    , B = {}
+	    , S = Symbol()
+	    , K = 'abcdefghijklmnopqrst';
+	  A[S] = 7;
+	  K.split('').forEach(function(k){ B[k] = k; });
+	  return $assign({}, A)[S] != 7 || Object.keys($assign({}, B)).join('') != K;
+	}) ? function assign(target, source){ // eslint-disable-line no-unused-vars
+	  var T     = toObject(target)
+	    , aLen  = arguments.length
+	    , index = 1
+	    , getSymbols = gOPS.f
+	    , isEnum     = pIE.f;
+	  while(aLen > index){
+	    var S      = IObject(arguments[index++])
+	      , keys   = getSymbols ? getKeys(S).concat(getSymbols(S)) : getKeys(S)
+	      , length = keys.length
+	      , j      = 0
+	      , key;
+	    while(length > j)if(isEnum.call(S, key = keys[j++]))T[key] = S[key];
+	  } return T;
+	} : $assign;
+
+/***/ },
+/* 122 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function(global,factory){if(true){!(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));}else if(typeof exports !== 'undefined'){factory(exports);}else {var mod={exports:{}};factory(mod.exports);global.decko = mod.exports;}})(this,function(exports){'use strict';exports.__esModule = true;var EMPTY={};var HOP=Object.prototype.hasOwnProperty;var fns={memoize:function memoize(fn){var opt=arguments.length <= 1 || arguments[1] === undefined?EMPTY:arguments[1];var cache=opt.cache || {};return function(){for(var _len=arguments.length,a=Array(_len),_key=0;_key < _len;_key++) {a[_key] = arguments[_key];}var k=String(a[0]);if(opt.caseSensitive === false)k = k.toLowerCase();return HOP.call(cache,k)?cache[k]:cache[k] = fn.apply(this,a);};},debounce:function debounce(fn,opts){if(typeof opts === 'function'){var p=fn;fn = opts;opts = p;}var delay=opts && opts.delay || opts || 0,args=undefined,context=undefined,timer=undefined;return function(){for(var _len2=arguments.length,a=Array(_len2),_key2=0;_key2 < _len2;_key2++) {a[_key2] = arguments[_key2];}args = a;context = this;if(!timer)timer = setTimeout(function(){fn.apply(context,args);args = context = timer = null;},delay);};},bind:function bind(target,key,_ref){var fn=_ref.value;return {configurable:true,get:function get(){var value=fn.bind(this);Object.defineProperty(this,key,{value:value,configurable:true,writable:true});return value;}};}};var memoize=multiMethod(fns.memoize),debounce=multiMethod(fns.debounce),bind=multiMethod(function(f,c){return f.bind(c);},function(){return fns.bind;});exports.memoize = memoize;exports.debounce = debounce;exports.bind = bind;exports['default'] = {memoize:memoize,debounce:debounce,bind:bind};function multiMethod(inner,deco){deco = deco || inner.decorate || decorator(inner);var d=deco();return function(){for(var _len3=arguments.length,args=Array(_len3),_key3=0;_key3 < _len3;_key3++) {args[_key3] = arguments[_key3];}var l=args.length;return (l < 2?deco:l > 2?d:inner).apply(undefined,args);};}function decorator(fn){return function(opt){return typeof opt === 'function'?fn(opt):function(target,key,desc){desc.value = fn(desc.value,opt,target,key,desc);};};}});
+
+
+
+/***/ },
+/* 123 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4490,15 +4588,19 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _preact = __webpack_require__(3);
 
-	var _leftPanel = __webpack_require__(117);
+	var _decko = __webpack_require__(122);
+
+	var _leftPanel = __webpack_require__(124);
 
 	var _leftPanel2 = _interopRequireDefault(_leftPanel);
 
-	var _rightPanel = __webpack_require__(121);
+	var _rightPanel = __webpack_require__(128);
 
 	var _rightPanel2 = _interopRequireDefault(_rightPanel);
 
-	var _decko = __webpack_require__(139);
+	var _constants = __webpack_require__(149);
+
+	var _constants2 = _interopRequireDefault(_constants);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -4531,11 +4633,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return desc;
 	}
 
-	// temporarily hard-coded, will be removed when reducers will be added
-	var PLAYER_HEIGHT = '40';
-
-	var CLASSES = __webpack_require__(140);
-	__webpack_require__(141);
+	var CLASSES = __webpack_require__(146);
+	__webpack_require__(147);
 
 	var MainPanel = (_class = function (_Component) {
 	  (0, _inherits3.default)(MainPanel, _Component);
@@ -4548,134 +4647,99 @@ return /******/ (function(modules) { // webpackBootstrap
 	  (0, _createClass3.default)(MainPanel, [{
 	    key: 'getInitialState',
 	    value: function getInitialState() {
-	      var _props = this.props;
-	      var isHidden = _props.isHidden;
-	      var isPlayerPassed = _props.isPlayerPassed;
-
-	      return {
-	        isHidden: isHidden,
-	        isPlayerPassed: isPlayerPassed,
-	        ySize: 0,
-	        mounted: false,
-	        isResizing: false
-	      };
+	      return { deltaY: 0 };
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var className = CLASSES['main-panel'],
-	          isHiddenClassName = this._calcHiddenClassName(),
-	          isResizingClassName = this.state.isResizing ? CLASSES['main-panel--is-resizing'] : '',
-	          style = !this.state.mounted ? {} : { 'height': this.state.ySize };
+	      var props = this.props;
+	      var state = props.state;
+
+
+	      var height = this._clampHeight(state.ySize - this.state.deltaY);
+	      // check state of `hide button` regarding current height
+	      this._checkHideButton(height);
 
 	      return (0, _preact.h)(
 	        'section',
-	        { className: className + ' ' + isHiddenClassName + ' ' + isResizingClassName,
-	          style: style,
+	        { style: { height: height },
+	          className: this._getClassNames(),
 	          'data-component': 'main-panel' },
 	        (0, _preact.h)(_leftPanel2.default, null),
-	        (0, _preact.h)(_rightPanel2.default, { onHideBtnClick: this.toggleVisibility,
-	          onResizeStart: this.resizeHeightStart,
-	          onResizeEnd: this.resizeHeightEnd })
+	        (0, _preact.h)(_rightPanel2.default, { state: state,
+	          onResize: this._resizeHeight,
+	          onResizeEnd: this._resizeHeightEnd })
 	      );
 	    }
 	  }, {
-	    key: '_calcHiddenClassName',
-	    value: function _calcHiddenClassName() {
-	      var isHiddenClass = '';
+	    key: '_resizeHeight',
+	    value: function _resizeHeight(deltaY) {
+	      var state = this.props.state;
+	      var store = this.context.store;
 
-	      if (this.state.isHidden) {
-	        isHiddenClass = 'main-panel--is-hidden';
-	        isHiddenClass += this.state.isPlayerPassed ? '-with-player' : '-no-player';
+	      // reset `isTransition` state that is responsible
+	      // for `--is-transition` className
 
-	        return CLASSES['' + isHiddenClass];
+	      if (state.isTransition) {
+	        store.dispatch({ type: 'MAIN_PANEL_RESET_TRANSITION' });
 	      }
-
-	      return '';
+	      // set inner state `deltaY`
+	      this.setState({ deltaY: deltaY });
 	    }
 	  }, {
-	    key: 'toggleVisibility',
-	    value: function toggleVisibility() {
-	      this.setState({ isHidden: !this.state.isHidden });
+	    key: '_resizeHeightEnd',
+	    value: function _resizeHeightEnd() {
+	      var store = this.context.store;
+
+
+	      store.dispatch({ type: 'MAIN_PANEL_SET_YSIZE', data: this.state.deltaY });
+	      this.setState({ deltaY: 0 });
 	    }
-
-	    // TODO: add limitations for resize control
-	    // to avoid buttons go off the screen
-
 	  }, {
-	    key: 'resizeHeightStart',
-	    value: function resizeHeightStart(e) {
-	      console.log(e.deltaY);
-	      var cursorY = e.center.y,
-	          body = document.body,
-	          html = document.documentElement,
-	          height = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
+	    key: '_getClassNames',
+	    value: function _getClassNames() {
+	      var store = this.context.store;
+	      var state = this.props.state;
 
-	      var newYSize = Math.max(0, height - cursorY);
 
-	      if (this.state.isPlayerPassed) {
-	        newYSize = newYSize < PLAYER_HEIGHT ? PLAYER_HEIGHT : newYSize;
+	      var className = CLASSES['main-panel'];
+	      var transitionClass = state.isTransition ? CLASSES['main-panel--transition'] : '';
+
+	      return className + ' ' + transitionClass;
+	    }
+	  }, {
+	    key: '_clampHeight',
+	    value: function _clampHeight(height) {
+	      return Math.max(this._getMinHeight(), height);
+	    }
+	  }, {
+	    key: '_checkHideButton',
+	    value: function _checkHideButton(height) {
+	      var state = this.props.state;
+	      var store = this.context.store;
+
+	      // if we drag the panel and it is in `isHidden` state, reset that state
+
+	      if (height > this._getMinHeight() && state.isHidden) {
+	        store.dispatch({ type: 'MAIN_PANEL_SET_HIDDEN', data: false });
 	      }
-
-	      this.setState({
-	        isResizing: true,
-	        ySize: newYSize
-	      });
+	      // if we drag the panel and it is not in `isHidden` state, set that state
+	      if (height === this._getMinHeight() && !state.isHidden) {
+	        store.dispatch({ type: 'MAIN_PANEL_SET_HIDDEN', data: true });
+	      }
 	    }
 	  }, {
-	    key: 'resizeHeightEnd',
-	    value: function resizeHeightEnd() {
-	      this.setState({ isResizing: false });
-	    }
-
-	    // setting initial component height to state
-	    // when reducers will be added this can be removed as well
-
-	  }, {
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-	      this.setState({
-	        mounted: true,
-	        ySize: this.base.offsetHeight
-	      });
+	    key: '_getMinHeight',
+	    value: function _getMinHeight() {
+	      return this.props.isPlayerPassed ? _constants2.default.PLAYER_HEIGHT : 0;
 	    }
 	  }]);
 	  return MainPanel;
-	}(_preact.Component), (_applyDecoratedDescriptor(_class.prototype, 'toggleVisibility', [_decko.bind], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'toggleVisibility'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'resizeHeightStart', [_decko.bind], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'resizeHeightStart'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'resizeHeightEnd', [_decko.bind], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'resizeHeightEnd'), _class.prototype)), _class);
+	}(_preact.Component), (_applyDecoratedDescriptor(_class.prototype, '_resizeHeight', [_decko.bind], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_resizeHeight'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, '_resizeHeightEnd', [_decko.bind], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_resizeHeightEnd'), _class.prototype)), _class);
 	exports.default = MainPanel;
 
 /***/ },
-/* 114 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = { "default": __webpack_require__(115), __esModule: true };
-
-/***/ },
-/* 115 */
-/***/ function(module, exports, __webpack_require__) {
-
-	__webpack_require__(116);
-	var $Object = __webpack_require__(34).Object;
-	module.exports = function getOwnPropertyDescriptor(it, key){
-	  return $Object.getOwnPropertyDescriptor(it, key);
-	};
-
-/***/ },
-/* 116 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// 19.1.2.6 Object.getOwnPropertyDescriptor(O, P)
-	var toIObject                 = __webpack_require__(68)
-	  , $getOwnPropertyDescriptor = __webpack_require__(95).f;
-
-	__webpack_require__(32)('getOwnPropertyDescriptor', function(){
-	  return function getOwnPropertyDescriptor(it, key){
-	    return $getOwnPropertyDescriptor(toIObject(it), key);
-	  };
-	});
-
-/***/ },
-/* 117 */
+/* 124 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4708,8 +4772,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var CLASSES = __webpack_require__(118);
-	__webpack_require__(119);
+	var CLASSES = __webpack_require__(125);
+	__webpack_require__(126);
 
 	var LeftPanel = function (_Component) {
 	  (0, _inherits3.default)(LeftPanel, _Component);
@@ -4731,7 +4795,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = LeftPanel;
 
 /***/ },
-/* 118 */
+/* 125 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -4739,13 +4803,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 119 */
+/* 126 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(120);
+	var content = __webpack_require__(127);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(112)(content, {});
@@ -4765,7 +4829,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 120 */
+/* 127 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(111)();
@@ -4779,7 +4843,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 121 */
+/* 128 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4787,6 +4851,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+
+	var _getOwnPropertyDescriptor = __webpack_require__(114);
+
+	var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
 
 	var _getPrototypeOf = __webpack_require__(21);
 
@@ -4808,22 +4876,55 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
+	var _desc, _value, _class;
+
 	var _preact = __webpack_require__(3);
 
-	var _hideButton = __webpack_require__(122);
+	var _decko = __webpack_require__(122);
+
+	var _hideButton = __webpack_require__(129);
 
 	var _hideButton2 = _interopRequireDefault(_hideButton);
 
-	var _resizeHandle = __webpack_require__(130);
+	var _resizeHandle = __webpack_require__(137);
 
 	var _resizeHandle2 = _interopRequireDefault(_resizeHandle);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var CLASSES = __webpack_require__(136);
-	__webpack_require__(137);
+	function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
+	  var desc = {};
+	  Object['ke' + 'ys'](descriptor).forEach(function (key) {
+	    desc[key] = descriptor[key];
+	  });
+	  desc.enumerable = !!desc.enumerable;
+	  desc.configurable = !!desc.configurable;
 
-	var RightPanel = function (_Component) {
+	  if ('value' in desc || desc.initializer) {
+	    desc.writable = true;
+	  }
+
+	  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+	    return decorator(target, property, desc) || desc;
+	  }, desc);
+
+	  if (context && desc.initializer !== void 0) {
+	    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+	    desc.initializer = undefined;
+	  }
+
+	  if (desc.initializer === void 0) {
+	    Object['define' + 'Property'](target, property, desc);
+	    desc = null;
+	  }
+
+	  return desc;
+	}
+
+	var CLASSES = __webpack_require__(143);
+	__webpack_require__(144);
+
+	var RightPanel = (_class = function (_Component) {
 	  (0, _inherits3.default)(RightPanel, _Component);
 
 	  function RightPanel() {
@@ -4834,21 +4935,30 @@ return /******/ (function(modules) { // webpackBootstrap
 	  (0, _createClass3.default)(RightPanel, [{
 	    key: 'render',
 	    value: function render() {
+	      var state = this.props.state;
+
 	      return (0, _preact.h)(
 	        'div',
 	        { className: CLASSES['right-panel'] },
-	        (0, _preact.h)(_hideButton2.default, this.props),
+	        (0, _preact.h)(_hideButton2.default, { isHidden: state.isHidden, onTap: this._onHideButton }),
 	        (0, _preact.h)(_resizeHandle2.default, this.props)
 	      );
 	    }
+	  }, {
+	    key: '_onHideButton',
+	    value: function _onHideButton() {
+	      var store = this.context.store;
+
+
+	      store.dispatch({ type: 'MAIN_PANEL_HIDE_TOGGLE' });
+	    }
 	  }]);
 	  return RightPanel;
-	}(_preact.Component);
-
+	}(_preact.Component), (_applyDecoratedDescriptor(_class.prototype, '_onHideButton', [_decko.bind], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_onHideButton'), _class.prototype)), _class);
 	exports.default = RightPanel;
 
 /***/ },
-/* 122 */
+/* 129 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4879,218 +4989,60 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _preact = __webpack_require__(3);
 
-	var _icon = __webpack_require__(123);
+	var _decko = __webpack_require__(122);
+
+	var _hammerjs = __webpack_require__(138);
+
+	var _hammerjs2 = _interopRequireDefault(_hammerjs);
+
+	var _icon = __webpack_require__(130);
 
 	var _icon2 = _interopRequireDefault(_icon);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var CLASSES = __webpack_require__(127);
-	__webpack_require__(128);
+	var CLASSES = __webpack_require__(134);
+	__webpack_require__(135);
 
 	var HideButton = function (_Component) {
 	  (0, _inherits3.default)(HideButton, _Component);
 
 	  function HideButton() {
 	    (0, _classCallCheck3.default)(this, HideButton);
-
-	    var _this = (0, _possibleConstructorReturn3.default)(this, (0, _getPrototypeOf2.default)(HideButton).call(this));
-
-	    _this.state = {
-	      isHiddenMode: false
-	    };
-	    _this.changeVisibility = _this.changeVisibility.bind(_this);
-	    return _this;
+	    return (0, _possibleConstructorReturn3.default)(this, (0, _getPrototypeOf2.default)(HideButton).apply(this, arguments));
 	  }
 
 	  (0, _createClass3.default)(HideButton, [{
-	    key: 'changeVisibility',
-	    value: function changeVisibility() {
-	      this.setState({
-	        isHiddenMode: !this.state.isHiddenMode
-	      });
-	      this.props.onHideBtnClick();
-	    }
-	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var className = CLASSES['hide-button'];
-	      var isHiddenModeClassName = this.state.isHiddenMode ? CLASSES['hide-button--is-hidden'] : '';
+	      var p = this.props;
+	      var hideClassName = p.isHidden ? CLASSES['hide-button--is-hidden'] : '';
+	      var className = CLASSES['hide-button'] + ' ' + hideClassName;
 
 	      return (0, _preact.h)(
 	        'div',
-	        {
-	          className: className + ' ' + isHiddenModeClassName,
-	          'data-component': 'hide-button',
-	          onClick: this.changeVisibility },
+	        { className: className, 'data-component': 'hide-button' },
 	        (0, _preact.h)('div', { className: CLASSES['hide-button__icon-container'] }),
 	        (0, _preact.h)(_icon2.default, { shape: 'hide-icon' })
 	      );
+	    }
+	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var _this2 = this;
+
+	      var mc = new _hammerjs2.default.Manager(this.base);
+	      mc.add(new _hammerjs2.default.Tap());
+
+	      mc.on('tap', function (e) {
+	        _this2.props.onTap && _this2.props.onTap(e);
+	      });
 	    }
 	  }]);
 	  return HideButton;
 	}(_preact.Component);
 
 	exports.default = HideButton;
-
-/***/ },
-/* 123 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _getPrototypeOf = __webpack_require__(21);
-
-	var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-	var _classCallCheck2 = __webpack_require__(47);
-
-	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-	var _createClass2 = __webpack_require__(48);
-
-	var _createClass3 = _interopRequireDefault(_createClass2);
-
-	var _possibleConstructorReturn2 = __webpack_require__(52);
-
-	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-	var _inherits2 = __webpack_require__(99);
-
-	var _inherits3 = _interopRequireDefault(_inherits2);
-
-	var _preact = __webpack_require__(3);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var CLASSES = __webpack_require__(124);
-	__webpack_require__(125);
-
-	var Icon = function (_Component) {
-	  (0, _inherits3.default)(Icon, _Component);
-
-	  function Icon() {
-	    (0, _classCallCheck3.default)(this, Icon);
-	    return (0, _possibleConstructorReturn3.default)(this, (0, _getPrototypeOf2.default)(Icon).apply(this, arguments));
-	  }
-
-	  (0, _createClass3.default)(Icon, [{
-	    key: 'render',
-	    value: function render() {
-	      var shape = this.props.shape;
-	      var markup = '<svg viewBox="0 0 32 32"><use xlink:href="#' + shape + '-shape" /></svg>';
-
-	      return (0, _preact.h)('div', { className: CLASSES['icon'],
-	        'data-component': 'icon',
-	        dangerouslySetInnerHTML: { __html: markup } });
-	    }
-	  }]);
-	  return Icon;
-	}(_preact.Component);
-
-	exports.default = Icon;
-
-/***/ },
-/* 124 */
-/***/ function(module, exports) {
-
-	module.exports = {
-		"icon": "_icon_1h4ls_6"
-	};
-
-/***/ },
-/* 125 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(126);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(112)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/postcss-loader/index.js!./../../../node_modules/source-map-loader/index.js!./icon.postcss.css", function() {
-				var newContent = require("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/postcss-loader/index.js!./../../../node_modules/source-map-loader/index.js!./icon.postcss.css");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 126 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(111)();
-	// imports
-
-
-	// module
-	exports.push([module.id, "/*$PX:      1/16rem;*/\n\n._icon_1h4ls_6 {\n  position:     relative;\n  width:        8px;\n  height:       8px;\n  cursor:       pointer;\n  fill:         #FFFFFF;\n  display:      block\n}\n\n._icon_1h4ls_6 > svg {\n  position:     absolute;\n  left:     0;\n  top:     0;\n  width:     100%;\n  height:     100%;\n  fill:     inherit\n}\n\n._icon_1h4ls_6 > svg > use {\n  fill:     inherit\n}\n\n._icon_1h4ls_6:after {\n  content:     '';\n  position:     absolute;\n  left:     0;\n  top:     0;\n  right:     0;\n  bottom:     0;\n  z-index:     1\n}\n", ""]);
-
-	// exports
-
-
-/***/ },
-/* 127 */
-/***/ function(module, exports) {
-
-	module.exports = {
-		"hide-button": "_hide-button_ttacl_7",
-		"hide-button__icon-container": "_hide-button__icon-container_ttacl_1",
-		"hide-button--is-hidden": "_hide-button--is-hidden_ttacl_1"
-	};
-
-/***/ },
-/* 128 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(129);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(112)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/postcss-loader/index.js!./../../../node_modules/source-map-loader/index.js!./hide-button.postcss.css", function() {
-				var newContent = require("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/postcss-loader/index.js!./../../../node_modules/source-map-loader/index.js!./hide-button.postcss.css");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 129 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(111)();
-	// imports
-
-
-	// module
-	exports.push([module.id, "/*$PX:      1/16rem;*/\n\n._hide-button_ttacl_7 {\n  position: relative;;\n  top: -16px;\n  left: 50%;\n\n  display: inline-block;\n  width: 22px;\n  height: 16px;\n  cursor: pointer\n}\n\n._hide-button__icon-container_ttacl_1 {\n  position: absolute;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  border-top-left-radius: 3px;\n  border-top-right-radius: 3px;\n  background: #3A0839\n}\n\n._hide-button_ttacl_7 [data-component=\"icon\"] {\n  position: absolute;\n  top: 4px;\n  left: 7px;\n  display: inline-block;\n  width: 8px;\n  height: 8px;\n  margin-top: 1px\n}\n\n._hide-button--is-hidden_ttacl_1 [data-component=\"icon\"] {\n  margin-top: 0;\n  -webkit-transition: -webkit-transform 0.2s;\n  transition: -webkit-transform 0.2s;\n  transition: transform 0.2s;\n  transition: transform 0.2s, -webkit-transform 0.2s;\n  -webkit-transform: rotate( 180deg );\n          transform: rotate( 180deg )\n}\n\n._hide-button_ttacl_7:hover {\n  opacity: .85\n}\n\n._hide-button_ttacl_7:active {\n  opacity: 1\n}\n", ""]);
-
-	// exports
-
 
 /***/ },
 /* 130 */
@@ -5124,22 +5076,181 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _preact = __webpack_require__(3);
 
-	var _hammerjs = __webpack_require__(131);
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var CLASSES = __webpack_require__(131);
+	__webpack_require__(132);
+
+	var Icon = function (_Component) {
+	  (0, _inherits3.default)(Icon, _Component);
+
+	  function Icon() {
+	    (0, _classCallCheck3.default)(this, Icon);
+	    return (0, _possibleConstructorReturn3.default)(this, (0, _getPrototypeOf2.default)(Icon).apply(this, arguments));
+	  }
+
+	  (0, _createClass3.default)(Icon, [{
+	    key: 'render',
+	    value: function render() {
+	      var shape = this.props.shape;
+	      var markup = '<svg viewBox="0 0 32 32"><use xlink:href="#' + shape + '-shape" /></svg>';
+
+	      return (0, _preact.h)('div', { className: CLASSES['icon'],
+	        'data-component': 'icon',
+	        dangerouslySetInnerHTML: { __html: markup } });
+	    }
+	  }]);
+	  return Icon;
+	}(_preact.Component);
+
+	exports.default = Icon;
+
+/***/ },
+/* 131 */
+/***/ function(module, exports) {
+
+	module.exports = {
+		"icon": "_icon_1h4ls_6"
+	};
+
+/***/ },
+/* 132 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(133);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(112)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/postcss-loader/index.js!./../../../node_modules/source-map-loader/index.js!./icon.postcss.css", function() {
+				var newContent = require("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/postcss-loader/index.js!./../../../node_modules/source-map-loader/index.js!./icon.postcss.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 133 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(111)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "/*$PX:      1/16rem;*/\n\n._icon_1h4ls_6 {\n  position:     relative;\n  width:        8px;\n  height:       8px;\n  cursor:       pointer;\n  fill:         #FFFFFF;\n  display:      block\n}\n\n._icon_1h4ls_6 > svg {\n  position:     absolute;\n  left:     0;\n  top:     0;\n  width:     100%;\n  height:     100%;\n  fill:     inherit\n}\n\n._icon_1h4ls_6 > svg > use {\n  fill:     inherit\n}\n\n._icon_1h4ls_6:after {\n  content:     '';\n  position:     absolute;\n  left:     0;\n  top:     0;\n  right:     0;\n  bottom:     0;\n  z-index:     1\n}\n", ""]);
+
+	// exports
+
+
+/***/ },
+/* 134 */
+/***/ function(module, exports) {
+
+	module.exports = {
+		"hide-button": "_hide-button_1thvy_7",
+		"hide-button__icon-container": "_hide-button__icon-container_1thvy_1",
+		"hide-button--is-hidden": "_hide-button--is-hidden_1thvy_1"
+	};
+
+/***/ },
+/* 135 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(136);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(112)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/postcss-loader/index.js!./../../../node_modules/source-map-loader/index.js!./hide-button.postcss.css", function() {
+				var newContent = require("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/postcss-loader/index.js!./../../../node_modules/source-map-loader/index.js!./hide-button.postcss.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 136 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(111)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "/*$PX:      1/16rem;*/\n\n._hide-button_1thvy_7 {\n  position: relative;;\n  top: -16px;\n  left: 50%;\n\n  display: inline-block;\n  width: 22px;\n  height: 16px;\n  cursor: pointer\n}\n\n._hide-button__icon-container_1thvy_1 {\n  position: absolute;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  border-top-left-radius: 3px;\n  border-top-right-radius: 3px;\n  background: #3A0839\n}\n\n._hide-button_1thvy_7 [data-component=\"icon\"] {\n  position: absolute;\n  top: 4px;\n  left: 7px;\n  display: inline-block;\n  width: 8px;\n  height: 8px;\n  margin-top: 1px;\n  -webkit-transition: -webkit-transform 0.2s;\n  transition: -webkit-transform 0.2s;\n  transition: transform 0.2s;\n  transition: transform 0.2s, -webkit-transform 0.2s\n}\n\n._hide-button--is-hidden_1thvy_1 [data-component=\"icon\"] {\n  margin-top: 0;\n  -webkit-transition: -webkit-transform 0.2s;\n  transition: -webkit-transform 0.2s;\n  transition: transform 0.2s;\n  transition: transform 0.2s, -webkit-transform 0.2s;\n  -webkit-transform: rotate( 180deg );\n          transform: rotate( 180deg )\n}\n\n._hide-button_1thvy_7:hover {\n  opacity: .85\n}\n\n._hide-button_1thvy_7:active {\n  opacity: 1\n}\n", ""]);
+
+	// exports
+
+
+/***/ },
+/* 137 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _getPrototypeOf = __webpack_require__(21);
+
+	var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+	var _classCallCheck2 = __webpack_require__(47);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _createClass2 = __webpack_require__(48);
+
+	var _createClass3 = _interopRequireDefault(_createClass2);
+
+	var _possibleConstructorReturn2 = __webpack_require__(52);
+
+	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+	var _inherits2 = __webpack_require__(99);
+
+	var _inherits3 = _interopRequireDefault(_inherits2);
+
+	var _preact = __webpack_require__(3);
+
+	var _hammerjs = __webpack_require__(138);
 
 	var _hammerjs2 = _interopRequireDefault(_hammerjs);
 
-	var _propagatingHammerjs = __webpack_require__(132);
+	var _propagatingHammerjs = __webpack_require__(139);
 
 	var _propagatingHammerjs2 = _interopRequireDefault(_propagatingHammerjs);
 
-	var _icon = __webpack_require__(123);
+	var _icon = __webpack_require__(130);
 
 	var _icon2 = _interopRequireDefault(_icon);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var CLASSES = __webpack_require__(133);
-	__webpack_require__(134);
+	var CLASSES = __webpack_require__(140);
+	__webpack_require__(141);
 
 	var ResizeHandle = function (_Component) {
 	  (0, _inherits3.default)(ResizeHandle, _Component);
@@ -5152,12 +5263,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  (0, _createClass3.default)(ResizeHandle, [{
 	    key: 'render',
 	    value: function render() {
-	      var className = '' + CLASSES['resize-handle'];
-
 	      return (0, _preact.h)(
 	        'div',
-	        {
-	          className: '' + className,
+	        { className: CLASSES['resize-handle'],
 	          'data-component': 'resize-handle' },
 	        (0, _preact.h)(_icon2.default, { shape: 'ellipsis' })
 	      );
@@ -5171,7 +5279,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	      mc.add(new _hammerjs2.default.Pan({ threshold: 0 }));
 	      mc.on('pan', function (e) {
-	        _this2.props.onResizeStart(e);
+	        _this2.props.onResize(e.deltaY);
 	        e.stopPropagation();
 	      }).on('panend', function (e) {
 	        _this2.props.onResizeEnd(e);
@@ -5185,7 +5293,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = ResizeHandle;
 
 /***/ },
-/* 131 */
+/* 138 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*! Hammer.JS - v2.0.7 - 2016-04-22
@@ -7834,7 +7942,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 132 */
+/* 139 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;'use strict';
@@ -8071,21 +8179,21 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 133 */
+/* 140 */
 /***/ function(module, exports) {
 
 	module.exports = {
-		"resize-handle": "_resize-handle_157f6_7"
+		"resize-handle": "_resize-handle_qa5s6_7"
 	};
 
 /***/ },
-/* 134 */
+/* 141 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(135);
+	var content = __webpack_require__(142);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(112)(content, {});
@@ -8105,7 +8213,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 135 */
+/* 142 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(111)();
@@ -8113,13 +8221,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	// module
-	exports.push([module.id, "/*$PX:      1/16rem;*/\n\n._resize-handle_157f6_7 {\n  position: relative;\n  top: -16px;\n  left: 50%;\n  display: inline-block;\n  width: 32px;\n  height: 16px;\n  margin-left: 5px;\n  cursor: n-resize;\n  overflow: hidden;\n  border-top-left-radius: 3px;\n  border-top-right-radius: 3px;\n  -webkit-transform-origin: 50% 100%;\n          transform-origin: 50% 100%;\n  background: #3A0839;\n  box-shadow: inset 0 0 0 1px #512750\n}\n\n._resize-handle_157f6_7:after {\n  content: '';\n  position: absolute;\n  left: 0;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  z-index: 2\n}\n\n._resize-handle_157f6_7 [data-component=\"icon\"] {\n  width: 32px;\n  height: 32px;\n  position: absolute;\n  margin-top: 1px;\n  top: -8px;\n  left: 0px;\n  display: inline-block\n}\n\n._resize-handle_157f6_7:hover {\n  opacity: .85\n}\n", ""]);
+	exports.push([module.id, "/*$PX:      1/16rem;*/\n\n._resize-handle_qa5s6_7 {\n  position: relative;\n  top: -16px;\n  left: 50%;\n  display: inline-block;\n  width: 32px;\n  height: 16px;\n  margin-left: 5px;\n  cursor: n-resize;\n  overflow: hidden;\n  border-top-left-radius: 3px;\n  border-top-right-radius: 3px;\n  -webkit-transform-origin: 50% 100%;\n          transform-origin: 50% 100%;\n  background: #3A0839;\n  box-shadow: inset 0 0 0 1px #512750\n}\n\n._resize-handle_qa5s6_7:after {\n  content: '';\n  position: absolute;\n  left: 0;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  z-index: 2\n}\n\n._resize-handle_qa5s6_7 [data-component=\"icon\"] {\n  position: absolute;\n  top: -8px;\n  left: 0px;\n  width: 32px;\n  height: 32px;\n  display: inline-block\n}\n\n._resize-handle_qa5s6_7:hover {\n  opacity: .85\n}\n", ""]);
 
 	// exports
 
 
 /***/ },
-/* 136 */
+/* 143 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -8127,13 +8235,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 137 */
+/* 144 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(138);
+	var content = __webpack_require__(145);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(112)(content, {});
@@ -8153,7 +8261,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 138 */
+/* 145 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(111)();
@@ -8167,32 +8275,22 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 139 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function(global,factory){if(true){!(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));}else if(typeof exports !== 'undefined'){factory(exports);}else {var mod={exports:{}};factory(mod.exports);global.decko = mod.exports;}})(this,function(exports){'use strict';exports.__esModule = true;var EMPTY={};var HOP=Object.prototype.hasOwnProperty;var fns={memoize:function memoize(fn){var opt=arguments.length <= 1 || arguments[1] === undefined?EMPTY:arguments[1];var cache=opt.cache || {};return function(){for(var _len=arguments.length,a=Array(_len),_key=0;_key < _len;_key++) {a[_key] = arguments[_key];}var k=String(a[0]);if(opt.caseSensitive === false)k = k.toLowerCase();return HOP.call(cache,k)?cache[k]:cache[k] = fn.apply(this,a);};},debounce:function debounce(fn,opts){if(typeof opts === 'function'){var p=fn;fn = opts;opts = p;}var delay=opts && opts.delay || opts || 0,args=undefined,context=undefined,timer=undefined;return function(){for(var _len2=arguments.length,a=Array(_len2),_key2=0;_key2 < _len2;_key2++) {a[_key2] = arguments[_key2];}args = a;context = this;if(!timer)timer = setTimeout(function(){fn.apply(context,args);args = context = timer = null;},delay);};},bind:function bind(target,key,_ref){var fn=_ref.value;return {configurable:true,get:function get(){var value=fn.bind(this);Object.defineProperty(this,key,{value:value,configurable:true,writable:true});return value;}};}};var memoize=multiMethod(fns.memoize),debounce=multiMethod(fns.debounce),bind=multiMethod(function(f,c){return f.bind(c);},function(){return fns.bind;});exports.memoize = memoize;exports.debounce = debounce;exports.bind = bind;exports['default'] = {memoize:memoize,debounce:debounce,bind:bind};function multiMethod(inner,deco){deco = deco || inner.decorate || decorator(inner);var d=deco();return function(){for(var _len3=arguments.length,args=Array(_len3),_key3=0;_key3 < _len3;_key3++) {args[_key3] = arguments[_key3];}var l=args.length;return (l < 2?deco:l > 2?d:inner).apply(undefined,args);};}function decorator(fn){return function(opt){return typeof opt === 'function'?fn(opt):function(target,key,desc){desc.value = fn(desc.value,opt,target,key,desc);};};}});
-
-
-
-/***/ },
-/* 140 */
+/* 146 */
 /***/ function(module, exports) {
 
 	module.exports = {
-		"main-panel": "_main-panel_33d8n_5",
-		"main-panel--is-hidden-with-player": "_main-panel--is-hidden-with-player_33d8n_1",
-		"main-panel--is-hidden-no-player": "_main-panel--is-hidden-no-player_33d8n_1",
-		"main-panel--is-resizing": "_main-panel--is-resizing_33d8n_1"
+		"main-panel": "_main-panel_1g6fj_5",
+		"main-panel--transition": "_main-panel--transition_1g6fj_1"
 	};
 
 /***/ },
-/* 141 */
+/* 147 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(142);
+	var content = __webpack_require__(148);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(112)(content, {});
@@ -8212,7 +8310,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 142 */
+/* 148 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(111)();
@@ -8220,10 +8318,262 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	// module
-	exports.push([module.id, "/*$PX:      1/16rem;*/\n\n._main-panel_33d8n_5 {\n  position: fixed;\n  bottom: 0;\n  width: 100%;\n  height: 100px;\n  color: white;\n\n  -webkit-transition: height 0.5s;\n\n  transition: height 0.5s\n\n}\n\n._main-panel--is-hidden-with-player_33d8n_1 {\n  height: 40px !important\n\n}\n\n._main-panel--is-hidden-no-player_33d8n_1 {\n  height: 0 !important\n\n}\n\n._main-panel--is-resizing_33d8n_1 {\n  -webkit-transition: height 0s;\n  transition: height 0s\n\n}\n", ""]);
+	exports.push([module.id, "/*$PX:      1/16rem;*/\n\n._main-panel_1g6fj_5 {\n  position: fixed;\n  bottom: 0;\n  width: 100%;\n  height: 100px;\n  color: white\n}\n\n._main-panel--transition_1g6fj_1 {\n  -webkit-transition: height 0.4s;\n  transition: height 0.4s\n}\n", ""]);
 
 	// exports
 
+
+/***/ },
+/* 149 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	/*
+	  Global constants.
+	*/
+	exports.default = {
+	  NAME: 'MOJS_TIMLINE_EDITOR_Hjs891ksPP',
+	  IS_PERSIST_STATE: true,
+	  PLAYER_HEIGHT: 40
+	};
+
+/***/ },
+/* 150 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _redux = __webpack_require__(6);
+
+	var _indexReducer = __webpack_require__(151);
+
+	var _indexReducer2 = _interopRequireDefault(_indexReducer);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var store = (0, _redux.createStore)(_indexReducer2.default);
+
+	exports.default = store;
+
+/***/ },
+/* 151 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _redux = __webpack_require__(6);
+
+	var _reduxRecycle = __webpack_require__(152);
+
+	var _reduxRecycle2 = _interopRequireDefault(_reduxRecycle);
+
+	var _mainPanelReducer = __webpack_require__(153);
+
+	var _mainPanelReducer2 = _interopRequireDefault(_mainPanelReducer);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var reducer = (0, _reduxRecycle2.default)((0, _redux.combineReducers)({
+	  mainPanel: _mainPanelReducer2.default
+	}), ['SET_APP_STATE'], function (state, action) {
+	  return action.data;
+	});
+
+	exports.default = reducer;
+
+/***/ },
+/* 152 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = recycleState;
+	// redux-recycle higher order reducer
+	function recycleState(reducer) {
+	  var actions = arguments.length <= 1 || arguments[1] === undefined ? [] : arguments[1];
+	  var initialState = arguments[2];
+
+	  var getInitialState = typeof initialState === 'function' ? initialState : function () {
+	    return initialState;
+	  };
+
+	  return function (state, action) {
+	    if (actions.indexOf(action.type) >= 0) {
+	      return reducer(getInitialState(state, action), { type: '@@redux-recycle/INIT' });
+	    }
+	    return reducer(state, action);
+	  };
+	}
+	// /redux-recycle
+
+/***/ },
+/* 153 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _extends2 = __webpack_require__(117);
+
+	var _extends3 = _interopRequireDefault(_extends2);
+
+	var _constants = __webpack_require__(149);
+
+	var _constants2 = _interopRequireDefault(_constants);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var INITIAL_STATE = {
+	  prevHeight: 100,
+	  ySize: 100,
+	  isHidden: false,
+	  isTransition: false
+	};
+
+	var mainPanel = function mainPanel() {
+	  var state = arguments.length <= 0 || arguments[0] === undefined ? INITIAL_STATE : arguments[0];
+	  var action = arguments[1];
+
+	  switch (action.type) {
+	    case 'MAIN_PANEL_HIDE_TOGGLE':
+	      {
+	        var isHidden = !state.isHidden;
+	        var ySize = isHidden ? _constants2.default.PLAYER_HEIGHT : state.prevHeight;
+	        var prevHeight = isHidden ? state.ySize : _constants2.default.PLAYER_HEIGHT;
+	        var isTransition = true;
+
+	        return (0, _extends3.default)({}, state, { isHidden: isHidden, ySize: ySize, prevHeight: prevHeight, isTransition: isTransition });
+	      }
+	    case 'MAIN_PANEL_SET_YSIZE':
+	      {
+	        return (0, _extends3.default)({}, state, { ySize: state.ySize - action.data });
+	      }
+	    case 'MAIN_PANEL_RESET_TRANSITION':
+	      {
+	        return (0, _extends3.default)({}, state, { isTransition: false });
+	      }
+
+	    case 'MAIN_PANEL_SET_HIDDEN':
+	      {
+	        return (0, _extends3.default)({}, state, { isHidden: action.data });
+	      }
+
+	  }
+	  return state;
+	};
+
+	exports.default = mainPanel;
+
+/***/ },
+/* 154 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _stringify = __webpack_require__(155);
+
+	var _stringify2 = _interopRequireDefault(_stringify);
+
+	var _constants = __webpack_require__(149);
+
+	var _constants2 = _interopRequireDefault(_constants);
+
+	var _addUnload = __webpack_require__(157);
+
+	var _addUnload2 = _interopRequireDefault(_addUnload);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	/*
+	  Function to store state into localStorage on page `unload`
+	  and restore it on page `load`.
+	  @param {Object} Redux store.
+	*/
+	exports.default = function (store) {
+	  if (_constants2.default.IS_PERSIST_STATE) {
+	    // save to localstorage
+	    (0, _addUnload2.default)(function () {
+	      var preState = store.getState();
+	      try {
+	        localStorage.setItem(_constants2.default.NAME, (0, _stringify2.default)(preState));
+	      } catch (e) {
+	        console.error(e);
+	      }
+	    });
+	    // load from localstorage
+	    try {
+	      var stored = localStorage.getItem(_constants2.default.NAME);
+	      if (stored) {
+	        store.dispatch({ type: 'SET_APP_STATE', data: JSON.parse(stored) });
+	      }
+	    } catch (e) {
+	      console.error(e);
+	    }
+	  } else {
+	    try {
+	      localStorage.removeItem(_constants2.default.NAME);
+	    } catch (e) {
+	      console.error(e);
+	    }
+	  }
+	};
+
+/***/ },
+/* 155 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(156), __esModule: true };
+
+/***/ },
+/* 156 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var core  = __webpack_require__(34)
+	  , $JSON = core.JSON || (core.JSON = {stringify: JSON.stringify});
+	module.exports = function stringify(it){ // eslint-disable-line no-unused-vars
+	  return $JSON.stringify.apply($JSON, arguments);
+	};
+
+/***/ },
+/* 157 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	/*
+	  Function to add cross-browser `unload` event.
+	  @param {Function} Callback for the event.
+	*/
+	exports.default = function (fn) {
+	  var unloadEvent = 'onpagehide' in window ? 'pagehide' : 'beforeunload';
+	  window.addEventListener(unloadEvent, fn);
+	};
 
 /***/ }
 /******/ ])

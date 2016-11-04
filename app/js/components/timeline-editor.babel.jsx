@@ -1,15 +1,25 @@
 import { h, Component } from 'preact';
+
+import MainPanel from './main-panel/main-panel';
 import Icons from './icons';
-const CLASSES = require('../../css/blocks/timeline-editor.postcss.css.json');
-require('../../css/blocks/timeline-editor');
+import C from '../constants';
 
 class TimelineEditor extends Component {
   render () {
-    return  <div className={CLASSES['timeline-editor']}
-                 data-component="timeline-editor">
-              <Icons />
-              {this.props.children}
-            </div>;
+    const {store} = this.context;
+    const state   = store.getState();
+
+    return (
+      <div>
+        <Icons />
+        <MainPanel state={state.mainPanel} isPlayerPassed={true} />
+      </div>
+    );
+  }
+
+  componentDidMount() {
+    const {store} = this.context;
+    store.subscribe(this.forceUpdate.bind(this));
   }
 }
 

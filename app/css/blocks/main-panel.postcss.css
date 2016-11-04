@@ -9,7 +9,7 @@ $player-height: 40*$PX;
   height: 100*$PX;
   color: white;
 
-  &--smooth-transition {
+  &--transition {
     transition: height 0.4s;
   }
 }
