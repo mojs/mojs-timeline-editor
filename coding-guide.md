@@ -67,7 +67,7 @@
     ```
 
 - as css-modules are used, you need to require both .postcss.css.json and
- .post.css(file extension can be omitted) files to make magic happens
+ .post.css(file extension can be omitted) files to make magic happen
     ```javascript
     // good
     import { h, Component } from 'preact';
