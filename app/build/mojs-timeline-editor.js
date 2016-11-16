@@ -75,7 +75,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _timelineEditor2 = _interopRequireDefault(_timelineEditor);
 
-	var _persist = __webpack_require__(150);
+	var _persist = __webpack_require__(154);
 
 	var _persist2 = _interopRequireDefault(_persist);
 
@@ -3183,7 +3183,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = {
 	  NAME: 'MOJS_TIMLINE_EDITOR_Hjs891ksPP',
 	  IS_PERSIST_STATE: true,
-	  PLAYER_HEIGHT: 40
+	  PLAYER_HEIGHT: 40,
+	  TIMELINE_HEIGHT: 22
 	};
 
 /***/ },
@@ -3222,7 +3223,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _mainPanel2 = _interopRequireDefault(_mainPanel);
 
-	var _icons = __webpack_require__(149);
+	var _icons = __webpack_require__(153);
 
 	var _icons2 = _interopRequireDefault(_icons);
 
@@ -4435,8 +4436,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return desc;
 	}
 
-	var CLASSES = __webpack_require__(146);
-	__webpack_require__(147);
+	var CLASSES = __webpack_require__(150);
+	__webpack_require__(151);
 
 	var MainPanel = (_class = function (_Component) {
 	  (0, _inherits3.default)(MainPanel, _Component);
@@ -4481,7 +4482,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var store = this.context.store;
 
 	      // reset `isTransition` state that is responsible
-	      // for `--is-transition` className
+	      // for applying a className with transition enabled
 
 	      if (state.isTransition) {
 	        store.dispatch({ type: 'MAIN_PANEL_RESET_TRANSITION' });
@@ -5066,6 +5067,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _resizeHandle2 = _interopRequireDefault(_resizeHandle);
 
+	var _timelinePanel = __webpack_require__(143);
+
+	var _timelinePanel2 = _interopRequireDefault(_timelinePanel);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
@@ -5097,8 +5102,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return desc;
 	}
 
-	var CLASSES = __webpack_require__(143);
-	__webpack_require__(144);
+	var CLASSES = __webpack_require__(147);
+	__webpack_require__(148);
 
 	var RightPanel = (_class = function (_Component) {
 	  (0, _inherits3.default)(RightPanel, _Component);
@@ -5117,7 +5122,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        'div',
 	        { className: CLASSES['right-panel'] },
 	        (0, _preact.h)(_hideButton2.default, { isHidden: state.isHidden, onTap: this._onHideButton }),
-	        (0, _preact.h)(_resizeHandle2.default, this.props)
+	        (0, _preact.h)(_resizeHandle2.default, this.props),
+	        (0, _preact.h)(_timelinePanel2.default, { time: 12 })
 	      );
 	    }
 	  }, {
@@ -8406,6 +8412,248 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 143 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _getOwnPropertyDescriptor = __webpack_require__(118);
+
+	var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
+
+	var _getPrototypeOf = __webpack_require__(64);
+
+	var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+	var _classCallCheck2 = __webpack_require__(69);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _createClass2 = __webpack_require__(70);
+
+	var _createClass3 = _interopRequireDefault(_createClass2);
+
+	var _possibleConstructorReturn2 = __webpack_require__(74);
+
+	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+	var _inherits2 = __webpack_require__(109);
+
+	var _inherits3 = _interopRequireDefault(_inherits2);
+
+	var _desc, _value, _class;
+
+	var _preact = __webpack_require__(3);
+
+	var _decko = __webpack_require__(121);
+
+	var _constants = __webpack_require__(62);
+
+	var _constants2 = _interopRequireDefault(_constants);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
+	  var desc = {};
+	  Object['ke' + 'ys'](descriptor).forEach(function (key) {
+	    desc[key] = descriptor[key];
+	  });
+	  desc.enumerable = !!desc.enumerable;
+	  desc.configurable = !!desc.configurable;
+
+	  if ('value' in desc || desc.initializer) {
+	    desc.writable = true;
+	  }
+
+	  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+	    return decorator(target, property, desc) || desc;
+	  }, desc);
+
+	  if (context && desc.initializer !== void 0) {
+	    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+	    desc.initializer = undefined;
+	  }
+
+	  if (desc.initializer === void 0) {
+	    Object['define' + 'Property'](target, property, desc);
+	    desc = null;
+	  }
+
+	  return desc;
+	}
+
+	var CLASSES = __webpack_require__(144);
+	__webpack_require__(145);
+
+	var DASH_STEP = 5;
+	var TimelinePanel = (_class = function (_Component) {
+	  (0, _inherits3.default)(TimelinePanel, _Component);
+
+	  function TimelinePanel(props) {
+	    (0, _classCallCheck3.default)(this, TimelinePanel);
+
+	    var _this = (0, _possibleConstructorReturn3.default)(this, (0, _getPrototypeOf2.default)(TimelinePanel).call(this, props));
+
+	    _this.state = {
+	      scale: props.scale || 1,
+	      dashesPerSec: 20
+	    };
+
+	    // let {scale} = this.state;
+	    _this._dashesAmount = props.time * _this.state.dashesPerSec;
+	    return _this;
+	  }
+
+	  (0, _createClass3.default)(TimelinePanel, [{
+	    key: 'render',
+	    value: function render() {
+	      return (0, _preact.h)(
+	        'div',
+	        { className: CLASSES['timeline-panel'] },
+	        this._timeline
+	      );
+	    }
+	  }, {
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      this._timeline = this._createTimeline();
+	    }
+	  }, {
+	    key: '_createTimeline',
+	    value: function _createTimeline() {
+	      var dashes = this._compileDashes();
+	      var pointerValues = this._compileLabels();
+	      var scale = this.state.scale;
+
+
+	      var timeline = (0, _preact.h)(
+	        'svg',
+	        { width: '100%', height: _constants2.default.TIMELINE_HEIGHT },
+	        (0, _preact.h)(
+	          'g',
+	          { style: { 'font-size': scale + 'px' } },
+	          dashes,
+	          pointerValues
+	        )
+	      );
+	      return timeline;
+	    }
+	  }, {
+	    key: '_createDash',
+	    value: function _createDash(dashNumber) {
+	      var _state = this.state;
+	      var dashesPerSec = _state.dashesPerSec;
+	      var scale = _state.scale;
+
+	      var dashType = !(dashNumber % (dashesPerSec / 2)) || dashNumber === 0 ? 'large' : !(dashNumber % (dashesPerSec / 4)) ? 'middle' : 'small';
+
+	      var color = dashType === 'large' ? '#fff' : '#ae9bae';
+	      var height = dashType === 'large' ? 7 : dashType === 'middle' ? 6 : 4;
+	      var xPos = DASH_STEP * dashNumber;
+	      var yPos = _constants2.default.TIMELINE_HEIGHT - height;
+
+	      return (0, _preact.h)('rect', { width: '1', height: height, x: xPos + 'em', y: yPos, fill: color });
+	    }
+	  }, {
+	    key: '_compileDashes',
+	    value: function _compileDashes() {
+	      var dashes = [];
+	      for (var j = 0; j <= this._dashesAmount; j++) {
+	        dashes.push(this._createDash(j));
+	      }
+
+	      return dashes;
+	    }
+	  }, {
+	    key: '_compileLabels',
+	    value: function _compileLabels() {
+	      var labels = [];
+	      var _state2 = this.state;
+	      var dashesPerSec = _state2.dashesPerSec;
+	      var scale = _state2.scale;
+
+
+	      for (var j = 0, value = 0; j <= this._dashesAmount; j += dashesPerSec / 2, value += 500) {
+	        var textAnchor = j === 0 ? 'start' : 'middle';
+	        var xPos = DASH_STEP * j;
+	        var yPos = _constants2.default.TIMELINE_HEIGHT / 2;
+	        var className = CLASSES['label'];
+
+	        labels.push((0, _preact.h)(
+	          'text',
+	          { x: xPos + 'em', y: yPos, 'text-anchor': textAnchor, className: className,
+	            style: { 'font-size': 'inherit' } },
+	          (0, _preact.h)(
+	            'tspan',
+	            { style: { 'font-size': 7 + 'px' } },
+	            ' ',
+	            value,
+	            ' '
+	          )
+	        ));
+	      }
+
+	      return labels;
+	    }
+	  }]);
+	  return TimelinePanel;
+	}(_preact.Component), (_applyDecoratedDescriptor(_class.prototype, '_createTimeline', [_decko.bind], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_createTimeline'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, '_createDash', [_decko.bind], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_createDash'), _class.prototype)), _class);
+	exports.default = TimelinePanel;
+
+/***/ },
+/* 144 */
+/***/ function(module, exports) {
+
+	module.exports = {
+		"timeline-panel": "_timeline-panel_112zt_3",
+		"label": "_label_112zt_11"
+	};
+
+/***/ },
+/* 145 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(146);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(127)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/postcss-loader/index.js!./../../../node_modules/source-map-loader/index.js!./timeline-panel.postcss.css", function() {
+				var newContent = require("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/postcss-loader/index.js!./../../../node_modules/source-map-loader/index.js!./timeline-panel.postcss.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 146 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(126)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "/*$PX:      1/16rem;*/\n\n._timeline-panel_112zt_3 {\n  position: relative;\n  top: -20px;\n  background: ##512750;\n  box-shadow: 0 2px 4px black;\n  height: 22px;\n}\n\n._label_112zt_11 {\n  font-family: Arial;\n  fill: #FFFFFF;\n}\n", ""]);
+
+	// exports
+
+
+/***/ },
+/* 147 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -8413,13 +8661,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 144 */
+/* 148 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(145);
+	var content = __webpack_require__(149);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(127)(content, {});
@@ -8439,7 +8687,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 145 */
+/* 149 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(126)();
@@ -8453,7 +8701,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 146 */
+/* 150 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -8462,13 +8710,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 147 */
+/* 151 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(148);
+	var content = __webpack_require__(152);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(127)(content, {});
@@ -8488,7 +8736,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 148 */
+/* 152 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(126)();
@@ -8502,7 +8750,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 149 */
+/* 153 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -8520,7 +8768,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = Icons;
 
 /***/ },
-/* 150 */
+/* 154 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -8529,7 +8777,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  value: true
 	});
 
-	var _stringify = __webpack_require__(151);
+	var _stringify = __webpack_require__(155);
 
 	var _stringify2 = _interopRequireDefault(_stringify);
 
@@ -8537,7 +8785,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _constants2 = _interopRequireDefault(_constants);
 
-	var _addUnload = __webpack_require__(153);
+	var _addUnload = __webpack_require__(157);
 
 	var _addUnload2 = _interopRequireDefault(_addUnload);
 
@@ -8578,13 +8826,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 151 */
+/* 155 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(152), __esModule: true };
+	module.exports = { "default": __webpack_require__(156), __esModule: true };
 
 /***/ },
-/* 152 */
+/* 156 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var core  = __webpack_require__(30)
@@ -8594,7 +8842,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 153 */
+/* 157 */
 /***/ function(module, exports) {
 
 	'use strict';
