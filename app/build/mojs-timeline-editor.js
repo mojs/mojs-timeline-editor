@@ -8488,7 +8488,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	var CLASSES = __webpack_require__(144);
 	__webpack_require__(145);
 
-	var DASH_STEP = 5;
 	var TimelinePanel = (_class = function (_Component) {
 	  (0, _inherits3.default)(TimelinePanel, _Component);
 
@@ -8497,13 +8496,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    var _this = (0, _possibleConstructorReturn3.default)(this, (0, _getPrototypeOf2.default)(TimelinePanel).call(this, props));
 
+	    var DASHES_PER_SEC = 20;
 	    _this.state = {
 	      scale: props.scale || 1,
-	      dashesPerSec: 20
+	      dashesPerSec: DASHES_PER_SEC,
+	      DASH_STEP: 100 * (1 / DASHES_PER_SEC)
 	    };
 
-	    // let {scale} = this.state;
-	    _this._dashesAmount = props.time * _this.state.dashesPerSec;
+	    _this._dashesCnt = props.time * _this.state.dashesPerSec;
 	    return _this;
 	  }
 
@@ -8521,9 +8521,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: function componentWillMount() {
 	      this._timeline = this._createTimeline();
 	    }
+
+	    // will be removed when `preact` issue with nested `svg` will be fixed
+
+	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this._svg.classList.add(CLASSES['main-svg']);
+	    }
 	  }, {
 	    key: '_createTimeline',
 	    value: function _createTimeline() {
+	      var _this2 = this;
+
 	      var dashes = this._compileDashes();
 	      var pointerValues = this._compileLabels();
 	      var scale = this.state.scale;
@@ -8531,7 +8541,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	      var timeline = (0, _preact.h)(
 	        'svg',
-	        { width: '100%', height: _constants2.default.TIMELINE_HEIGHT },
+	        { ref: function ref(el) {
+	            _this2._svg = el;
+	          } },
 	        (0, _preact.h)(
 	          'g',
 	          { style: { 'font-size': scale + 'px' } },
@@ -8547,21 +8559,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var _state = this.state;
 	      var dashesPerSec = _state.dashesPerSec;
 	      var scale = _state.scale;
+	      var DASH_STEP = _state.DASH_STEP;
 
-	      var dashType = !(dashNumber % (dashesPerSec / 2)) || dashNumber === 0 ? 'large' : !(dashNumber % (dashesPerSec / 4)) ? 'middle' : 'small';
+	      var dashType = this._getDashType(dashNumber, dashesPerSec);
 
 	      var color = dashType === 'large' ? '#fff' : '#ae9bae';
 	      var height = dashType === 'large' ? 7 : dashType === 'middle' ? 6 : 4;
-	      var xPos = DASH_STEP * dashNumber;
-	      var yPos = _constants2.default.TIMELINE_HEIGHT - height;
+	      var x = DASH_STEP * dashNumber;
+	      var y = _constants2.default.TIMELINE_HEIGHT - height;
 
-	      return (0, _preact.h)('rect', { width: '1', height: height, x: xPos + 'em', y: yPos, fill: color });
+	      return (0, _preact.h)('rect', { width: '1', height: height, x: x + 'em', y: y, fill: color });
+	    }
+	  }, {
+	    key: '_getDashType',
+	    value: function _getDashType(dashNumber, dashesPerSec) {
+	      var isLarge = !(dashNumber % (dashesPerSec / 2)) || dashNumber === 0;
+	      var isMiddle = !(dashNumber % (dashesPerSec / 4));
+	      return isLarge ? 'large' : isMiddle ? 'middle' : 'small';
 	    }
 	  }, {
 	    key: '_compileDashes',
 	    value: function _compileDashes() {
 	      var dashes = [];
-	      for (var j = 0; j <= this._dashesAmount; j++) {
+	      for (var j = 0; j <= this._dashesCnt; j++) {
 	        dashes.push(this._createDash(j));
 	      }
 
@@ -8574,24 +8594,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var _state2 = this.state;
 	      var dashesPerSec = _state2.dashesPerSec;
 	      var scale = _state2.scale;
+	      var DASH_STEP = _state2.DASH_STEP;
 
 
-	      for (var j = 0, value = 0; j <= this._dashesAmount; j += dashesPerSec / 2, value += 500) {
+	      for (var j = 0, value = 0; j <= this._dashesCnt; j += dashesPerSec / 2, value += 500) {
 	        var textAnchor = j === 0 ? 'start' : 'middle';
-	        var xPos = DASH_STEP * j;
-	        var yPos = _constants2.default.TIMELINE_HEIGHT / 2;
-	        var className = CLASSES['label'];
+	        var x = DASH_STEP * j;
+	        var y = _constants2.default.TIMELINE_HEIGHT / 2;
 
 	        labels.push((0, _preact.h)(
-	          'text',
-	          { x: xPos + 'em', y: yPos, 'text-anchor': textAnchor, className: className,
-	            style: { 'font-size': 'inherit' } },
+	          'svg',
+	          { x: x + 'em', style: { overflow: 'visible' } },
 	          (0, _preact.h)(
-	            'tspan',
-	            { style: { 'font-size': 7 + 'px' } },
-	            ' ',
-	            value,
-	            ' '
+	            'text',
+	            { y: y, className: CLASSES['label'], 'text-anchor': textAnchor },
+	            value
 	          )
 	        ));
 	      }
@@ -8608,8 +8625,9 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports) {
 
 	module.exports = {
-		"timeline-panel": "_timeline-panel_112zt_3",
-		"label": "_label_112zt_11"
+		"timeline-panel": "_timeline-panel_rpoff_3",
+		"label": "_label_rpoff_11",
+		"main-svg": "_main-svg_rpoff_17"
 	};
 
 /***/ },
@@ -8647,7 +8665,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	// module
-	exports.push([module.id, "/*$PX:      1/16rem;*/\n\n._timeline-panel_112zt_3 {\n  position: relative;\n  top: -20px;\n  background: ##512750;\n  box-shadow: 0 2px 4px black;\n  height: 22px;\n}\n\n._label_112zt_11 {\n  font-family: Arial;\n  fill: #FFFFFF;\n}\n", ""]);
+	exports.push([module.id, "/*$PX:      1/16rem;*/\n\n._timeline-panel_rpoff_3 {\n  position:     relative;\n  top:         -20px;\n  height:       22px;\n  background:   #512750;\n  box-shadow:   0 2px 4px black;\n}\n\n._label_rpoff_11 {\n  font-family:  Arial, sans-serif;\n  fill:         #FFFFFF;\n  font-size:    7px;\n}\n\n._main-svg_rpoff_17 {\n  width:        100%;\n  height:       100%;\n}\n", ""]);
 
 	// exports
 
