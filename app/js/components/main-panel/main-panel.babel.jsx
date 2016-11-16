@@ -9,7 +9,7 @@ const CLASSES = require('../../../css/blocks/main-panel.postcss.css.json');
 require('../../../css/blocks/main-panel');
 
 class MainPanel extends Component {
-  
+
   getInitialState() { return { deltaY: 0 }; }
 
   render () {
@@ -28,7 +28,8 @@ class MainPanel extends Component {
         <LeftPanel />
         <RightPanel state={state}
                     onResize={this._resizeHeight}
-                    onResizeEnd={this._resizeHeightEnd} />
+                    onResizeEnd={this._resizeHeightEnd}
+                    onResizeStart={this._resizeHeightStart} />
       </section>
     );
   }
@@ -39,22 +40,33 @@ class MainPanel extends Component {
     const {store} = this.context;
 
     // reset `isTransition` state that is responsible
-    // for `--is-transition` className
+    // for applying a className with transition enabled
     if (state.isTransition) {
       store.dispatch({ type: 'MAIN_PANEL_RESET_TRANSITION' });
     }
-    // set inner state `deltaY`
-    this.setState({ deltaY });
+
+    this.setState({ deltaY: this._clampDeltaY(deltaY) });
   }
 
   @bind
   _resizeHeightEnd() {
-    const {store} = this.context;
+    const {store}  = this.context;
+    const {deltaY} = this.state
 
-    store.dispatch({ type: 'MAIN_PANEL_SET_YSIZE', data: this.state.deltaY });
+    const data = this._clampDeltaY(deltaY);
+    store.dispatch({ type: 'MAIN_PANEL_SET_YSIZE', data });
     this.setState({ deltaY: 0 });
   }
 
+  @bind
+  _resizeHeightStart() {
+    const {state} = this.props;
+
+    if (state.ySize !== this._getMinHeight()) {
+      const {store} = this.context;
+      store.dispatch({ type: 'MAIN_PANEL_SAVE_YPREV' });
+    }
+  }
 
   // HELPERS
 
@@ -65,12 +77,18 @@ class MainPanel extends Component {
     const className = CLASSES['main-panel'];
     const transitionClass = state.isTransition
                               ? CLASSES['main-panel--transition'] : '';
-    
+
     return `${className} ${transitionClass}`;
   }
 
   _clampHeight(height) {
     return Math.max(this._getMinHeight(), height);
+  }
+
+  _clampDeltaY(deltaY) {
+    const {ySize}  = this.props;
+    const minSize = this._getMinHeight();
+    return (ySize - deltaY <= minSize) ? ySize - minSize : deltaY;
   }
 
   _checkHideButton(height) {
@@ -85,7 +103,7 @@ class MainPanel extends Component {
     // and reset prevHeight to add user the ability to expand the panel,
     // otherwise it will stick at the bottom
     if (height === this._getMinHeight() && !state.isHidden) {
-      store.dispatch({ type: 'MAIN_PANEL_RESET_YPREV' });
+      store.dispatch({ type: 'MAIN_PANEL_SET_HIDDEN', data: true });
     }
   }
 

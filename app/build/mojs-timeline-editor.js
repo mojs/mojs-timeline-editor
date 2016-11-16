@@ -2613,11 +2613,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return (0, _extends3.default)({}, state, { isTransition: false });
 	      }
 
-	    case 'MAIN_PANEL_RESET_YPREV':
-	      {
-	        var _prevHeight = INITIAL_STATE.prevHeight;
+	    // case 'MAIN_PANEL_RESET_YPREV': {
+	    //   const {prevHeight} = INITIAL_STATE;
+	    //   // return { ...state, prevHeight, isHidden: true };
+	    //   return { ...state, isHidden: true };
+	    // }
 
-	        return (0, _extends3.default)({}, state, { prevHeight: _prevHeight, isHidden: true });
+	    case 'MAIN_PANEL_SAVE_YPREV':
+	      {
+	        return (0, _extends3.default)({}, state, { prevHeight: state.ySize });
 	      }
 
 	    case 'MAIN_PANEL_SET_HIDDEN':
@@ -4466,7 +4470,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        (0, _preact.h)(_leftPanel2.default, null),
 	        (0, _preact.h)(_rightPanel2.default, { state: state,
 	          onResize: this._resizeHeight,
-	          onResizeEnd: this._resizeHeightEnd })
+	          onResizeEnd: this._resizeHeightEnd,
+	          onResizeStart: this._resizeHeightStart })
 	      );
 	    }
 	  }, {
@@ -4481,17 +4486,31 @@ return /******/ (function(modules) { // webpackBootstrap
 	      if (state.isTransition) {
 	        store.dispatch({ type: 'MAIN_PANEL_RESET_TRANSITION' });
 	      }
-	      // set inner state `deltaY`
-	      this.setState({ deltaY: deltaY });
+
+	      this.setState({ deltaY: this._clampDeltaY(deltaY) });
 	    }
 	  }, {
 	    key: '_resizeHeightEnd',
 	    value: function _resizeHeightEnd() {
 	      var store = this.context.store;
+	      var deltaY = this.state.deltaY;
 
 
-	      store.dispatch({ type: 'MAIN_PANEL_SET_YSIZE', data: this.state.deltaY });
+	      var data = this._clampDeltaY(deltaY);
+	      store.dispatch({ type: 'MAIN_PANEL_SET_YSIZE', data: data });
 	      this.setState({ deltaY: 0 });
+	    }
+	  }, {
+	    key: '_resizeHeightStart',
+	    value: function _resizeHeightStart() {
+	      var state = this.props.state;
+
+
+	      if (state.ySize !== this._getMinHeight()) {
+	        var store = this.context.store;
+
+	        store.dispatch({ type: 'MAIN_PANEL_SAVE_YPREV' });
+	      }
 	    }
 
 	    // HELPERS
@@ -4514,6 +4533,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return Math.max(this._getMinHeight(), height);
 	    }
 	  }, {
+	    key: '_clampDeltaY',
+	    value: function _clampDeltaY(deltaY) {
+	      var ySize = this.props.ySize;
+
+	      var minSize = this._getMinHeight();
+	      return ySize - deltaY <= minSize ? ySize - minSize : deltaY;
+	    }
+	  }, {
 	    key: '_checkHideButton',
 	    value: function _checkHideButton(height) {
 	      var state = this.props.state;
@@ -4528,7 +4555,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      // and reset prevHeight to add user the ability to expand the panel,
 	      // otherwise it will stick at the bottom
 	      if (height === this._getMinHeight() && !state.isHidden) {
-	        store.dispatch({ type: 'MAIN_PANEL_RESET_YPREV' });
+	        store.dispatch({ type: 'MAIN_PANEL_SET_HIDDEN', data: true });
 	      }
 	    }
 	  }, {
@@ -4538,7 +4565,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	  }]);
 	  return MainPanel;
-	}(_preact.Component), (_applyDecoratedDescriptor(_class.prototype, '_resizeHeight', [_decko.bind], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_resizeHeight'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, '_resizeHeightEnd', [_decko.bind], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_resizeHeightEnd'), _class.prototype)), _class);
+	}(_preact.Component), (_applyDecoratedDescriptor(_class.prototype, '_resizeHeight', [_decko.bind], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_resizeHeight'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, '_resizeHeightEnd', [_decko.bind], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_resizeHeightEnd'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, '_resizeHeightStart', [_decko.bind], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_resizeHeightStart'), _class.prototype)), _class);
 	exports.default = MainPanel;
 
 /***/ },
@@ -8071,16 +8098,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
-	      var _this2 = this;
-
 	      var mc = (0, _propagatingHammerjs2.default)(new _hammerjs2.default.Manager(this.base));
+	      var p = this.props;
 
 	      mc.add(new _hammerjs2.default.Pan({ threshold: 0 }));
 	      mc.on('pan', function (e) {
-	        _this2.props.onResize(e.deltaY);
+	        p.onResize(e.deltaY);
+	        e.stopPropagation();
+	      }).on('panstart', function (e) {
+	        p.onResizeStart && p.onResizeStart(e);
 	        e.stopPropagation();
 	      }).on('panend', function (e) {
-	        _this2.props.onResizeEnd(e);
+	        p.onResizeEnd(e);
 	        e.stopPropagation();
 	      });
 	    }

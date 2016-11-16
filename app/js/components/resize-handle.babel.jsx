@@ -18,14 +18,19 @@ class ResizeHandle extends Component {
 
   componentDidMount() {
     const mc = propagating(new Hammer.Manager(this.base));
+    const p = this.props;
 
     mc.add(new Hammer.Pan({ threshold: 0 }));
     mc.on('pan', (e) => {
-        this.props.onResize(e.deltaY);
+        p.onResize(e.deltaY);
+        e.stopPropagation();
+      })
+      .on('panstart', (e) => {
+        p.onResizeStart && p.onResizeStart(e);
         e.stopPropagation();
       })
       .on('panend', (e) => {
-        this.props.onResizeEnd(e);
+        p.onResizeEnd(e);
         e.stopPropagation();
       });
   }
