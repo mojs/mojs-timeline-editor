@@ -1,0 +1,14 @@
+@import '../assets/globals.postcss.css';
+
+.timeline-panel {
+  position: relative;
+  top: -20*$PX;
+  background: #$c-light-purple;
+  box-shadow: 0 2*$PX 4*$PX black;
+  height: 22*$PX;
+}
+
+.label {
+  font-family: Arial;
+  fill: $c-white;
+}
