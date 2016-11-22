@@ -20,7 +20,7 @@ module.exports = {
       { test: /\.(json)$/, exclude: /node_modules/, loaders: ['json-loader'] },
       { test: /\.(jsx|.js|babel.jsx|babel.js)$/,
         exclude: /node_modules/,
-        loader:  'babel-loader'
+        loader:  'babel-loader!eslint'
       },
       { test: /\.(postcss.css)$/,  loader: "style-loader!css-loader!postcss-loader" },
       { test: /\.html$/, loader: 'raw-loader' },
