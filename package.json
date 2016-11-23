@@ -14,7 +14,9 @@
   ],
   "main": "app/build/mojs-timeline-editor.js",
   "scripts": {
-    "serve": "node node_modules/webpack-dev-server/bin/webpack-dev-server.js --content-base app/ --inline --hot"
+    "serve": "node node_modules/webpack-dev-server/bin/webpack-dev-server.js --content-base app/ --inline --hot",
+    "precommit": "npm run eslint",
+    "eslint": "eslint app/js/**/*.js"
   },
   "repository": {
     "type": "git",
@@ -65,6 +67,7 @@
     "eslint-plugin-react": "^5.2.2",
     "gulp": "^3.9.1",
     "gulp-livereload": "^3.8.1",
+    "husky": "^0.11.9",
     "json-loader": "^0.5.4",
     "mo-js": "^0.265.7",
     "mojs-curve-editor": "",
