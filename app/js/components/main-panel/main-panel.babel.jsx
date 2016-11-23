@@ -51,7 +51,7 @@ class MainPanel extends Component {
   @bind
   _resizeHeightEnd() {
     const {store}  = this.context;
-    const {deltaY} = this.state
+    const {deltaY} = this.state;
 
     const data = this._clampDeltaY(deltaY);
     store.dispatch({ type: 'MAIN_PANEL_SET_YSIZE', data });

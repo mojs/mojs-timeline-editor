@@ -22,17 +22,17 @@ class ResizeHandle extends Component {
 
     mc.add(new Hammer.Pan({ threshold: 0 }));
     mc.on('pan', (e) => {
-        p.onResize(e.deltaY);
-        e.stopPropagation();
-      })
-      .on('panstart', (e) => {
-        p.onResizeStart && p.onResizeStart(e);
-        e.stopPropagation();
-      })
-      .on('panend', (e) => {
-        p.onResizeEnd(e);
-        e.stopPropagation();
-      });
+      p.onResize(e.deltaY);
+      e.stopPropagation();
+    })
+    .on('panstart', (e) => {
+      p.onResizeStart && p.onResizeStart(e);
+      e.stopPropagation();
+    })
+    .on('panend', (e) => {
+      p.onResizeEnd(e);
+      e.stopPropagation();
+    });
   }
 }
 

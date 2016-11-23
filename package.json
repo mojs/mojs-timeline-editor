@@ -13,7 +13,11 @@
     "svg"
   ],
   "main": "app/build/mojs-timeline-editor.js",
-  "scripts": {},
+  "scripts": {
+    "serve": "node node_modules/webpack-dev-server/bin/webpack-dev-server.js --content-base app/ --inline --hot",
+    "precommit": "npm run eslint",
+    "eslint": "eslint app/js/**/*.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/legomushroom/mojs-timeline-editor.git"
@@ -42,6 +46,7 @@
     "autoprefixer": "^6.3.7",
     "babel": "^6.5.2",
     "babel-core": "^6.11.4",
+    "babel-eslint": "^7.1.1",
     "babel-loader": "^6.2.4",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "babel-plugin-transform-jsx": "^2.0.0",
@@ -62,6 +67,7 @@
     "eslint-plugin-react": "^5.2.2",
     "gulp": "^3.9.1",
     "gulp-livereload": "^3.8.1",
+    "husky": "^0.11.9",
     "json-loader": "^0.5.4",
     "mo-js": "^0.265.7",
     "mojs-curve-editor": "",
