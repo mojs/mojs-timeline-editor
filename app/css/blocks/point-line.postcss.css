@@ -4,41 +4,81 @@
 .point-line {
   @mixin pointLine;
 
-  $size: 7;
-  &:after {
-    content:    '';
-    position:   absolute;
-    right:      8*$PX;
-    top:        55%;
-    margin-top:  -($size/4 + 1)*$PX;
-    margin-left: -($size/4)*$PX;
-
-    border:     ($size/2)*$PX solid transparent;
-    border-top-color: $c-white;
-
-    transition: all .15s ease;
+  .label {
+    position: absolute;
+    left:     0;
+    right:    $POINT_LINE_HEIGHT;
   }
 
   &.is-check {
-    &:after {
-      transform: translateY(-$size/2*$PX) rotate(180deg);
-      border-top-color: inherit;
+    .open-toggle {
+      &:hover {
+        background: rgba(61,12,59,.2);
+      }
+      &__inner {
+        fill: $c-purple;
+      }
+    }
+    .body, .label {
+      background: inherit;
+    }
+  }
+
+  &.is-open {
+    .open-toggle__inner {
+      transform: rotate(180deg);
     }
     .body {
       display:  block;
-      background: inherit;
     }
   }
 }
 
 .label {
   padding-left: 10*$PX;
+  background: $c-purple;
+  &:hover {
+    background: $c-light-purple
+  }
 }
 
 .body {
   padding-left: 5*$PX;
-  /*padding-bottom: 2*$PX;*/
   background: $c-light-purple;
   height: auto;
-  /*display: none;*/
+  padding-top: $POINT_LINE_HEIGHT;
+  display: none;
+}
+
+.open-toggle {
+  position:      absolute;
+  top:           0;
+  right:         0;
+  width:         $POINT_LINE_HEIGHT;
+  height:        $POINT_LINE_HEIGHT;
+  background:    inherit;
+  border-left:   1px solid $c-light-purple;
+  &__inner {
+    position:    absolute;
+    width:       100%;
+    height:      100%;
+    fill:        white;
+    transition:  all .15s ease;
+  }
+
+  $size: 5*$PX;
+  [data-component="icon"] {
+    fill:     inherit;
+    position: absolute;
+    left:     50%;
+    top:      50%;
+    width:    $size;
+    height:   $size;
+    margin-top:  -$size/2;
+    margin-left: -$size/2;
+  }
+
+  &:hover {
+    background: $c-light-purple;
+  }
 }

@@ -11,9 +11,17 @@ class PointsPanel extends Component {
 
     return (
       <div className={CLASSES['points-panel']}>
-        <PointLine state={state} />
+        {this._renderPoints(state)}
       </div>
     );
+  }
+
+  _renderPoints(state) {
+    const points = [];
+    for (let i=0; i< state.length; i++) {
+      points.push( <PointLine state={state[i]} /> );
+    }
+    return points;
   }
 
 }

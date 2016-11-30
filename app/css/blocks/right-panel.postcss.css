@@ -4,7 +4,7 @@
   position: absolute;
   right: 0;
   bottom: 0;
-  left: 165*$PX;
+  left:   $LEFT_PANEL_WIDTH*$PX;
   height: 100%;
 
   color: $c-white;

@@ -3187,7 +3187,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	*/
 	exports.default = {
 	  NAME: 'MOJS_TIMLINE_EDITOR_Hjs891ksPP',
-	  IS_PERSIST_STATE: true,
+	  IS_PERSIST_STATE: false,
 	  PLAYER_HEIGHT: 40,
 	  TIMELINE_HEIGHT: 22
 	};
@@ -3231,6 +3231,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return (0, _extends3.default)({}, state, { selected: selected });
 	      }
 	    case 'TOOLS_RESET_SELECTED':
+	    case 'ADD_POINT':
 	      {
 	        return (0, _extends3.default)({}, state, { selected: null });
 	      }
@@ -3256,9 +3257,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  value: true
 	});
 
-	var _toConsumableArray2 = __webpack_require__(65);
+	var _extends2 = __webpack_require__(24);
 
-	var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+	var _extends3 = _interopRequireDefault(_extends2);
 
 	var _constants = __webpack_require__(62);
 
@@ -3272,6 +3273,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var INITIAL_STATE = [];
 
+	var resetSelected = function resetSelected(state) {
+	  var newState = [];
+	  for (var i = 0; i < state.length; i++) {
+	    newState[i] = (0, _extends3.default)({}, state[i], { isSelected: false });
+	  }
+	  return newState;
+	};
+
 	var insertPoint = function insertPoint() {
 	  var state = arguments.length <= 0 || arguments[0] === undefined ? INITIAL_STATE : arguments[0];
 	  var action = arguments[1];
@@ -3282,7 +3291,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    case 'ADD_POINT':
 	      {
-	        return [].concat((0, _toConsumableArray3.default)(state), [(0, _createPoint2.default)(data)]);
+	        var newState = resetSelected(state);
+	        newState.push((0, _createPoint2.default)(data));
+	        return newState;
 	      }
 
 	  }
@@ -3293,46 +3304,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = insertPoint;
 
 /***/ },
-/* 65 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	exports.__esModule = true;
-
-	var _from = __webpack_require__(66);
-
-	var _from2 = _interopRequireDefault(_from);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	exports.default = function (arr) {
-	  if (Array.isArray(arr)) {
-	    for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
-	      arr2[i] = arr[i];
-	    }
-
-	    return arr2;
-	  } else {
-	    return (0, _from2.default)(arr);
-	  }
-	};
-
-/***/ },
-/* 66 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = { "default": __webpack_require__(67), __esModule: true };
-
-/***/ },
-/* 67 */
-/***/ function(module, exports, __webpack_require__) {
-
-	__webpack_require__(68);
-	__webpack_require__(81);
-	module.exports = __webpack_require__(30).Array.from;
-
-/***/ },
+/* 65 */,
+/* 66 */,
+/* 67 */,
 /* 68 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -3605,159 +3579,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 81 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	var ctx            = __webpack_require__(31)
-	  , $export        = __webpack_require__(28)
-	  , toObject       = __webpack_require__(61)
-	  , call           = __webpack_require__(82)
-	  , isArrayIter    = __webpack_require__(83)
-	  , toLength       = __webpack_require__(52)
-	  , createProperty = __webpack_require__(84)
-	  , getIterFn      = __webpack_require__(85);
-
-	$export($export.S + $export.F * !__webpack_require__(87)(function(iter){ Array.from(iter); }), 'Array', {
-	  // 22.1.2.1 Array.from(arrayLike, mapfn = undefined, thisArg = undefined)
-	  from: function from(arrayLike/*, mapfn = undefined, thisArg = undefined*/){
-	    var O       = toObject(arrayLike)
-	      , C       = typeof this == 'function' ? this : Array
-	      , aLen    = arguments.length
-	      , mapfn   = aLen > 1 ? arguments[1] : undefined
-	      , mapping = mapfn !== undefined
-	      , index   = 0
-	      , iterFn  = getIterFn(O)
-	      , length, result, step, iterator;
-	    if(mapping)mapfn = ctx(mapfn, aLen > 2 ? arguments[2] : undefined, 2);
-	    // if object isn't iterable or it's array with default iterator - use simple case
-	    if(iterFn != undefined && !(C == Array && isArrayIter(iterFn))){
-	      for(iterator = iterFn.call(O), result = new C; !(step = iterator.next()).done; index++){
-	        createProperty(result, index, mapping ? call(iterator, mapfn, [step.value, index], true) : step.value);
-	      }
-	    } else {
-	      length = toLength(O.length);
-	      for(result = new C(length); length > index; index++){
-	        createProperty(result, index, mapping ? mapfn(O[index], index) : O[index]);
-	      }
-	    }
-	    result.length = index;
-	    return result;
-	  }
-	});
-
-
-/***/ },
-/* 82 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// call something on iterator step with safe closing on error
-	var anObject = __webpack_require__(35);
-	module.exports = function(iterator, fn, value, entries){
-	  try {
-	    return entries ? fn(anObject(value)[0], value[1]) : fn(value);
-	  // 7.4.6 IteratorClose(iterator, completion)
-	  } catch(e){
-	    var ret = iterator['return'];
-	    if(ret !== undefined)anObject(ret.call(iterator));
-	    throw e;
-	  }
-	};
-
-/***/ },
-/* 83 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// check on default Array iterator
-	var Iterators  = __webpack_require__(73)
-	  , ITERATOR   = __webpack_require__(79)('iterator')
-	  , ArrayProto = Array.prototype;
-
-	module.exports = function(it){
-	  return it !== undefined && (Iterators.Array === it || ArrayProto[ITERATOR] === it);
-	};
-
-/***/ },
-/* 84 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	var $defineProperty = __webpack_require__(34)
-	  , createDesc      = __webpack_require__(42);
-
-	module.exports = function(object, index, value){
-	  if(index in object)$defineProperty.f(object, index, createDesc(0, value));
-	  else object[index] = value;
-	};
-
-/***/ },
-/* 85 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var classof   = __webpack_require__(86)
-	  , ITERATOR  = __webpack_require__(79)('iterator')
-	  , Iterators = __webpack_require__(73);
-	module.exports = __webpack_require__(30).getIteratorMethod = function(it){
-	  if(it != undefined)return it[ITERATOR]
-	    || it['@@iterator']
-	    || Iterators[classof(it)];
-	};
-
-/***/ },
-/* 86 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// getting tag from 19.1.3.6 Object.prototype.toString()
-	var cof = __webpack_require__(49)
-	  , TAG = __webpack_require__(79)('toStringTag')
-	  // ES3 wrong here
-	  , ARG = cof(function(){ return arguments; }()) == 'Arguments';
-
-	// fallback for IE11 Script Access Denied error
-	var tryGet = function(it, key){
-	  try {
-	    return it[key];
-	  } catch(e){ /* empty */ }
-	};
-
-	module.exports = function(it){
-	  var O, T, B;
-	  return it === undefined ? 'Undefined' : it === null ? 'Null'
-	    // @@toStringTag case
-	    : typeof (T = tryGet(O = Object(it), TAG)) == 'string' ? T
-	    // builtinTag case
-	    : ARG ? cof(O)
-	    // ES3 arguments fallback
-	    : (B = cof(O)) == 'Object' && typeof O.callee == 'function' ? 'Arguments' : B;
-	};
-
-/***/ },
-/* 87 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var ITERATOR     = __webpack_require__(79)('iterator')
-	  , SAFE_CLOSING = false;
-
-	try {
-	  var riter = [7][ITERATOR]();
-	  riter['return'] = function(){ SAFE_CLOSING = true; };
-	  Array.from(riter, function(){ throw 2; });
-	} catch(e){ /* empty */ }
-
-	module.exports = function(exec, skipClosing){
-	  if(!skipClosing && !SAFE_CLOSING)return false;
-	  var safe = false;
-	  try {
-	    var arr  = [7]
-	      , iter = arr[ITERATOR]();
-	    iter.next = function(){ return {done: safe = true}; };
-	    arr[ITERATOR] = function(){ return iter; };
-	    exec(arr);
-	  } catch(e){ /* empty */ }
-	  return safe;
-	};
-
-/***/ },
+/* 81 */,
+/* 82 */,
+/* 83 */,
+/* 84 */,
+/* 85 */,
+/* 86 */,
+/* 87 */,
 /* 88 */
 /***/ function(module, exports) {
 
@@ -3771,10 +3599,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var x = data.x;
 	  var y = data.y;
 	  var time = data.time;
+	  var name = data.name;
 
 
 	  return {
-	    name: data.name || 'point 1',
+	    name: name || 'point 1',
+	    isOpen: true,
+	    isSelected: true,
 	    spots: [{ x: x || 0,
 	      y: y || 0,
 	      time: time || 0
@@ -5352,7 +5183,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	// module
-	exports.push([module.id, "/*613760*/\n/*$PX:      1/16rem;*/\n._tools-panel_1ms4h_4 {\n  height:         22px;\n  background:     #3A0839;\n  box-shadow:     0 2px 4px rgba(0, 0, 0, 0.5);\n  padding-right:  5px;\n  position:       relative;\n  z-index:        1;\n}\n\n._button_1ms4h_13 {\n  position:     relative;\n  height:       22px;\n  line-height:  23px;\n  float:        left;\n  font-size:    7px;\n  font-weight:  bold;\n  letter-spacing: 0.5px;\n  padding:      0 7px;\n  fill:         white;\n  -webkit-user-select:  none;\n     -moz-user-select:  none;\n      -ms-user-select:  none;\n          user-select:  none;\n}\n\n._button_1ms4h_13 [data-component=\"icon\"] {\n  fill:       inherit;\n  display:    inline-block;\n  vertical-align: middle;\n  position:   relative;\n  top:         -1px;\n  width:       6px;\n  height:      6px;\n}\n\n._button_1ms4h_13:hover {\n  cursor:         pointer;\n  background:         #512750;\n}\n\n._button_1ms4h_13:active, ._button_1ms4h_13._is-active_1ms4h_29 {\n  background:         white;\n  color:         #3A0839;\n  fill:         #3A0839;\n}\n\n._button_1ms4h_13._is-logo_1ms4h_35 {\n  float:         right;\n  fill:         #FF512F;\n}\n\n._button_1ms4h_13._is-logo_1ms4h_35 [data-component=\"icon\"] {\n  width:         8px;\n  height:         8px;\n}\n", ""]);
+	exports.push([module.id, "/*613760*/\n/*$PX:      1/16rem;*/\n/* old was 165px */\n._tools-panel_1ms4h_4 {\n  height:         22px;\n  background:     #3A0839;\n  box-shadow:     0 2px 4px rgba(0, 0, 0, 0.5);\n  padding-right:  5px;\n  position:       relative;\n  z-index:        1;\n}\n\n._button_1ms4h_13 {\n  position:     relative;\n  height:       22px;\n  line-height:  23px;\n  float:        left;\n  font-size:    7px;\n  font-weight:  bold;\n  letter-spacing: 0.5px;\n  padding:      0 7px;\n  fill:         white;\n  -webkit-user-select:  none;\n     -moz-user-select:  none;\n      -ms-user-select:  none;\n          user-select:  none;\n}\n\n._button_1ms4h_13 [data-component=\"icon\"] {\n  fill:       inherit;\n  display:    inline-block;\n  vertical-align: middle;\n  position:   relative;\n  top:         -1px;\n  width:       6px;\n  height:      6px;\n}\n\n._button_1ms4h_13:hover {\n  cursor:         pointer;\n  background:         #512750;\n}\n\n._button_1ms4h_13:active, ._button_1ms4h_13._is-active_1ms4h_29 {\n  background:         white;\n  color:         #3A0839;\n  fill:         #3A0839;\n}\n\n._button_1ms4h_13._is-logo_1ms4h_35 {\n  float:         right;\n  fill:         #FF512F;\n}\n\n._button_1ms4h_13._is-logo_1ms4h_35 [data-component=\"icon\"] {\n  width:         8px;\n  height:         8px;\n}\n", ""]);
 
 	// exports
 
@@ -5832,7 +5663,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	// module
-	exports.push([module.id, "/*613760*/\n/*$PX:      1/16rem;*/\n\n._icon_1h4ls_6 {\n  position:     relative;\n  width:        8px;\n  height:       8px;\n  cursor:       pointer;\n  fill:         #FFFFFF;\n  display:      block\n}\n\n._icon_1h4ls_6 > svg {\n  position:     absolute;\n  left:     0;\n  top:     0;\n  width:     100%;\n  height:     100%;\n  fill:     inherit\n}\n\n._icon_1h4ls_6 > svg > use {\n  fill:     inherit\n}\n\n._icon_1h4ls_6:after {\n  content:     '';\n  position:     absolute;\n  left:     0;\n  top:     0;\n  right:     0;\n  bottom:     0;\n  z-index:     1\n}\n", ""]);
+	exports.push([module.id, "/*613760*/\n/*$PX:      1/16rem;*/\n/* old was 165px */\n\n._icon_1h4ls_6 {\n  position:     relative;\n  width:        8px;\n  height:       8px;\n  cursor:       pointer;\n  fill:         #FFFFFF;\n  display:      block\n}\n\n._icon_1h4ls_6 > svg {\n  position:     absolute;\n  left:     0;\n  top:     0;\n  width:     100%;\n  height:     100%;\n  fill:     inherit\n}\n\n._icon_1h4ls_6 > svg > use {\n  fill:     inherit\n}\n\n._icon_1h4ls_6:after {\n  content:     '';\n  position:     absolute;\n  left:     0;\n  top:     0;\n  right:     0;\n  bottom:     0;\n  z-index:     1\n}\n", ""]);
 
 	// exports
 
@@ -5895,8 +5726,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return (0, _preact.h)(
 	        'div',
 	        { className: CLASSES['points-panel'] },
-	        (0, _preact.h)(_pointLine2.default, { state: state })
+	        this._renderPoints(state)
 	      );
+	    }
+	  }, {
+	    key: '_renderPoints',
+	    value: function _renderPoints(state) {
+	      var points = [];
+	      for (var i = 0; i < state.length; i++) {
+	        points.push((0, _preact.h)(_pointLine2.default, { state: state[i] }));
+	      }
+	      return points;
 	    }
 	  }]);
 	  return PointsPanel;
@@ -5948,6 +5788,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _propertyLine2 = _interopRequireDefault(_propertyLine);
 
+	var _icon = __webpack_require__(144);
+
+	var _icon2 = _interopRequireDefault(_icon);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
@@ -5998,11 +5842,20 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	      return (0, _preact.h)(
 	        'div',
-	        { className: CLASSES['point-line'], onClick: this._onClick },
+	        { className: this._getClassName(state) },
 	        (0, _preact.h)(
 	          'div',
-	          { className: CLASSES['label'] },
-	          'point1'
+	          { className: CLASSES['label'], onClick: this._onCheck },
+	          state.name
+	        ),
+	        (0, _preact.h)(
+	          'div',
+	          { className: CLASSES['open-toggle'], onClick: this._onOpen },
+	          (0, _preact.h)(
+	            'div',
+	            { className: CLASSES['open-toggle__inner'] },
+	            (0, _preact.h)(_icon2.default, { shape: 'dropdown' })
+	          )
 	        ),
 	        (0, _preact.h)(
 	          'div',
@@ -6013,13 +5866,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	      );
 	    }
 	  }, {
-	    key: '_onClick',
-	    value: function _onClick() {
+	    key: '_getClassName',
+	    value: function _getClassName(state) {
+	      var openClass = state.isOpen ? CLASSES['is-open'] : '';
+	      var checkClass = state.isSelected ? CLASSES['is-check'] : '';
+	      return CLASSES['point-line'] + ' ' + openClass + ' ' + checkClass;
+	    }
+	  }, {
+	    key: '_onCheck',
+	    value: function _onCheck() {
 	      this.base.classList.toggle(CLASSES['is-check']);
+	    }
+	  }, {
+	    key: '_onOpen',
+	    value: function _onOpen(e) {
+	      e.stopPropagation();
+	      this.base.classList.toggle(CLASSES['is-open']);
 	    }
 	  }]);
 	  return PointLine;
-	}(_preact.Component), (_applyDecoratedDescriptor(_class.prototype, '_onClick', [_decko.bind], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_onClick'), _class.prototype)), _class);
+	}(_preact.Component), (_applyDecoratedDescriptor(_class.prototype, '_onCheck', [_decko.bind], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_onCheck'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, '_onOpen', [_decko.bind], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_onOpen'), _class.prototype)), _class);
 	exports.default = PointLine;
 
 /***/ },
@@ -6097,10 +5963,10 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports) {
 
 	module.exports = {
-		"property-line": "_property-line_gqx72_3",
-		"is-check": "_is-check_gqx72_1",
-		"label": "_label_gqx72_9",
-		"input": "_input_gqx72_18"
+		"property-line": "_property-line_odndb_3",
+		"is-check": "_is-check_odndb_1",
+		"label": "_label_odndb_9",
+		"input": "_input_odndb_18"
 	};
 
 /***/ },
@@ -6138,7 +6004,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	// module
-	exports.push([module.id, "/*613760*/\n/*$PX:      1/16rem;*/\n\n._property-line_gqx72_3 {\n  position:       relative;\n  height:       23px;\n  cursor:       pointer;\n  border-bottom:       1px solid #512750;\n  border-top:       1px solid #512750;\n  color:       white;\n  font-size:       9px;\n  letter-spacing:       0.5px;\n  line-height:       23px;\n  background:       #3A0839;\n  width:       100%;\n}\n\n._property-line_gqx72_3._is-check_gqx72_1 {\n  background:       #FFFFFF;\n  color:       #3A0839;\n}\n._label_gqx72_9 {\n  position: absolute;\n  left: 0;\n  width: 40px;\n  padding-left: 10px;\n  line-height: 22px;\n  /*padding-left: 15*$PX;*/\n}\n\n._input_gqx72_18 {\n  color:        white;\n  background:   transparent;\n  border:       none;\n  float:        left;\n  height:       100%;\n  position:     absolute;\n  right:        0;\n  left:         40px;\n  text-align:   center;\n  outline:      0;\n  font-size:    10px;\n  padding-top:  0;\n  /*outline: 1px solid cyan;*/\n}\n", ""]);
+	exports.push([module.id, "/*613760*/\n/*$PX:      1/16rem;*/\n/* old was 165px */\n\n._property-line_odndb_3 {\n  position:       relative;\n  height:       23px;\n  cursor:       pointer;\n  border-top:       1px solid #512750;\n  color:       white;\n  font-size:       9px;\n  letter-spacing:       0.5px;\n  line-height:       23px;\n  background:       #3A0839;\n  width:       100%;\n}\n\n._property-line_odndb_3:last-child {\n  border-bottom:       1px solid #512750;\n}\n\n._property-line_odndb_3._is-check_odndb_1 {\n  background:       #FFFFFF;\n  color:       #3A0839;\n}\n._label_odndb_9 {\n  position: absolute;\n  left: 0;\n  width: 20%;\n  padding-left: 10px;\n  line-height: 22px;\n  /*padding-left: 15*$PX;*/\n}\n\n._input_odndb_18 {\n  display:      block;\n  color:        white;\n  background:   transparent;\n  border:       none;\n  height:       100%;\n  position:     absolute;\n  right:        0;\n  width:        80%;\n  /*left:         $width*$PX;*/\n  text-align:   center;\n  outline:      0;\n  font-size:    10px;\n  padding-top:  0;\n  /*outline: 1px solid cyan;*/\n}\n", ""]);
 
 	// exports
 
@@ -6148,10 +6014,13 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports) {
 
 	module.exports = {
-		"point-line": "_point-line_au929_4",
-		"is-check": "_is-check_au929_22",
-		"body": "_body_au929_27",
-		"label": "_label_au929_34"
+		"point-line": "_point-line_oxcte_4",
+		"label": "_label_oxcte_7",
+		"is-check": "_is-check_oxcte_13",
+		"open-toggle": "_open-toggle_oxcte_14",
+		"open-toggle__inner": "_open-toggle__inner_oxcte_28",
+		"body": "_body_oxcte_22",
+		"is-open": "_is-open_oxcte_27"
 	};
 
 /***/ },
@@ -6189,7 +6058,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	// module
-	exports.push([module.id, "/*613760*/\n\n/*$PX:      1/16rem;*/\n\n/*$padding-left: 5*$PX;*/\n._point-line_au929_4 {\n  position: relative;\n  height: 23px;\n  cursor: pointer;\n  border-bottom: 1px solid #512750;\n  border-top: 1px solid #512750;\n  color: white;\n  font-size: 9px;\n  letter-spacing: 0.5px;\n  line-height: 23px;\n  background: #3A0839\n}\n._point-line_au929_4._is-check_au929_22 {\n  background: #FFFFFF;\n  color: #3A0839\n}\n._point-line_au929_4:after {\n  content: '';\n  position: absolute;\n  right: 8px;\n  top: 55%;\n  margin-top: -2.75px;\n  margin-left: -1.75px;\n  border: 3.5px solid transparent;\n  border-top-color: #FFFFFF;\n  -webkit-transition: all .15s ease;\n  transition: all .15s ease\n}\n._point-line_au929_4._is-check_au929_22 ._body_au929_27 {\n  display: block;\n  background: inherit\n}\n._point-line_au929_4._is-check_au929_22:after {\n  -webkit-transform: translateY(-3.5px) rotate(180deg);\n          transform: translateY(-3.5px) rotate(180deg);\n  border-top-color: inherit\n}\n\n._label_au929_34 {\n  padding-left: 10px;\n}\n\n._body_au929_27 {\n  padding-left: 5px;\n  /*padding-bottom: 2*$PX;*/\n  background: #512750;\n  height: auto;\n  /*display: none;*/\n}\n", ""]);
+	exports.push([module.id, "/*613760*/\n\n/*$PX:      1/16rem;*/\n\n/* old was 165px */\n\n/*$padding-left: 5*$PX;*/\n._point-line_oxcte_4 {\n  position: relative;\n  height: 23px;\n  cursor: pointer;\n  border-top: 1px solid #512750;\n  color: white;\n  font-size: 9px;\n  letter-spacing: 0.5px;\n  line-height: 23px;\n  background: #3A0839;\n}\n._point-line_oxcte_4 ._label_oxcte_7 {\n  position: absolute;\n  left:     0;\n  right:    23px;\n}\n._point-line_oxcte_4:last-child {\n  border-bottom: 1px solid #512750;\n}\n._point-line_oxcte_4._is-check_oxcte_13 {\n  background: #FFFFFF;\n  color: #3A0839;\n}\n._point-line_oxcte_4._is-check_oxcte_13 ._open-toggle_oxcte_14 {}\n._point-line_oxcte_4._is-check_oxcte_13 ._open-toggle_oxcte_14:hover {\n  background: rgba(61,12,59,.2);\n}\n._point-line_oxcte_4._is-check_oxcte_13 ._open-toggle__inner_oxcte_28 {\n  fill: #3A0839;\n}\n._point-line_oxcte_4._is-check_oxcte_13 ._body_oxcte_22, ._point-line_oxcte_4._is-check_oxcte_13 ._label_oxcte_7 {\n  background: inherit;\n}\n._point-line_oxcte_4._is-open_oxcte_27 ._open-toggle__inner_oxcte_28 {\n  -webkit-transform: rotate(180deg);\n          transform: rotate(180deg);\n}\n._point-line_oxcte_4._is-open_oxcte_27 ._body_oxcte_22 {\n  display: block;\n}\n\n._label_oxcte_7 {\n  padding-left: 10px;\n  background: #3A0839\n}\n\n._label_oxcte_7:hover {\n  background: #512750;\n}\n\n._body_oxcte_22 {\n  padding-left: 5px;\n  background: #512750;\n  height: auto;\n  padding-top: 23px;\n  display: none;\n}\n\n._open-toggle_oxcte_14 {\n  position:      absolute;\n  top:           0;\n  right:         0;\n  width:         23px;\n  height:        23px;\n  background:    inherit;\n  border-left:   1px solid #512750;\n}\n\n._open-toggle_oxcte_14 [data-component=\"icon\"] {\n  fill:     inherit;\n  position: absolute;\n  left:     50%;\n  top:      50%;\n  width:    5px;\n  height:   5px;\n  margin-top:  -2.5px;\n  margin-left: -2.5px;\n}\n\n._open-toggle__inner_oxcte_28 {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  fill: white;\n  -webkit-transition: all .15s ease;\n  transition: all .15s ease;\n}\n\n._open-toggle_oxcte_14:hover {\n  background: #512750;\n}\n", ""]);
 
 	// exports
 
@@ -6237,7 +6106,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	// module
-	exports.push([module.id, "/*613760*/\n/*$PX:      1/16rem;*/\n\n._points-panel_e2rpp_3 {\n  position:   relative;\n  z-index:    0;\n  padding-top: 10px;\n}\n", ""]);
+	exports.push([module.id, "/*613760*/\n/*$PX:      1/16rem;*/\n/* old was 165px */\n\n._points-panel_e2rpp_3 {\n  position:   relative;\n  z-index:    0;\n  padding-top: 10px;\n}\n", ""]);
 
 	// exports
 
@@ -6247,7 +6116,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports) {
 
 	module.exports = {
-		"left-panel": "_left-panel_opftb_5"
+		"left-panel": "_left-panel_i1esd_4"
 	};
 
 /***/ },
@@ -6285,7 +6154,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	// module
-	exports.push([module.id, "/*613760*/\n/*$PX:      1/16rem;*/\n\n._left-panel_opftb_5 {\n  position: absolute;\n  right: 165px;\n  bottom: 0;\n  left: 0;\n  width: 165px;\n  height: 100%;\n\n  background: #3A0839;\n}\n", ""]);
+	exports.push([module.id, "/*613760*/\n/*$PX:      1/16rem;*/\n/* old was 165px */\n._left-panel_i1esd_4 {\n  position: absolute;\n  right: 220px;\n  bottom: 0;\n  left: 0;\n  width: 220px;\n  height: 100%;\n\n  background: #3A0839;\n}\n", ""]);
 
 	// exports
 
@@ -9191,7 +9060,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	// module
-	exports.push([module.id, "/*613760*/\n/*$PX:      1/16rem;*/\n\n._hide-button_1thvy_7 {\n  position: relative;;\n  top: -16px;\n  left: 50%;\n\n  display: inline-block;\n  width: 22px;\n  height: 16px;\n  cursor: pointer\n}\n\n._hide-button__icon-container_1thvy_1 {\n  position: absolute;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  border-top-left-radius: 3px;\n  border-top-right-radius: 3px;\n  background: #3A0839\n}\n\n._hide-button_1thvy_7 [data-component=\"icon\"] {\n  position: absolute;\n  top: 4px;\n  left: 7px;\n  display: inline-block;\n  width: 8px;\n  height: 8px;\n  margin-top: 1px;\n  -webkit-transition: -webkit-transform 0.2s;\n  transition: -webkit-transform 0.2s;\n  transition: transform 0.2s;\n  transition: transform 0.2s, -webkit-transform 0.2s\n}\n\n._hide-button--is-hidden_1thvy_1 [data-component=\"icon\"] {\n  margin-top: 0;\n  -webkit-transition: -webkit-transform 0.2s;\n  transition: -webkit-transform 0.2s;\n  transition: transform 0.2s;\n  transition: transform 0.2s, -webkit-transform 0.2s;\n  -webkit-transform: rotate( 180deg );\n          transform: rotate( 180deg )\n}\n\n._hide-button_1thvy_7:hover {\n  opacity: .85\n}\n\n._hide-button_1thvy_7:active {\n  opacity: 1\n}\n", ""]);
+	exports.push([module.id, "/*613760*/\n/*$PX:      1/16rem;*/\n/* old was 165px */\n\n._hide-button_1thvy_7 {\n  position: relative;;\n  top: -16px;\n  left: 50%;\n\n  display: inline-block;\n  width: 22px;\n  height: 16px;\n  cursor: pointer\n}\n\n._hide-button__icon-container_1thvy_1 {\n  position: absolute;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  border-top-left-radius: 3px;\n  border-top-right-radius: 3px;\n  background: #3A0839\n}\n\n._hide-button_1thvy_7 [data-component=\"icon\"] {\n  position: absolute;\n  top: 4px;\n  left: 7px;\n  display: inline-block;\n  width: 8px;\n  height: 8px;\n  margin-top: 1px;\n  -webkit-transition: -webkit-transform 0.2s;\n  transition: -webkit-transform 0.2s;\n  transition: transform 0.2s;\n  transition: transform 0.2s, -webkit-transform 0.2s\n}\n\n._hide-button--is-hidden_1thvy_1 [data-component=\"icon\"] {\n  margin-top: 0;\n  -webkit-transition: -webkit-transform 0.2s;\n  transition: -webkit-transform 0.2s;\n  transition: transform 0.2s;\n  transition: transform 0.2s, -webkit-transform 0.2s;\n  -webkit-transform: rotate( 180deg );\n          transform: rotate( 180deg )\n}\n\n._hide-button_1thvy_7:hover {\n  opacity: .85\n}\n\n._hide-button_1thvy_7:active {\n  opacity: 1\n}\n", ""]);
 
 	// exports
 
@@ -9569,7 +9438,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	// module
-	exports.push([module.id, "/*613760*/\n/*$PX:      1/16rem;*/\n\n._resize-handle_qa5s6_7 {\n  position: relative;\n  top: -16px;\n  left: 50%;\n  display: inline-block;\n  width: 32px;\n  height: 16px;\n  margin-left: 5px;\n  cursor: n-resize;\n  overflow: hidden;\n  border-top-left-radius: 3px;\n  border-top-right-radius: 3px;\n  -webkit-transform-origin: 50% 100%;\n          transform-origin: 50% 100%;\n  background: #3A0839;\n  box-shadow: inset 0 0 0 1px #512750\n}\n\n._resize-handle_qa5s6_7:after {\n  content: '';\n  position: absolute;\n  left: 0;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  z-index: 2\n}\n\n._resize-handle_qa5s6_7 [data-component=\"icon\"] {\n  position: absolute;\n  top: -8px;\n  left: 0px;\n  width: 32px;\n  height: 32px;\n  display: inline-block\n}\n\n._resize-handle_qa5s6_7:hover {\n  opacity: .85\n}\n", ""]);
+	exports.push([module.id, "/*613760*/\n/*$PX:      1/16rem;*/\n/* old was 165px */\n\n._resize-handle_qa5s6_7 {\n  position: relative;\n  top: -16px;\n  left: 50%;\n  display: inline-block;\n  width: 32px;\n  height: 16px;\n  margin-left: 5px;\n  cursor: n-resize;\n  overflow: hidden;\n  border-top-left-radius: 3px;\n  border-top-right-radius: 3px;\n  -webkit-transform-origin: 50% 100%;\n          transform-origin: 50% 100%;\n  background: #3A0839;\n  box-shadow: inset 0 0 0 1px #512750\n}\n\n._resize-handle_qa5s6_7:after {\n  content: '';\n  position: absolute;\n  left: 0;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  z-index: 2\n}\n\n._resize-handle_qa5s6_7 [data-component=\"icon\"] {\n  position: absolute;\n  top: -8px;\n  left: 0px;\n  width: 32px;\n  height: 32px;\n  display: inline-block\n}\n\n._resize-handle_qa5s6_7:hover {\n  opacity: .85\n}\n", ""]);
 
 	// exports
 
@@ -9829,7 +9698,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	// module
-	exports.push([module.id, "/*613760*/\n/*$PX:      1/16rem;*/\n\n._timeline-panel_1hab5_3 {\n  position:     relative;\n  top:         -20px;\n  height:       22px;\n  background:   #512750;\n  box-shadow:   0 2px 4px black;\n}\n\n._label_1hab5_11 {\n  fill:         #FFFFFF;\n  font-size:    7px;\n}\n\n._main-svg_1hab5_16 {\n  width:        100%;\n  height:       100%;\n}\n", ""]);
+	exports.push([module.id, "/*613760*/\n/*$PX:      1/16rem;*/\n/* old was 165px */\n\n._timeline-panel_1hab5_3 {\n  position:     relative;\n  top:         -20px;\n  height:       22px;\n  background:   #512750;\n  box-shadow:   0 2px 4px black;\n}\n\n._label_1hab5_11 {\n  fill:         #FFFFFF;\n  font-size:    7px;\n}\n\n._main-svg_1hab5_16 {\n  width:        100%;\n  height:       100%;\n}\n", ""]);
 
 	// exports
 
@@ -9839,7 +9708,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports) {
 
 	module.exports = {
-		"right-panel": "_right-panel_vdh3u_3"
+		"right-panel": "_right-panel_882qy_3"
 	};
 
 /***/ },
@@ -9877,7 +9746,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	// module
-	exports.push([module.id, "/*613760*/\n/*$PX:      1/16rem;*/\n\n._right-panel_vdh3u_3 {\n  position: absolute;\n  right: 0;\n  bottom: 0;\n  left: 165px;\n  height: 100%;\n\n  color: #FFFFFF;\n  background: #512750;\n}\n", ""]);
+	exports.push([module.id, "/*613760*/\n/*$PX:      1/16rem;*/\n/* old was 165px */\n\n._right-panel_882qy_3 {\n  position: absolute;\n  right: 0;\n  bottom: 0;\n  left:   220px;\n  height: 100%;\n\n  color: #FFFFFF;\n  background: #512750;\n}\n", ""]);
 
 	// exports
 
@@ -9926,7 +9795,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	// module
-	exports.push([module.id, "/*613760*/\n/*$PX:      1/16rem;*/\n\n._main-panel_1g6fj_5 {\n  position: fixed;\n  bottom: 0;\n  width: 100%;\n  height: 100px;\n  color: white\n}\n\n._main-panel--transition_1g6fj_1 {\n  -webkit-transition: height 0.4s;\n  transition: height 0.4s\n}\n", ""]);
+	exports.push([module.id, "/*613760*/\n/*$PX:      1/16rem;*/\n/* old was 165px */\n\n._main-panel_1g6fj_5 {\n  position: fixed;\n  bottom: 0;\n  width: 100%;\n  height: 100px;\n  color: white\n}\n\n._main-panel--transition_1g6fj_1 {\n  -webkit-transition: height 0.4s;\n  transition: height 0.4s\n}\n", ""]);
 
 	// exports
 
@@ -9944,7 +9813,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _preact = __webpack_require__(3);
 
 	var Icons = function Icons() {
-	  return (0, _preact.h)('div', { dangerouslySetInnerHTML: { __html: '\n    <svg height="0" version="1.1" xmlns="http://www.w3.org/2000/svg"\n        style="position:absolute; margin-left: -100%; width:0; height:0;"\n        xmlns:xlink="http://www.w3.org/1999/xlink">\n      <g id="ellipsis-shape">\n        <circle cx="11" cy="16" r="1"></circle>\n        <circle cx="16" cy="16" r="1"></circle>\n        <circle cx="21" cy="16" r="1"></circle>\n      </g>\n      <path id="mojs-logo-shape" d="M18.4678907,2.67700048 C19.488586,3.25758625 20.2789227,4.18421651 20.87823,5.1973579 C24.0807788,10.501451 27.2777091,15.8113116 30.480258,21.1154047 C31.1320047,22.1612281 31.7706417,23.2647256 31.9354512,24.5162532 C32.188284,26.0619186 31.6919826,27.7363895 30.5589171,28.80336 C29.4501984,29.8857103 27.8807622,30.3182659 26.3806209,30.3048086 C19.4511293,30.3086535 12.5235106,30.3086535 5.59401901,30.3048086 C3.71556494,30.343258 1.69852104,29.5723478 0.683444165,27.8709623 C-0.406546132,26.1099803 -0.0975282643,23.7914822 0.940022637,22.0843293 C4.34296485,16.4130445 7.76650826,10.7532945 11.1825603,5.08969961 C11.9747698,3.74781595 13.1846215,2.60202418 14.6847628,2.18292584 C15.9451812,1.81573418 17.3348251,2.01182606 18.4678907,2.67700048 Z M15.3334668,9.51526849 C15.6146238,9.03779476 16.0791597,9.02250655 16.3785679,9.4929547 L25.2763555,23.4736913 C25.5723919,23.9388414 25.3568433,24.3159201 24.8074398,24.3159202 L7.62314647,24.3159205 C7.06813505,24.3159206 6.84622798,23.9286889 7.12728913,23.4513779 L15.3334668,9.51526849 Z" fill-rule="evenodd"></path>\n      <path id="hide-icon-shape" d="M18.0297509,24.5024819 C18.1157323,24.4325886 18.1989631,24.3576024 18.2790422,24.2775233 L31.0556518,11.5009137 C32.3147827,10.2417828 32.3147827,8.20347913 31.0556518,6.9443482 C29.7965209,5.68521727 27.7582172,5.68521727 26.4990863,6.9443482 L15.9992406,17.4441939 L5.50091369,6.94586705 C4.24330161,5.68825498 2.20347913,5.68673612 0.944348198,6.94586705 C-0.314782733,8.20499798 -0.314782733,10.2433016 0.944348198,11.5024325 L13.7209578,24.2790422 C14.9005165,25.4586008 16.7638781,25.5331444 18.0298642,24.5026731 L18.0297509,24.5024819 Z"></path>\n      <path id="plus-shape" d="M19.2,19.2 L28.7999796,19.2 C30.5628602,19.2 32,17.7673112 32,16 C32,14.2362849 30.5673021,12.8 28.7999796,12.8 L19.2,12.8 L19.2,3.20002043 C19.2,1.43713981 17.7673112,-1.17239551e-13 16,-1.17239551e-13 C14.2362849,-1.13686838e-13 12.8,1.43269795 12.8,3.20002043 L12.8,12.8 L3.20002043,12.8 C1.43713981,12.8 0,14.2326888 0,16 C0,17.7637151 1.43269795,19.2 3.20002043,19.2 L12.8,19.2 L12.8,28.7999796 C12.8,30.5628602 14.2326888,32 16,32 C17.7637151,32 19.2,30.5673021 19.2,28.7999796 L19.2,19.2 Z"></path>\n    </svg>' } });
+	  return (0, _preact.h)('div', { dangerouslySetInnerHTML: { __html: '\n    <svg height="0" version="1.1" xmlns="http://www.w3.org/2000/svg"\n        style="position:absolute; margin-left: -100%; width:0; height:0;"\n        xmlns:xlink="http://www.w3.org/1999/xlink">\n      <g id="ellipsis-shape">\n        <circle cx="11" cy="16" r="1"></circle>\n        <circle cx="16" cy="16" r="1"></circle>\n        <circle cx="21" cy="16" r="1"></circle>\n      </g>\n      <path id="mojs-logo-shape" d="M18.4678907,2.67700048 C19.488586,3.25758625 20.2789227,4.18421651 20.87823,5.1973579 C24.0807788,10.501451 27.2777091,15.8113116 30.480258,21.1154047 C31.1320047,22.1612281 31.7706417,23.2647256 31.9354512,24.5162532 C32.188284,26.0619186 31.6919826,27.7363895 30.5589171,28.80336 C29.4501984,29.8857103 27.8807622,30.3182659 26.3806209,30.3048086 C19.4511293,30.3086535 12.5235106,30.3086535 5.59401901,30.3048086 C3.71556494,30.343258 1.69852104,29.5723478 0.683444165,27.8709623 C-0.406546132,26.1099803 -0.0975282643,23.7914822 0.940022637,22.0843293 C4.34296485,16.4130445 7.76650826,10.7532945 11.1825603,5.08969961 C11.9747698,3.74781595 13.1846215,2.60202418 14.6847628,2.18292584 C15.9451812,1.81573418 17.3348251,2.01182606 18.4678907,2.67700048 Z M15.3334668,9.51526849 C15.6146238,9.03779476 16.0791597,9.02250655 16.3785679,9.4929547 L25.2763555,23.4736913 C25.5723919,23.9388414 25.3568433,24.3159201 24.8074398,24.3159202 L7.62314647,24.3159205 C7.06813505,24.3159206 6.84622798,23.9286889 7.12728913,23.4513779 L15.3334668,9.51526849 Z" fill-rule="evenodd"></path>\n      <path id="hide-icon-shape" d="M18.0297509,24.5024819 C18.1157323,24.4325886 18.1989631,24.3576024 18.2790422,24.2775233 L31.0556518,11.5009137 C32.3147827,10.2417828 32.3147827,8.20347913 31.0556518,6.9443482 C29.7965209,5.68521727 27.7582172,5.68521727 26.4990863,6.9443482 L15.9992406,17.4441939 L5.50091369,6.94586705 C4.24330161,5.68825498 2.20347913,5.68673612 0.944348198,6.94586705 C-0.314782733,8.20499798 -0.314782733,10.2433016 0.944348198,11.5024325 L13.7209578,24.2790422 C14.9005165,25.4586008 16.7638781,25.5331444 18.0298642,24.5026731 L18.0297509,24.5024819 Z"></path>\n      <path id="plus-shape" d="M19.2,19.2 L28.7999796,19.2 C30.5628602,19.2 32,17.7673112 32,16 C32,14.2362849 30.5673021,12.8 28.7999796,12.8 L19.2,12.8 L19.2,3.20002043 C19.2,1.43713981 17.7673112,-1.17239551e-13 16,-1.17239551e-13 C14.2362849,-1.13686838e-13 12.8,1.43269795 12.8,3.20002043 L12.8,12.8 L3.20002043,12.8 C1.43713981,12.8 0,14.2326888 0,16 C0,17.7637151 1.43269795,19.2 3.20002043,19.2 L12.8,19.2 L12.8,28.7999796 C12.8,30.5628602 14.2326888,32 16,32 C17.7637151,32 19.2,30.5673021 19.2,28.7999796 L19.2,19.2 Z"></path>\n      <path id="dropdown-shape" d="M16,25 L0,9 L32,9 L16,25 Z"></path>\n    </svg>' } });
 	};
 
 	exports.default = Icons;
@@ -10138,7 +10007,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	// module
-	exports.push([module.id, "/*613760*/\n/*$PX:      1/16rem;*/\n\n._insert-point_1nkvf_5 {\n  position:   absolute;\n  width:      6px;\n  height:     6px;\n  border-radius: 50%;\n  background: #FF512F;\n  margin-left: -3px;\n  margin-top:  -3px;\n}\n", ""]);
+	exports.push([module.id, "/*613760*/\n/*$PX:      1/16rem;*/\n/* old was 165px */\n\n._insert-point_1nkvf_5 {\n  position:   absolute;\n  width:      6px;\n  height:     6px;\n  border-radius: 50%;\n  background: #FF512F;\n  margin-left: -3px;\n  margin-top:  -3px;\n}\n", ""]);
 
 	// exports
 
@@ -10186,7 +10055,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	// module
-	exports.push([module.id, "/*613760*/\n/*$PX:      1/16rem;*/\n\n._timeline-editor_yq8gz_4 {\n  font-family:  Arial, sans-serif;\n}\n", ""]);
+	exports.push([module.id, "/*613760*/\n/*$PX:      1/16rem;*/\n/* old was 165px */\n\n._timeline-editor_yq8gz_4 {\n  font-family:  Arial, sans-serif;\n}\n", ""]);
 
 	// exports
 

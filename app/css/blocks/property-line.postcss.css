@@ -5,25 +5,26 @@
   width:       100%;
 }
 
-$width: 40;
+$width: 20%;
 .label {
   position: absolute;
   left: 0;
-  width: $width*$PX;
+  width: $width;
   padding-left: 10*$PX;
-  line-height: 22*$PX;
+  line-height: $POINT_LINE_HEIGHT - 1;
   /*padding-left: 15*$PX;*/
 }
 
 .input {
+  display:      block;
   color:        white;
   background:   transparent;
   border:       none;
-  float:        left;
   height:       100%;
   position:     absolute;
   right:        0;
-  left:         $width*$PX;
+  width:        (100% - $width);
+  /*left:         $width*$PX;*/
   text-align:   center;
   outline:      0;
   font-size:    10*$PX;

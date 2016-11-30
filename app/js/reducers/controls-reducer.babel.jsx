@@ -14,7 +14,8 @@ const controls = (state=INITIAL_STATE, action) => {
     const selected = (data === state.selected) ? null : data;
     return {...state, selected};
   }
-  case 'TOOLS_RESET_SELECTED': {
+  case 'TOOLS_RESET_SELECTED':
+  case 'ADD_POINT': {
     return {...state, selected: null};
   }
 

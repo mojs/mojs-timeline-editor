@@ -1,7 +1,6 @@
 @import '../assets/globals.postcss.css';
 
-$panel-width: 165*$PX;
-
+$panel-width: $LEFT_PANEL_WIDTH*$PX;
 .left-panel {
   position: absolute;
   right: $panel-width;
