@@ -7,4 +7,4 @@ export default (el, fn) => {
   } else {
     el.addEventListener('mousedown', fn);
   }
-}
+};

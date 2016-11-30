@@ -14,7 +14,7 @@ class TimelinePanel extends Component {
       scale: props.scale || 1,
       dashesPerSec:   DASHES_PER_SEC,
       DASH_STEP:      100*(1/DASHES_PER_SEC)
-    }
+    };
 
     this._dashesCnt = props.time * this.state.dashesPerSec;
   }
@@ -81,7 +81,7 @@ class TimelinePanel extends Component {
     }
 
     return dashes;
-  };
+  }
 
   _compileLabels() {
     const labels = [];

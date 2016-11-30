@@ -6,7 +6,8 @@ require('../../../css/blocks/tools-panel');
 class ToolsPanelButton extends Component {
   render() {
     const p = this.props;
-    const className = `${CLASSES['point']} ${p.className || ''}`
+    const className = `${CLASSES['point']} ${p.className || ''}`;
+    
     return (
       <div className={className}></div>
     );

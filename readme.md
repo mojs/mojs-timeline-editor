@@ -22,11 +22,7 @@ Shortcuts.
 
 ## Development
 
-Install [webpack](https://webpack.github.io/) globally:
-
-```
-[sudo] npm install webpack -g
-```
+To begin development you need to have [node](https://nodejs.org/en/download/) installed
 
 Install dependencies with [npm](https://www.npmjs.com/):
 
@@ -34,17 +30,16 @@ Install dependencies with [npm](https://www.npmjs.com/):
 [sudo] npm install
 ```
 
-Run [webpack](https://webpack.github.io/):
+To start development env. run
 
 ```
-webpack
+npm run serve
 ```
 
-[optional] Run `gulp` for `liverload`, please make sure that you have `livereload` extension installed in your browser (see [livereload usage notes](https://github.com/napcs/node-livereload)):
+This command will run the webpack-dev-server in inline mode and rerun build on every .js/.jsx/.postcss.css change.
+Also it runs eslint to watch relevance of javascript files to a style-guide.
 
-```
-gulp
-```
+**No globally installed packages are needed.**
 
 [comment]: # (Please make sure you started a `feature branch` with the `feature name` ( from the `dev` branch) before making changes.)
 
