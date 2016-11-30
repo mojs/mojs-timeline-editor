@@ -32,15 +32,14 @@ class Point extends Component {
 
   @bind
   _addPoint() {
-    console.log('add');
     const {store} = this.context;
-    store.dispatch({ type: 'TOOLS_RESET_SELECTED' });
+    store.dispatch({ type: 'ADD_POINT', data: { ...this.state } });
   }
 
   @bind
   _mouseMove(e) {
     if (!this._isVisible()) { return; }
-    const {pageX: x, pageY:y} = e;
+    const { pageX: x, pageY: y } = e;
     this.setState({x, y});
   }
 

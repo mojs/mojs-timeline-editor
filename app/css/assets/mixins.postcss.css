@@ -1,0 +1,18 @@
+
+@define-mixin pointLine {
+  position: relative;
+  height:   23*$PX;
+  cursor:   pointer;
+  border-bottom: 1*$PX solid $c-light-purple;
+  border-top: 1*$PX solid $c-light-purple;
+  color: white;
+  font-size: 9*$FPX;
+  letter-spacing: .5*$PX;
+  line-height: 23*$PX;
+  background:  $c-purple;
+
+  &.is-check {
+    background: $c-white;
+    color:      $c-purple
+  }
+}

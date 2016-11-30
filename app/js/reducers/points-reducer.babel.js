@@ -1,17 +1,15 @@
 import C from '../constants';
+import createPoint from '../helpers/create-point';
 
-const INITIAL_STATE = {
-  x: 0,
-  y: 0
-};
+const INITIAL_STATE = [];
 
 const insertPoint = (state=INITIAL_STATE, action) => {
   const {data} = action;
 
   switch (action.type) {
 
-  case 'INSERT_POINT_SET_POSITION': {
-    return {...state, ...data};
+  case 'ADD_POINT': {
+    return [...state, createPoint(data)];
   }
 
   }

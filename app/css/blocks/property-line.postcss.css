@@ -1,0 +1,32 @@
+@import '../assets/globals.postcss.css';
+
+.property-line {
+  @mixin pointLine;
+  width:       100%;
+}
+
+$width: 40;
+.label {
+  position: absolute;
+  left: 0;
+  width: $width*$PX;
+  padding-left: 10*$PX;
+  line-height: 22*$PX;
+  /*padding-left: 15*$PX;*/
+}
+
+.input {
+  color:        white;
+  background:   transparent;
+  border:       none;
+  float:        left;
+  height:       100%;
+  position:     absolute;
+  right:        0;
+  left:         $width*$PX;
+  text-align:   center;
+  outline:      0;
+  font-size:    10*$PX;
+  padding-top:  0;
+  /*outline: 1px solid cyan;*/
+}

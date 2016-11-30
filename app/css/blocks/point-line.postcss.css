@@ -1,0 +1,44 @@
+@import '../assets/globals.postcss.css';
+
+/*$padding-left: 5*$PX;*/
+.point-line {
+  @mixin pointLine;
+
+  $size: 7;
+  &:after {
+    content:    '';
+    position:   absolute;
+    right:      8*$PX;
+    top:        55%;
+    margin-top:  -($size/4 + 1)*$PX;
+    margin-left: -($size/4)*$PX;
+
+    border:     ($size/2)*$PX solid transparent;
+    border-top-color: $c-white;
+
+    transition: all .15s ease;
+  }
+
+  &.is-check {
+    &:after {
+      transform: translateY(-$size/2*$PX) rotate(180deg);
+      border-top-color: inherit;
+    }
+    .body {
+      display:  block;
+      background: inherit;
+    }
+  }
+}
+
+.label {
+  padding-left: 10*$PX;
+}
+
+.body {
+  padding-left: 5*$PX;
+  /*padding-bottom: 2*$PX;*/
+  background: $c-light-purple;
+  height: auto;
+  /*display: none;*/
+}

@@ -2,10 +2,12 @@
 
 $height: 22;
 .tools-panel {
-  height:       $height*$PX;
-  background:   $c-purple;
-  box-shadow:   0 2*$PX 4*$PX rgba(0,0,0, .5);
-  padding-right: 5*$PX;
+  height:         $height*$PX;
+  background:     $c-purple;
+  box-shadow:     0 2*$PX 4*$PX rgba(0,0,0, .5);
+  padding-right:  5*$PX;
+  position:       relative;
+  z-index:        1;
 }
 
 .button {

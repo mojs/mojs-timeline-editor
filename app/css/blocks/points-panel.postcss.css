@@ -1,0 +1,7 @@
+@import '../assets/globals.postcss.css';
+
+.points-panel {
+  position:   relative;
+  z-index:    0;
+  padding-top: 10*$PX;
+}

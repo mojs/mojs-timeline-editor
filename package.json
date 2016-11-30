@@ -75,6 +75,7 @@
     "postcss-automath": "^1.0.0",
     "postcss-cssnext": "^2.7.0",
     "postcss-loader": "^0.9.1",
+    "postcss-mixins": "^5.4.0",
     "postcss-modules": "^0.5.0",
     "preact-redux": "^1.0.1",
     "precss": "^1.4.0",
