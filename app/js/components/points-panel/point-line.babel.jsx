@@ -30,20 +30,27 @@ class PointLine extends Component {
   }
 
   _getClassName(state) {
-    const openClass = (state.isOpen) ? CLASSES['is-open']: '';
+    const openClass  = (state.isOpen) ? CLASSES['is-open']: '';
     const checkClass = (state.isSelected) ? CLASSES['is-check']: '';
     return `${CLASSES['point-line']} ${openClass} ${checkClass}`;
   }
 
   @bind
   _onCheck() {
-    this.base.classList.toggle( CLASSES['is-check'] );
+    const {state} = this.props;
+    const {store} = this.context;
+
+    store.dispatch({ type: 'SELECT_POINT', data: state.id });
+    // this.base.classList.toggle( CLASSES['is-check'] );
   }
 
   @bind
   _onOpen(e) {
     e.stopPropagation();
-    this.base.classList.toggle( CLASSES['is-open'] );
+    const {state} = this.props;
+    const {store} = this.context;
+    store.dispatch({ type: 'TOGGLE_OPEN_POINT', data: state.id });
+    // this.base.classList.toggle( CLASSES['is-open'] );
   }
 }
 

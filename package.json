@@ -69,6 +69,7 @@
     "gulp-livereload": "^3.8.1",
     "husky": "^0.11.9",
     "json-loader": "^0.5.4",
+    "md5": "^2.2.1",
     "mo-js": "^0.265.7",
     "mojs-curve-editor": "",
     "mojs-player": "^0.43.15",
