@@ -19,6 +19,7 @@ class ResizeHandle extends Component {
   componentDidMount() {
     const mc = propagating(new Hammer.Manager(this.base));
     const p = this.props;
+    const {store} = this.context;
 
     mc.add(new Hammer.Pan({ threshold: 0 }));
     mc.on('pan', (e) => {

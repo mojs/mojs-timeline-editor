@@ -1,4 +1,6 @@
 
 @import '../assets/globals.postcss.css';
 
-.timeline-editor {  }
+.timeline-editor {
+  font-family:  Arial, sans-serif;
+}

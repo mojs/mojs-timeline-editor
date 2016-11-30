@@ -5,6 +5,10 @@ import store from './store';
 import TimelineEditor from './components/timeline-editor';
 import persist from './helpers/persist';
 
+/* TODO:
+    [x] test if `onClick` handler on components is optimized for mobiles
+*/
+
 render(
   <Provider store={store}>
     <TimelineEditor isPlayerPassed={true} />

@@ -1,0 +1,51 @@
+@import '../assets/globals.postcss.css';
+
+$height: 22;
+.tools-panel {
+  height:       $height*$PX;
+  background:   $c-purple;
+  box-shadow:   0 2*$PX 4*$PX rgba(0,0,0, .5);
+  padding-right: 5*$PX;
+}
+
+.button {
+  position:     relative;
+  height:       $height*$PX;
+  line-height:  ($height+1)*$PX;
+  float:        left;
+  font-size:    7*$FPX;
+  font-weight:  bold;
+  letter-spacing: .5*$PX;
+  padding:      0 7*$PX;
+  fill:         white;
+  user-select:  none;
+  &:hover {
+    cursor:     pointer;
+    background: #512750;
+  }
+
+  &:active, &.is-active {
+    background: white;
+    color:      $c-purple;
+    fill:       $c-purple;
+  }
+
+  &.is-logo {
+    float:      right;
+    fill:       $c-orange;
+    [data-component="icon"] {
+      width:    8*$PX;
+      height:   8*$PX;
+    }
+  }
+
+  [data-component="icon"] {
+    fill:       inherit;
+    display:    inline-block;
+    vertical-align: middle;
+    position:   relative;
+    top:         -1*$PX;
+    width:       6*$PX;
+    height:      6*$PX;
+  }
+}

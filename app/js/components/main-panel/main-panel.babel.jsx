@@ -15,6 +15,7 @@ class MainPanel extends Component {
   render () {
     const props    = this.props;
     const {state}  = props;
+    const {entireState} = props;
 
     let height = this._clampHeight(state.ySize - this.state.deltaY);
     // check state of `hide button` regarding current height
@@ -25,7 +26,7 @@ class MainPanel extends Component {
                className={this._getClassNames()}
                data-component="main-panel">
 
-        <LeftPanel />
+        <LeftPanel state={entireState} />
         <RightPanel state={state}
                     onResize={this._resizeHeight}
                     onResizeEnd={this._resizeHeightEnd}

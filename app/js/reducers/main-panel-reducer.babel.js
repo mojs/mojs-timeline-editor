@@ -23,21 +23,12 @@ const mainPanel = (state = INITIAL_STATE, action) => {
   case 'MAIN_PANEL_RESET_TRANSITION': {
     return { ...state, isTransition: false };
   }
-
-  // case 'MAIN_PANEL_RESET_YPREV': {
-  //   const {prevHeight} = INITIAL_STATE;
-  //   // return { ...state, prevHeight, isHidden: true };
-  //   return { ...state, isHidden: true };
-  // }
-
   case 'MAIN_PANEL_SAVE_YPREV': {
     return { ...state, prevHeight: state.ySize };
   }
-
   case 'MAIN_PANEL_SET_HIDDEN': {
     return { ...state, isHidden: action.data };
   }
-
   }
   return state;
 };
