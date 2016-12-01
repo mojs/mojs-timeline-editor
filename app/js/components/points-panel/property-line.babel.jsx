@@ -6,12 +6,12 @@ require('../../../css/blocks/property-line');
 
 class PropertyLine extends Component {
   render () {
-    const {state} = this.props;
+    const p = this.props;
 
     return (
       <div className={CLASSES['property-line']}>
-        <div className={CLASSES['label']}>x</div>
-        <input className={CLASSES['input']} value="623" />
+        <div className={CLASSES['label']}>{p.name}</div>
+        <input className={CLASSES['input']} value={p.value} />
       </div>
     );
   }

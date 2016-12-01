@@ -1,5 +1,7 @@
 import {Provider} from 'preact-redux';
 import {render, h} from 'preact';
+import mojs from 'mo-js';
+import MojsPlayer from 'mojs-player';
 
 import store from './store';
 import TimelineEditor from './components/timeline-editor';
@@ -17,6 +19,8 @@ render(
 );
 
 persist(store);
+
+new MojsPlayer({ add: new mojs.Tween });
 
 // /*
 //   API wrapper above the app itself.

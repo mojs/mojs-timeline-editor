@@ -22,8 +22,7 @@ class PointLine extends Component {
           </div>
         </div>
         <div className={CLASSES['body']}>
-          <PropertyLine state={state} />
-          <PropertyLine state={state} />
+          {this._renderProperties(state)}
         </div>
       </div>
     );
@@ -35,13 +34,27 @@ class PointLine extends Component {
     return `${CLASSES['point-line']} ${openClass} ${checkClass}`;
   }
 
+  _renderProperties(state) {
+    const {props} = state;
+    const names = Object.keys(props);
+    const results = [];
+
+    for (let i = 0; i < names.length; i++) {
+      const name = names[i];
+      results.push(
+        <PropertyLine id={state.id} name={name} value={props[name]} />
+      );
+    }
+
+    return results;
+  }
+
   @bind
   _onCheck() {
     const {state} = this.props;
     const {store} = this.context;
 
     store.dispatch({ type: 'SELECT_POINT', data: state.id });
-    // this.base.classList.toggle( CLASSES['is-check'] );
   }
 
   @bind
@@ -50,7 +63,6 @@ class PointLine extends Component {
     const {state} = this.props;
     const {store} = this.context;
     store.dispatch({ type: 'TOGGLE_OPEN_POINT', data: state.id });
-    // this.base.classList.toggle( CLASSES['is-open'] );
   }
 }
 

@@ -1,19 +1,19 @@
 $POINT_LINE_HEIGHT: 23*$PX;
 
 @define-mixin pointLine {
-  position: relative;
-  height:   $POINT_LINE_HEIGHT;
-  cursor:   pointer;
-  border-top: 1*$PX solid $c-light-purple;
-  color: white;
-  font-size: 9*$FPX;
+  position:       relative;
+  min-height:     $POINT_LINE_HEIGHT;
+  cursor:         pointer;
+  color:          white;
+  font-size:      9*$FPX;
   letter-spacing: .5*$PX;
-  line-height: $POINT_LINE_HEIGHT;
-  background:  $c-purple;
+  line-height:    $POINT_LINE_HEIGHT;
+  background:     $c-purple;
+  border-top:     1*$PX solid $c-light-purple;
 
-  &:last-child {
+  /*&:last-child {
     border-bottom: 1*$PX solid $c-light-purple;
-  }
+  }*/
 
   &.is-check {
     background: $c-white;

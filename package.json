@@ -1,6 +1,6 @@
 {
   "name": "mojs-timeline-editor",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "mojs GUI for editing timeline/html elements",
   "keywords": [
     "mojs",
@@ -36,6 +36,8 @@
   "dependencies": {
     "decko": "^1.1.3",
     "hammerjs": "^2.0.8",
+    "mo-js": "^0.265.9",
+    "mojs-player": "^0.43.15",
     "preact": "^5.6.0",
     "propagating-hammerjs": "^1.4.6",
     "redux": "^3.5.2",

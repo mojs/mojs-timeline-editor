@@ -21,6 +21,18 @@ const togglePoint = (state, id) => {
   return newState;
 };
 
+const selectPoint = (state, id) => {
+  const newState = [];
+  for (let i = 0; i < state.length; i++) {
+    const newPoint = { ...state[i] };
+    if (newPoint.id === id) { newPoint.isSelected = !newPoint.isSelected; }
+    else { newPoint.isSelected = false; }
+    newState[i] = newPoint;
+  }
+
+  return newState;
+};
+
 const insertPoint = (state=INITIAL_STATE, action) => {
   const {data} = action;
 
@@ -28,12 +40,16 @@ const insertPoint = (state=INITIAL_STATE, action) => {
 
   case 'ADD_POINT': {
     const newState = resetSelected(state);
-    newState.push( createPoint(data) );
+    newState.push( createPoint(data, newState.length) );
     return newState;
   }
 
   case 'TOGGLE_OPEN_POINT': {
     return togglePoint(state, data);
+  }
+
+  case 'SELECT_POINT': {
+    return selectPoint(state, data);
   }
 
   }

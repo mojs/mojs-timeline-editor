@@ -8,4 +8,4 @@ $FPX:     1px;
 $GS:      calc( 10 * $PX );
 $BRADIUS: calc( 3 * $PX );
 
-$LEFT_PANEL_WIDTH: 22*$GS; /* old was 165px */
+$LEFT_PANEL_WIDTH: 19.5*$GS; /* old was 165px */
