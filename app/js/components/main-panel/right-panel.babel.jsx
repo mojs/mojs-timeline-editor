@@ -15,7 +15,7 @@ class RightPanel extends Component {
       <div className={CLASSES['right-panel']}>
         <HideButton isHidden={state.isHidden} onTap={this._onHideButton} />
         <ResizeHandle {...this.props} />
-        <TimelinePanel time={12} />
+        <TimelinePanel time={15} />
       </div>
     );
   }

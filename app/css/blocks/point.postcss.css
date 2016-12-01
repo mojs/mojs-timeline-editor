@@ -1,0 +1,33 @@
+@import '../assets/globals.postcss.css';
+
+.point {
+  position:   absolute;
+  width:      $POINT_SIZE*$PX;
+  height:     $POINT_SIZE*$PX;
+  border-radius: 50%;
+  background: $c-orange;
+  margin-left: -($POINT_SIZE/2)*$PX;
+  margin-top:  -($POINT_SIZE/2)*$PX;
+
+  $size: 150%;
+  &:after {
+    content: '';
+    position: absolute;
+    left:    50%;
+    top:     50%;
+    width:   $size;
+    height:  $size;
+    border: 1px solid $c-orange;
+    transform: translate(-50%, -50%);
+    /*margin-left: -($size - 100%);*/
+    /*margin-top: -($size - 100%);*/
+    border-radius: 50%;
+    opacity: 0;
+  }
+
+  &.is-selected {
+    &:after {
+      opacity: 1;
+    }
+  }
+}

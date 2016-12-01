@@ -4,6 +4,7 @@ import {bind} from 'decko';
 import MainPanel from './main-panel/main-panel';
 import Icons from './icons';
 import InsertPoint from './insert-point';
+import Point from './point';
 import C from '../constants';
 
 const CLASSES = require('../../css/blocks/timeline-editor.postcss.css.json');
@@ -18,6 +19,7 @@ class TimelineEditor extends Component {
     return (
         <div>
           <InsertPoint state={state} />
+          {this._renderPoints()}
           <div  className={CLASSES['timeline-editor']}
                 onMouseMove={this._mouseMove}>
             <Icons />
@@ -28,6 +30,19 @@ class TimelineEditor extends Component {
           </div>
         </div>
     );
+  }
+
+  _renderPoints() {
+    const results = [];
+    const {points} = this._state;
+
+    for (let i = 0; i < points.length; i++) {
+      results.push(
+        <Point state={points[i]} />
+      );
+    }
+    
+    return results;
   }
 
   componentDidMount() {

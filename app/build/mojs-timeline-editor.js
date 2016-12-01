@@ -22942,6 +22942,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _insertPoint2 = _interopRequireDefault(_insertPoint);
 
+	var _point = __webpack_require__(195);
+
+	var _point2 = _interopRequireDefault(_point);
+
 	var _constants = __webpack_require__(64);
 
 	var _constants2 = _interopRequireDefault(_constants);
@@ -23000,6 +23004,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        'div',
 	        null,
 	        (0, _preact.h)(_insertPoint2.default, { state: state }),
+	        this._renderPoints(),
 	        (0, _preact.h)(
 	          'div',
 	          { className: CLASSES['timeline-editor'],
@@ -23011,6 +23016,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	            isPlayerPassed: true })
 	        )
 	      );
+	    }
+	  }, {
+	    key: '_renderPoints',
+	    value: function _renderPoints() {
+	      var results = [];
+	      var points = this._state.points;
+
+
+	      for (var i = 0; i < points.length; i++) {
+	        results.push((0, _preact.h)(_point2.default, { state: points[i] }));
+	      }
+
+	      return results;
 	    }
 	  }, {
 	    key: 'componentDidMount',
@@ -25863,7 +25881,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        { className: CLASSES['right-panel'] },
 	        (0, _preact.h)(_hideButton2.default, { isHidden: state.isHidden, onTap: this._onHideButton }),
 	        (0, _preact.h)(_resizeHandle2.default, this.props),
-	        (0, _preact.h)(_timelinePanel2.default, { time: 12 })
+	        (0, _preact.h)(_timelinePanel2.default, { time: 15 })
 	      );
 	    }
 	  }, {
@@ -29569,7 +29587,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports) {
 
 	module.exports = {
-		"insert-point": "_insert-point_1nkvf_5"
+		"insert-point": "_insert-point_wch35_3"
 	};
 
 /***/ },
@@ -29607,7 +29625,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	// module
-	exports.push([module.id, "/*613760*/\n/*$PX:      1/16rem;*/\n/* old was 165px */\n\n._insert-point_1nkvf_5 {\n  position:   absolute;\n  width:      6px;\n  height:     6px;\n  border-radius: 50%;\n  background: #FF512F;\n  margin-left: -3px;\n  margin-top:  -3px;\n}\n", ""]);
+	exports.push([module.id, "/*613760*/\n/*$PX:      1/16rem;*/\n/* old was 165px */\n\n._insert-point_wch35_3 {\n  position:   absolute;\n  width:      6px;\n  height:     6px;\n  border-radius: 50%;\n  background: #FF512F;\n  margin-left: -3px;\n  margin-top:  -3px;\n}\n", ""]);
 
 	// exports
 
@@ -29751,6 +29769,174 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = function (fn) {
 	  var unloadEvent = 'onpagehide' in window ? 'pagehide' : 'beforeunload';
 	  window.addEventListener(unloadEvent, fn);
+	};
+
+/***/ },
+/* 195 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _getOwnPropertyDescriptor = __webpack_require__(73);
+
+	var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
+
+	var _getPrototypeOf = __webpack_require__(78);
+
+	var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+	var _classCallCheck2 = __webpack_require__(82);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _createClass2 = __webpack_require__(83);
+
+	var _createClass3 = _interopRequireDefault(_createClass2);
+
+	var _possibleConstructorReturn2 = __webpack_require__(87);
+
+	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+	var _inherits2 = __webpack_require__(121);
+
+	var _inherits3 = _interopRequireDefault(_inherits2);
+
+	var _desc, _value, _class;
+
+	var _preact = __webpack_require__(3);
+
+	var _decko = __webpack_require__(129);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
+	  var desc = {};
+	  Object['ke' + 'ys'](descriptor).forEach(function (key) {
+	    desc[key] = descriptor[key];
+	  });
+	  desc.enumerable = !!desc.enumerable;
+	  desc.configurable = !!desc.configurable;
+
+	  if ('value' in desc || desc.initializer) {
+	    desc.writable = true;
+	  }
+
+	  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+	    return decorator(target, property, desc) || desc;
+	  }, desc);
+
+	  if (context && desc.initializer !== void 0) {
+	    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+	    desc.initializer = undefined;
+	  }
+
+	  if (desc.initializer === void 0) {
+	    Object['define' + 'Property'](target, property, desc);
+	    desc = null;
+	  }
+
+	  return desc;
+	}
+
+	var CLASSES = __webpack_require__(198);
+	__webpack_require__(196);
+
+	var Point = (_class = function (_Component) {
+	  (0, _inherits3.default)(Point, _Component);
+
+	  function Point() {
+	    (0, _classCallCheck3.default)(this, Point);
+	    return (0, _possibleConstructorReturn3.default)(this, (0, _getPrototypeOf2.default)(Point).apply(this, arguments));
+	  }
+
+	  (0, _createClass3.default)(Point, [{
+	    key: 'render',
+	    value: function render() {
+	      var state = this.props.state;
+	      var props = state.props;
+
+
+	      var style = {
+	        transform: 'translate(' + props.x + 'px, ' + props.y + 'px)'
+	      };
+
+	      return (0, _preact.h)('div', { style: style,
+	        className: this._getClassName(state),
+	        onClick: this._onClick,
+	        title: state.name,
+	        'data-component': 'point' });
+	    }
+	  }, {
+	    key: '_getClassName',
+	    value: function _getClassName(state) {
+	      var selectClass = state.isSelected ? CLASSES['is-selected'] : '';
+	      return CLASSES['point'] + ' ' + selectClass;
+	    }
+	  }, {
+	    key: '_onClick',
+	    value: function _onClick(e) {
+	      var state = this.props.state;
+	      var store = this.context.store;
+
+
+	      store.dispatch({ type: 'SELECT_POINT', data: state.id });
+	    }
+	  }]);
+	  return Point;
+	}(_preact.Component), (_applyDecoratedDescriptor(_class.prototype, '_onClick', [_decko.bind], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_onClick'), _class.prototype)), _class);
+	exports.default = Point;
+
+/***/ },
+/* 196 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(197);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(138)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/postcss-loader/index.js!./../../../node_modules/source-map-loader/index.js!./point.postcss.css", function() {
+				var newContent = require("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/postcss-loader/index.js!./../../../node_modules/source-map-loader/index.js!./point.postcss.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 197 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(137)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "/*613760*/\n/*$PX:      1/16rem;*/\n/* old was 165px */\n\n._point_mlokt_3 {\n  position:   absolute;\n  width:      6px;\n  height:     6px;\n  border-radius: 50%;\n  background: #FF512F;\n  margin-left: -3px;\n  margin-top:  -3px\n}\n\n._point_mlokt_3:after {\n  content:   '';\n  position:   absolute;\n  left:   50%;\n  top:   50%;\n  width:   150%;\n  height:   150%;\n  border:   1px solid #FF512F;\n  -webkit-transform:   translate(-50%, -50%);\n          transform:   translate(-50%, -50%);\n  /*margin-left: -($size - 100%);*/\n  /*margin-top: -($size - 100%);*/\n  border-radius:   50%;\n  opacity:   0\n}\n\n._point_mlokt_3._is-selected_mlokt_28 {}\n\n._point_mlokt_3._is-selected_mlokt_28:after {\n  opacity:   1\n}\n", ""]);
+
+	// exports
+
+
+/***/ },
+/* 198 */
+/***/ function(module, exports) {
+
+	module.exports = {
+		"point": "_point_mlokt_3",
+		"is-selected": "_is-selected_mlokt_28"
 	};
 
 /***/ }

@@ -1,13 +1,11 @@
 @import '../assets/globals.postcss.css';
 
-$pointSize: 6;
-
 .insert-point {
   position:   absolute;
-  width:      $pointSize*$PX;
-  height:     $pointSize*$PX;
+  width:      $POINT_SIZE*$PX;
+  height:     $POINT_SIZE*$PX;
   border-radius: 50%;
   background: $c-orange;
-  margin-left: -($pointSize/2)*$PX;
-  margin-top:  -($pointSize/2)*$PX;
+  margin-left: -($POINT_SIZE/2)*$PX;
+  margin-top:  -($POINT_SIZE/2)*$PX;
 }

@@ -9,3 +9,4 @@ $GS:      calc( 10 * $PX );
 $BRADIUS: calc( 3 * $PX );
 
 $LEFT_PANEL_WIDTH: 19.5*$GS; /* old was 165px */
+$POINT_SIZE: 6*$PX;
