@@ -1,0 +1,8 @@
+@import '../assets/globals.postcss.css';
+
+.point-timeline {
+  /*min-width:        100%;*/
+  min-height:   $POINT_LINE_HEIGHT + 2;
+  background:   rgba(255, 255, 255, .25);
+  margin-top:   10*$PX;
+}

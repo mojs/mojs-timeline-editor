@@ -8,6 +8,7 @@ $player-height: 40*$PX;
   width: 100%;
   height: 100*$PX;
   color: white;
+  background: $c-purple;
 
   &--transition {
     transition: height 0.4s;

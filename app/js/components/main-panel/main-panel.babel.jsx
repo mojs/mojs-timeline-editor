@@ -2,6 +2,7 @@ import { h, Component } from 'preact';
 import { bind } from 'decko';
 
 import LeftPanel from './left-panel';
+import BodyPanel from './body-panel';
 import RightPanel from './right-panel';
 import C from '../../constants';
 
@@ -27,10 +28,11 @@ class MainPanel extends Component {
                data-component="main-panel">
 
         <LeftPanel state={entireState} />
-        <RightPanel state={state}
+        <RightPanel state={entireState}
                     onResize={this._resizeHeight}
                     onResizeEnd={this._resizeHeightEnd}
                     onResizeStart={this._resizeHeightStart} />
+        <BodyPanel state={entireState} />
       </section>
     );
   }

@@ -1,0 +1,27 @@
+@import '../assets/globals.postcss.css';
+
+.body-panel {
+  position: absolute;
+  top: $TOP_PANELS_SIZE;
+  left: 0;
+  right: 0;
+  bottom: $PLAYER_SIZE;
+  z-index: 0;
+  background: $c-light-purple;
+  overflow: auto;
+
+  &__left,
+  &__right {
+    min-height: 100%;
+    padding-top: 1*$PX;
+  }
+  &__left {
+    float: left;
+    width: $LEFT_PANEL_WIDTH;
+    background: $c-purple;
+  }
+
+  &__right {
+    margin-left: $LEFT_PANEL_WIDTH;
+  }
+}

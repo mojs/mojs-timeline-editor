@@ -11,9 +11,11 @@ require('../../../css/blocks/right-panel');
 class RightPanel extends Component {
   render() {
     const {state} = this.props;
+    const {mainPanel, points} = state;
+
     return (
       <div className={CLASSES['right-panel']}>
-        <HideButton isHidden={state.isHidden} onTap={this._onHideButton} />
+        <HideButton isHidden={mainPanel.isHidden} onTap={this._onHideButton} />
         <ResizeHandle {...this.props} />
         <TimelinePanel time={15} />
       </div>

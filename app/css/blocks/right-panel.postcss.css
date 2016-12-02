@@ -3,10 +3,10 @@
 .right-panel {
   position: absolute;
   right: 0;
-  bottom: 0;
+  top: 0;
   left:   $LEFT_PANEL_WIDTH*$PX;
-  height: 100%;
+  z-index: 1;
+  /*height: 100%;*/
 
   color: $c-white;
-  background: $c-light-purple;
 }
