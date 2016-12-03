@@ -1,7 +1,5 @@
 @import '../assets/globals.postcss.css';
 
 .timelines-panel {
-  /*position: absolute;*/
-  /*top: 20*$PX;*/
-  /*width: 100%;*/
+  padding-top: 1*$PX;
 }

@@ -1,7 +1,7 @@
 import { h, Component } from 'preact';
 import { bind } from 'decko';
 
-import PointTimeline from './point-timeline';
+import PointTimelineLine from './point-timeline-line';
 
 const CLASSES = require('../../css/blocks/timelines-panel.postcss.css.json');
 require('../../css/blocks/timelines-panel');
@@ -20,7 +20,7 @@ class TimelinePanel extends Component {
     const results = [];
     for (let i = 0; i < state.length; i++) {
       results.push(
-        <PointTimeline state={state[i]} />
+        <PointTimelineLine state={state[i]} />
       );
     }
 

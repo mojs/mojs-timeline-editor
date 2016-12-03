@@ -6,6 +6,8 @@
   left: 0;
   right: 0;
   bottom: $PLAYER_SIZE;
+  /*border-bottom: 4*$PX solid rgba(0,0,0,.45);*/
+  /*box-shadow: inset 0 -2*$PX 3*$PX rgba(0,0,0,.5);*/
   z-index: 0;
   background: $c-light-purple;
   overflow: auto;

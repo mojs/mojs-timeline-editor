@@ -1,24 +1,33 @@
 import { h, Component } from 'preact';
 import {bind} from 'decko';
 
-const CLASSES = require('../../css/blocks/point-timeline.postcss.css.json');
+const CLASSES =
+      require('../../css/blocks/point-timeline.postcss.css.json');
 require('../../css/blocks/point-timeline');
 
 class PointTimeline extends Component {
   render () {
     const {state} = this.props;
-    // const {props} = state;
 
+    const spotClass = CLASSES['point-timeline__spot'];
     return (
-      <div  className={this._getClassName(state)}
-            data-component="point-timeline">
+      <div className={this._getClassName(this.props)}
+           data-component="point-timeline">
+        <div className={CLASSES['point-timeline__bar']}></div>
+        <div className={this._getSpotClassName()}></div>
+        <div className={this._getSpotClassName(true)}></div>
       </div>
     );
   }
 
-  _getClassName(state) {
-    const selectClass = (state.isSelected) ? CLASSES['is-selected']: '';
-    return `${CLASSES['point-timeline']} ${selectClass}`;
+  _getSpotClassName(isRight) {
+    const spotClass = CLASSES['point-timeline__spot'];
+    const rightClass = (isRight) ? CLASSES['point-timeline__spot--right'] : '';
+    return `${spotClass} ${rightClass}`;
+  }
+
+  _getClassName(props) {
+    return `${CLASSES['point-timeline']}`;
   }
 
 }

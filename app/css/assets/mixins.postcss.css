@@ -1,4 +1,4 @@
-$POINT_LINE_HEIGHT: 23*$PX;
+$POINT_LINE_HEIGHT: 24*$PX;
 
 @define-mixin pointLine {
   position:       relative;
@@ -10,10 +10,6 @@ $POINT_LINE_HEIGHT: 23*$PX;
   line-height:    $POINT_LINE_HEIGHT;
   background:     $c-purple;
   border-top:     1*$PX solid $c-light-purple;
-
-  /*&:last-child {
-    border-bottom: 1*$PX solid $c-light-purple;
-  }*/
 
   &.is-check {
     background: $c-white;

@@ -6,6 +6,7 @@
   top: 0;
   left:   $LEFT_PANEL_WIDTH*$PX;
   z-index: 1;
+  height: $POINT_LINE_HEIGHT;
   /*height: 100%;*/
 
   color: $c-white;

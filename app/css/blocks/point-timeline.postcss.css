@@ -1,8 +1,56 @@
 @import '../assets/globals.postcss.css';
 
 .point-timeline {
-  /*min-width:        100%;*/
-  min-height:   $POINT_LINE_HEIGHT + 2;
-  background:   rgba(255, 255, 255, .25);
-  margin-top:   10*$PX;
+  /*height:     $POINT_LINE_HEIGHT - 2;*/
+  height:     100%;
+  width:      200*$PX;
+  display:    inline-block;
+  position:   relative;
+  /*overflow:   hidden;*/
+
+  $size: 90%;
+  &__bar {
+    width: 100%;
+    height: $size;
+    background:     $c-creamy;
+    border-radius:  3*$PX;
+    position:       relative;
+    top:            (100% - $size);
+    box-shadow:     2*$PX 3*$PX 0 rgba(0,0,0,.5);
+  }
+
+  $size: 6*$PX;
+  &__spot {
+    width: $size;
+    height: $size;
+    background: $c-purple;
+    position: absolute;
+    top: 50%;
+    margin-top:  -($size/2);
+    margin-left: -($size/2);
+    cursor: pointer;
+
+    &--right {
+      right: -($size/2);
+    }
+
+    &:hover {
+      background: $c-light-purple;
+      outline: 1px solid $c-orange;
+    }
+
+    $size: 300%;
+    &:after {
+      content: '';
+      position:  absolute;
+      width:  $size;
+      height: $size;
+      margin-left: (100% - $size)/2;
+      margin-top:  (100% - $size)/2;
+    }
+
+    &.is-select {
+      background: $c-orange;
+    }
+  }
 }

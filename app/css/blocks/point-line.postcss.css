@@ -39,6 +39,7 @@
 .label {
   padding-left: 10*$PX;
   background: $c-purple;
+  height: $POINT_LINE_HEIGHT - 2;
   &:hover {
     background: $c-light-purple
   }
@@ -49,7 +50,7 @@
   /*padding-bottom: 1*$PX;*/
   background: $c-light-purple;
   height: auto;
-  padding-top: $POINT_LINE_HEIGHT;
+  padding-top: $POINT_LINE_HEIGHT - 2;
   display: none;
 }
 
@@ -58,7 +59,7 @@
   top:           0;
   right:         0;
   width:         $POINT_LINE_HEIGHT;
-  height:        $POINT_LINE_HEIGHT;
+  height:        $POINT_LINE_HEIGHT - 2;
   background:    inherit;
   border-left:   1px solid $c-light-purple;
   &__inner {
