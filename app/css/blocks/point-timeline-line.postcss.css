@@ -3,8 +3,7 @@
 .point-timeline-line {
   min-height:   $POINT_LINE_HEIGHT;
   margin-top:   10*$PX;
-  position:  relative;
-  padding-bottom: 3*$PX;
+  position:     relative;
 
   &__inner {
     display:        inline-block;
@@ -13,14 +12,12 @@
 
   &__header {
     width:   100%;
-    height:         $POINT_LINE_HEIGHT - 2;
-    /*margin-top:     1*$PX;*/
-    /*margin-bottom:  1*$PX;*/
+    height:         $POINT_LINE_HEIGHT;
     background:     $c-creamy;
     border-radius:  3*$PX;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
-    opacity:        .05;
+    opacity:        .2;
   }
 
   &__body {
@@ -29,7 +26,7 @@
   }
 
   &__property {
-    height:     $POINT_LINE_HEIGHT - 1;
+    height:     $POINT_LINE_HEIGHT;
   }
 
   &:last-child {
@@ -39,7 +36,6 @@
   &.is-open {
     .point-timeline-line {
       &__body {
-        /*display: inline-block;*/
         height: auto;
         overflow: visible;
       }

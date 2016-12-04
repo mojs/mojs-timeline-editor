@@ -11,9 +11,15 @@ class PropertyLine extends Component {
     return (
       <div className={CLASSES['property-line']}>
         <div className={CLASSES['label']}>{p.name}</div>
-        <input className={CLASSES['input']} value={p.value} />
+        <input className={CLASSES['input']} value={this._getValue(p)} />
       </div>
     );
+  }
+
+  _getValue(p) {
+    const {value} = p;
+    const current = value.spots[value.currentSpot];
+    return current.value;
   }
 }
 

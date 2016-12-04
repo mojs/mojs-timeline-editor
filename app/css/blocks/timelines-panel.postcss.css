@@ -1,5 +1,6 @@
 @import '../assets/globals.postcss.css';
 
 .timelines-panel {
-  padding-top: 1*$PX;
+  display:     inline-block;
+  min-width:   100%;
 }

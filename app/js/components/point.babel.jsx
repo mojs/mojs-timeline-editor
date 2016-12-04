@@ -8,10 +8,12 @@ class Point extends Component {
   render () {
     const {state} = this.props;
     const {props} = state;
+    const [x, y]  = this._getCoords(props);
 
     const style = {
-      transform: `translate(${props.x}px, ${props.y}px)`
+      transform: `translate(${x}px, ${y}px)`
     };
+
 
     return (
       <div  style={style}
@@ -20,6 +22,11 @@ class Point extends Component {
             title={state.name}
             data-component="point"></div>
     );
+  }
+
+  _getCoords(props) {
+    const {x, y} = props;
+    return [ x.spots[x.currentSpot].value, y.spots[y.currentSpot].value ];
   }
 
   _getClassName(state) {

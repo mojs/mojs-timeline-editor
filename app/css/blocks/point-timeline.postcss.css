@@ -1,21 +1,23 @@
 @import '../assets/globals.postcss.css';
 
 .point-timeline {
-  /*height:     $POINT_LINE_HEIGHT - 2;*/
+  /*height:     $POINT_LINE_HEIGHT;*/
   height:     100%;
-  width:      200*$PX;
+  /*width:      200*$PX;*/
   display:    inline-block;
+  vertical-align: top;
   position:   relative;
-  /*overflow:   hidden;*/
+  font-size:  1px;
+  /*opacity:   .25;*/
 
-  $size: 90%;
+  $size: 80%;
   &__bar {
     width: 100%;
     height: $size;
     background:     $c-creamy;
     border-radius:  3*$PX;
     position:       relative;
-    top:            (100% - $size);
+    top:            (100% - $size)/2;
     box-shadow:     2*$PX 3*$PX 0 rgba(0,0,0,.5);
   }
 

@@ -7,11 +7,14 @@ require('../../css/blocks/point-timeline');
 
 class PointTimeline extends Component {
   render () {
-    const {state} = this.props;
+    const {duration} = this.props;
+
+    const style = { width: `${duration/10}em` };
 
     const spotClass = CLASSES['point-timeline__spot'];
     return (
-      <div className={this._getClassName(this.props)}
+      <div style={style}
+           className={this._getClassName(this.props)}
            data-component="point-timeline">
         <div className={CLASSES['point-timeline__bar']}></div>
         <div className={this._getSpotClassName()}></div>
