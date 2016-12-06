@@ -33,6 +33,28 @@ const selectPoint = (state, id) => {
   return newState;
 };
 
+const shiftSpot = (state, data) => {
+  const newState = [];
+  for (let i = 0; i < state.length; i++) {
+    const newPoint = { ...state[i] };
+    newState[i] = newPoint;
+    // console.log(newPoint.props.x.spots[2]);
+    if (newPoint.id === data.id) {
+      const prop = { ...newPoint.props[data.prop] };
+      newPoint.props[data.prop] = prop;
+      const spots = [...prop.spots];
+      prop.spots = spots;
+      for (let j = data.spotIndex; j < spots.length; j++) {
+        const spot = { ...spots[j] };
+        spot.time += data.value;
+        spots[j] = spot;
+      }
+    }
+    // console.log(newPoint.props.x.spots[2]);
+  }
+  return newState;
+};
+
 const insertPoint = (state=INITIAL_STATE, action) => {
   const {data} = action;
 
@@ -50,6 +72,10 @@ const insertPoint = (state=INITIAL_STATE, action) => {
 
   case 'SELECT_POINT': {
     return selectPoint(state, data);
+  }
+
+  case 'SHIFT_SPOT': {
+    return shiftSpot(state, data);
   }
 
   }

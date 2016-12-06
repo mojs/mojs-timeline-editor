@@ -18,9 +18,7 @@ class PointTimelineLine extends Component {
         <div className={CLASSES['point-timeline-line__inner']}>
           <div className={CLASSES['point-timeline-line__header']}></div>
           <div className={CLASSES['point-timeline-line__body']}>
-
             { this._renderProperties(state) }
-
           </div>
         </div>
       </div>
@@ -34,36 +32,26 @@ class PointTimelineLine extends Component {
     const keys = Object.keys(props);
     for (let i = 0; i < keys.length; i++) {
       const key = keys[i];
-      results.push( this._renderProperty(props[key]) );
+      results.push( this._renderProperty(key, props[key]) );
     }
-
-    // <div className={CLASSES['point-timeline-line__property']}>
-    //   <PointTimeline state={state} />
-    //   <PointTimeline state={state} />
-    //   <PointTimeline state={state} />
-    //   <PointTimeline state={state} />
-    // </div>
-    //
-    // <div className={CLASSES['point-timeline-line__property']}>
-    //   <PointTimeline state={state} />
-    // </div>
-
     return results;
   }
 
-  _renderProperty(prop) {
+  _renderProperty(key, prop) {
+    const {state} = this.props;
     const {spots} = prop;
     const results = [];
 
-    for (let i = 0; i < spots.length-1; i++) {
-      const prevSpot = spots[i-1];
+    let prevSpot = spots[0];
+    for (let i = 1; i < spots.length; i++) {
       const spot = spots[i];
-      const nextSpot = spots[i+1];
-
-      const start = (i === 0) ? spot.time : prevSpot.time;
-      const end = (i === 0) ? nextSpot.time : spot.time;
-
-      results.push( <PointTimeline duration={end-start} /> );
+      const start = prevSpot.time;
+      const end = spot.time;
+      const meta = { id: state.id, prop: key, spotIndex: i };
+      results.push(
+        <PointTimeline duration={end-start} meta={meta} start={start} end={end} />
+      );
+      prevSpot = spot;
     }
 
     return (

@@ -15,7 +15,7 @@ export default (data, i=0) => {
         spots: [
           { value: x || 0, time: time || 0 },
           { value: 100, time: time || parseInt(Math.random()*2000, 10) },
-          { value: 150, time: time || parseInt(Math.random()*4000, 10) }
+          { value: 150, time: time || parseInt(2000 + Math.random()*4000, 10) }
         ]
       },
       y: {
@@ -23,7 +23,7 @@ export default (data, i=0) => {
         spots: [
           { value: y || 0, time: time || 0 },
           { value: 200, time: time || parseInt(Math.random()*1500, 10) },
-          { value: 300, time: time || parseInt(Math.random()*3000, 10) }
+          { value: 300, time: time || parseInt(1500 + Math.random()*3000, 10) }
         ]
       }
     }

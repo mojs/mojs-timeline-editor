@@ -11,7 +11,7 @@
   }
 
   &__header {
-    width:   100%;
+    width:           100%;
     height:         $POINT_LINE_HEIGHT;
     background:     $c-creamy;
     border-radius:  3*$PX;

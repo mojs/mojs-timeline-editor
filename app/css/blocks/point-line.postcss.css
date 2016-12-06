@@ -10,6 +10,7 @@
     position: absolute;
     left:     0;
     right:    $POINT_LINE_HEIGHT;
+    line-height: $POINT_LINE_HEIGHT - 3;
   }
 
   &.is-check {

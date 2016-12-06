@@ -1,14 +1,11 @@
 @import '../assets/globals.postcss.css';
 
 .point-timeline {
-  /*height:     $POINT_LINE_HEIGHT;*/
   height:     100%;
-  /*width:      200*$PX;*/
   display:    inline-block;
   vertical-align: top;
   position:   relative;
   font-size:  1px;
-  /*opacity:   .25;*/
 
   $size: 80%;
   &__bar {
@@ -31,9 +28,11 @@
     margin-top:  -($size/2);
     margin-left: -($size/2);
     cursor: pointer;
+    display: none;
 
     &--right {
       right: -($size/2);
+      display: block;
     }
 
     &:hover {
@@ -53,6 +52,12 @@
 
     &.is-select {
       background: $c-orange;
+    }
+  }
+
+  &:first-child {
+    .point-timeline__spot {
+      display: block;
     }
   }
 }
