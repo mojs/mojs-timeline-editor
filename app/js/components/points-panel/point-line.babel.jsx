@@ -42,7 +42,7 @@ class PointLine extends Component {
     for (let i = 0; i < names.length; i++) {
       const name = names[i];
       results.push(
-        <PropertyLine id={state.id} name={name} value={props[name]} />
+        <PropertyLine id={state.id} name={name} state={state} />
       );
     }
 

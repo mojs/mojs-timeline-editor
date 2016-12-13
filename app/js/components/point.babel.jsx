@@ -7,13 +7,12 @@ require('../../css/blocks/point');
 class Point extends Component {
   render () {
     const {state} = this.props;
-    const {props} = state;
-    const [x, y]  = this._getCoords(props);
+    // const {props} = state;
+    const [x, y]  = this._getCoords(state);
 
     const style = {
       transform: `translate(${x}px, ${y}px)`
     };
-
 
     return (
       <div  style={style}
@@ -24,9 +23,10 @@ class Point extends Component {
     );
   }
 
-  _getCoords(props) {
-    const {x, y} = props;
-    return [ x.spots[x.currentSpot].value, y.spots[y.currentSpot].value ];
+  _getCoords(state) {
+    const {x, y} = state.currentProps;
+
+    return [ x, y ];
   }
 
   _getClassName(state) {

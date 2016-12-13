@@ -30,4 +30,3 @@ export default (store) => {
     } catch (e) { console.error(e); }
   }
 };
-

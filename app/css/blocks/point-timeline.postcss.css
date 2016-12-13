@@ -1,5 +1,6 @@
 @import '../assets/globals.postcss.css';
 
+$borderRadius: 3*$PX;
 .point-timeline {
   height:     100%;
   display:    inline-block;
@@ -12,10 +13,22 @@
     width: 100%;
     height: $size;
     background:     $c-creamy;
-    border-radius:  3*$PX;
+    border-radius:  $borderRadius;
     position:       relative;
     top:            (100% - $size)/2;
     box-shadow:     2*$PX 3*$PX 0 rgba(0,0,0,.5);
+    overflow:       hidden;
+  }
+
+  &__delay {
+    /*background: rgba(87,45,86,.4);*/
+    background: #BCA5AA;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    z-index: 1;
+    border-top-left-radius: $borderRadius;
+    border-bottom-left-radius: $borderRadius;
   }
 
   $size: 6*$PX;
@@ -28,17 +41,38 @@
     margin-top:  -($size/2);
     margin-left: -($size/2);
     cursor: pointer;
-    display: none;
+    transform: rotate(45deg);
+    /*display: none;*/
 
     &--right {
       right: -($size/2);
       display: block;
     }
 
-    &:hover {
+    &:hover,
+    &:active {
       background: $c-light-purple;
-      outline: 1px solid $c-orange;
+      outline: 1*$PX solid $c-orange;
+      outline: 2*$PX solid #BCA5AA;
+
+      /*&:before {
+        opacity: 1;
+      }*/
     }
+
+    /*&:before {
+      content: '';
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      background: $c-orange;
+      z-index: -1;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      cursor: pointer;
+      opacity: 0;
+    }*/
 
     $size: 300%;
     &:after {
@@ -48,16 +82,19 @@
       height: $size;
       margin-left: (100% - $size)/2;
       margin-top:  (100% - $size)/2;
+      transform: rotate(45deg);
+      user-select: none;
     }
+
 
     &.is-select {
       background: $c-orange;
     }
   }
 
-  &:first-child {
+  /*&:first-child {
     .point-timeline__spot {
       display: block;
     }
-  }
+  }*/
 }

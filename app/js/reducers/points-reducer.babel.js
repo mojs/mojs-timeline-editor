@@ -38,19 +38,17 @@ const shiftSpot = (state, data) => {
   for (let i = 0; i < state.length; i++) {
     const newPoint = { ...state[i] };
     newState[i] = newPoint;
-    // console.log(newPoint.props.x.spots[2]);
     if (newPoint.id === data.id) {
       const prop = { ...newPoint.props[data.prop] };
       newPoint.props[data.prop] = prop;
       const spots = [...prop.spots];
       prop.spots = spots;
-      for (let j = data.spotIndex; j < spots.length; j++) {
-        const spot = { ...spots[j] };
-        spot.time += data.value;
-        spots[j] = spot;
-      }
+      const i = data.spotIndex;
+      spots[i].duration += data.duration || 0;
+      spots[i].delay    += data.delay || 0;
+      spots[i].duration = Math.max(spots[i].duration, 40);
+      spots[i].delay    = Math.max(spots[i].delay, 0);
     }
-    // console.log(newPoint.props.x.spots[2]);
   }
   return newState;
 };

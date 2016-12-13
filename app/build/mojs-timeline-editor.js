@@ -22497,19 +22497,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	  for (var i = 0; i < state.length; i++) {
 	    var newPoint = (0, _extends3.default)({}, state[i]);
 	    newState[i] = newPoint;
-	    // console.log(newPoint.props.x.spots[2]);
 	    if (newPoint.id === data.id) {
 	      var prop = (0, _extends3.default)({}, newPoint.props[data.prop]);
 	      newPoint.props[data.prop] = prop;
 	      var spots = [].concat((0, _toConsumableArray3.default)(prop.spots));
 	      prop.spots = spots;
-	      for (var j = data.spotIndex; j < spots.length; j++) {
-	        var spot = (0, _extends3.default)({}, spots[j]);
-	        spot.time += data.value;
-	        spots[j] = spot;
-	      }
+	      var _i = data.spotIndex;
+	      spots[_i].duration += data.duration || 0;
+	      spots[_i].delay += data.delay || 0;
+	      spots[_i].duration = Math.max(spots[_i].duration, 40);
+	      spots[_i].delay = Math.max(spots[_i].delay, 0);
 	    }
-	    // console.log(newPoint.props.x.spots[2]);
 	  }
 	  return newState;
 	};
@@ -23032,11 +23030,24 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	var createSpot = function createSpot() {
+	  var o = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+	  return {
+	    currentValue: o.currentValue || 0,
+	    startValue: o.startValue || 0,
+	    endValue: o.endValue || 0,
+	    delay: o.delay || parseInt(Math.random() * 500, 10),
+	    duration: o.duration || 500 + parseInt(Math.random() * 2000, 10),
+	    isSelected: o.isSelected || false,
+	    connected: o.connected || null
+	  };
+	};
+
 	exports.default = function (data) {
 	  var i = arguments.length <= 1 || arguments[1] === undefined ? 0 : arguments[1];
 	  var x = data.x;
 	  var y = data.y;
-	  var time = data.time;
 	  var name = data.name;
 
 
@@ -23045,14 +23056,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	    name: name || 'point' + (i + 1),
 	    isOpen: true,
 	    isSelected: true,
+	    currentProps: { x: x, y: y },
 	    props: {
 	      x: {
 	        currentSpot: 0,
-	        spots: [{ value: x || 0, time: time || 0 }, { value: 100, time: time || parseInt(Math.random() * 2000, 10) }, { value: 150, time: time || parseInt(2000 + Math.random() * 4000, 10) }]
+	        spots: [createSpot({ startValue: x }), createSpot(), createSpot()]
 	      },
 	      y: {
 	        currentSpot: 0,
-	        spots: [{ value: y || 0, time: time || 0 }, { value: 200, time: time || parseInt(Math.random() * 1500, 10) }, { value: 300, time: time || parseInt(1500 + Math.random() * 3000, 10) }]
+	        spots: [createSpot({ startValue: y }), createSpot(), createSpot()]
 	      }
 	    }
 	  };
@@ -23563,7 +23575,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var store = this.context.store;
 	      var controls = this._state.controls;
 
-	      console.log();
 
 	      if (controls.isMouseInside) {
 	        store.dispatch({ type: 'CONTROLS_SET_MOUSE_INSIDE', data: false });
@@ -24838,6 +24849,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	            href: 'https://github.com/legomushroom/mojs-timeline-editor/',
 	            target: '_blank' },
 	          (0, _preact.h)(_icon2.default, { shape: 'mojs-logo' })
+	        ),
+	        (0, _preact.h)(
+	          _button2.default,
+	          { className: CLASSES['button'] + ' ' + CLASSES['is-link'] },
+	          (0, _preact.h)(_icon2.default, { shape: 'link' })
 	        )
 	      );
 	    }
@@ -24935,10 +24951,11 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports) {
 
 	module.exports = {
-		"tools-panel": "_tools-panel_1ms4h_4",
-		"button": "_button_1ms4h_13",
-		"is-active": "_is-active_1ms4h_29",
-		"is-logo": "_is-logo_1ms4h_35"
+		"tools-panel": "_tools-panel_1ys7p_4",
+		"button": "_button_1ys7p_13",
+		"is-active": "_is-active_1ys7p_29",
+		"is-logo": "_is-logo_1ys7p_35",
+		"is-link": "_is-link_1ys7p_44"
 	};
 
 /***/ },
@@ -24976,7 +24993,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	// module
-	exports.push([module.id, "/*613760*/\n/*$PX:      1/16rem;*/\n/* old was 165px */\n._tools-panel_1ms4h_4 {\n  height:         22px;\n  background:     #3A0839;\n  box-shadow:     0 2px 4px rgba(0, 0, 0, 0.5);\n  padding-right:  5px;\n  position:       relative;\n  z-index:        1;\n}\n\n._button_1ms4h_13 {\n  position:     relative;\n  height:       22px;\n  line-height:  23px;\n  float:        left;\n  font-size:    7px;\n  font-weight:  bold;\n  letter-spacing: 0.5px;\n  padding:      0 7px;\n  fill:         white;\n  -webkit-user-select:  none;\n     -moz-user-select:  none;\n      -ms-user-select:  none;\n          user-select:  none;\n}\n\n._button_1ms4h_13 [data-component=\"icon\"] {\n  fill:       inherit;\n  display:    inline-block;\n  vertical-align: middle;\n  position:   relative;\n  top:         -1px;\n  width:       6px;\n  height:      6px;\n}\n\n._button_1ms4h_13:hover {\n  cursor:         pointer;\n  background:         #512750;\n}\n\n._button_1ms4h_13:active, ._button_1ms4h_13._is-active_1ms4h_29 {\n  background:         white;\n  color:         #3A0839;\n  fill:         #3A0839;\n}\n\n._button_1ms4h_13._is-logo_1ms4h_35 {\n  float:         right;\n  fill:         #FF512F;\n}\n\n._button_1ms4h_13._is-logo_1ms4h_35 [data-component=\"icon\"] {\n  width:         8px;\n  height:         8px;\n}\n", ""]);
+	exports.push([module.id, "/*613760*/\n/*$PX:      1/16rem;*/\n/* old was 165px */\n._tools-panel_1ys7p_4 {\n  height:         22px;\n  background:     #3A0839;\n  box-shadow:     0 2px 4px rgba(0, 0, 0, 0.5);\n  padding-right:  5px;\n  position:       relative;\n  z-index:        1;\n}\n\n._button_1ys7p_13 {\n  position:     relative;\n  height:       22px;\n  line-height:  23px;\n  float:        left;\n  font-size:    7px;\n  font-weight:  bold;\n  letter-spacing: 0.5px;\n  padding:      0 7px;\n  fill:         white;\n  -webkit-user-select:  none;\n     -moz-user-select:  none;\n      -ms-user-select:  none;\n          user-select:  none;\n}\n\n._button_1ys7p_13 [data-component=\"icon\"] {\n  fill:       inherit;\n  display:    inline-block;\n  vertical-align: middle;\n  position:   relative;\n  top:         -1px;\n  width:       6px;\n  height:      6px;\n}\n\n._button_1ys7p_13:hover {\n  cursor:         pointer;\n  background:         #512750;\n}\n\n._button_1ys7p_13:active, ._button_1ys7p_13._is-active_1ys7p_29 {\n  background:         white;\n  color:         #3A0839;\n  fill:         #3A0839;\n}\n\n._button_1ys7p_13._is-logo_1ys7p_35 {\n  float:         right;\n  fill:         #FF512F;\n}\n\n._button_1ys7p_13._is-logo_1ys7p_35 [data-component=\"icon\"] {\n  width:         8px;\n  height:         8px;\n}\n\n._button_1ys7p_13._is-link_1ys7p_44 {\n  float:         right;\n  fill:         #FFFFFF;\n}\n\n._button_1ys7p_13._is-link_1ys7p_44 [data-component=\"icon\"] {\n  width:         8px;\n  height:         8px;\n}\n", ""]);
 
 	// exports
 
@@ -25808,7 +25825,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	      for (var i = 0; i < names.length; i++) {
 	        var name = names[i];
-	        results.push((0, _preact.h)(_propertyLine2.default, { id: state.id, name: name, value: props[name] }));
+	        results.push((0, _preact.h)(_propertyLine2.default, { id: state.id, name: name, state: state }));
 	      }
 
 	      return results;
@@ -25929,10 +25946,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: '_getValue',
 	    value: function _getValue(p) {
-	      var value = p.value;
+	      var name = p.name;
+	      var state = p.state;
+	      var currentProps = state.currentProps;
 
-	      var current = value.spots[value.currentSpot];
-	      return current.value;
+
+	      return currentProps[name];
 	    }
 	  }]);
 	  return PropertyLine;
@@ -26271,12 +26290,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var results = [];
 
 	      var prevSpot = spots[0];
-	      for (var i = 1; i < spots.length; i++) {
+	      for (var i = 0; i < spots.length; i++) {
 	        var spot = spots[i];
-	        var start = prevSpot.time;
-	        var end = spot.time;
 	        var meta = { id: state.id, prop: key, spotIndex: i };
-	        results.push((0, _preact.h)(_pointTimeline2.default, { duration: end - start, meta: meta, start: start, end: end }));
+	        results.push((0, _preact.h)(_pointTimeline2.default, { duration: spot.duration, delay: spot.delay, meta: meta }));
 	        prevSpot = spot;
 	      }
 
@@ -26359,8 +26376,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    key: 'getInitialState',
 	    value: function getInitialState() {
 	      return {
-	        // deltaX1: 0,
-	        deltaX2: 0
+	        dDuration: 0,
+	        dDelay: 0
 	      };
 	    }
 	  }, {
@@ -26371,35 +26388,44 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var _props = this.props;
 	      var duration = _props.duration;
 	      var meta = _props.meta;
-	      var start = _props.start;
-	      var end = _props.end;
+	      var delay = _props.delay;
 
-	      // if (meta.prop === 'x') {
-	      //   console.log(`duration: ${duration}, end: ${end}`);
-	      // }
+
+	      delay /= 10;
+	      delay += this.state.dDelay;
+	      delay = Math.max(delay, 0);
 
 	      duration /= 10;
-	      duration += this.state.deltaX2;
+	      duration += this.state.dDuration;
+	      // duration = Math.max(duration, 40/10);
 
-	      var style = { width: duration + 'em' };
-
+	      var style = { width: duration + delay + 'em' };
+	      var delayStyle = { width: delay + 'em' };
+	      var spotStyle = { transform: 'translate(' + delay + 'em, 0) rotate(45deg)' };
 	      var spotClass = CLASSES['point-timeline__spot'];
+
 	      return (0, _preact.h)(
 	        'div',
 	        { style: style,
 	          className: this._getClassName(this.props),
 	          'data-component': 'point-timeline' },
-	        (0, _preact.h)('div', { className: CLASSES['point-timeline__bar'] }),
-	        (0, _preact.h)('div', { ref: function ref(el) {
-	            _this2._leftSpot = el;
-	          },
-	          className: this._getSpotClassName() }),
-	        (0, _preact.h)('div', { ref: function ref(el) {
-	            _this2._rightSpot = el;
-	          },
-	          className: this._getSpotClassName(true),
-	          style: { zIndex: 50 - meta.spotIndex }
-	        })
+	        (0, _preact.h)(
+	          'div',
+	          { className: CLASSES['point-timeline__bar'] },
+	          (0, _preact.h)('div', { style: delayStyle,
+	            className: CLASSES['point-timeline__delay'] }),
+	          (0, _preact.h)('div', { ref: function ref(el) {
+	              _this2._leftSpot = el;
+	            },
+	            style: spotStyle,
+	            className: this._getSpotClassName() }),
+	          (0, _preact.h)('div', { ref: function ref(el) {
+	              _this2._rightSpot = el;
+	            },
+	            className: this._getSpotClassName(true),
+	            style: { zIndex: 50 - meta.spotIndex }
+	          })
+	        )
 	      );
 	    }
 	  }, {
@@ -26426,23 +26452,28 @@ return /******/ (function(modules) { // webpackBootstrap
 	      mcLeft.get('pan').set({ direction: _hammerjs2.default.DIRECTION_HORIZONTAL });
 	      mcRight.get('pan').set({ direction: _hammerjs2.default.DIRECTION_HORIZONTAL });
 
-	      // mcLeft.on('pan', (e) => { this._pan(e, 'left'); });
 	      mcRight.on('pan', function (e) {
 	        _this3._pan(e, 'right');
 	      });
 	      mcRight.on('panend', function (e) {
 	        _this3._panEnd(e, 'right');
 	      });
+
+	      mcLeft.on('pan', function (e) {
+	        _this3._pan(e, 'left');
+	      });
+	      mcLeft.on('panend', function (e) {
+	        _this3._panEnd(e, 'left');
+	      });
 	    }
 	  }, {
 	    key: '_pan',
 	    value: function _pan(e, direction) {
-	      // if (direction === 'left') {
-	      //   this.setState({ deltaX1: e.deltaX });
-	      // }
-
 	      if (direction === 'right') {
-	        this.setState({ deltaX2: e.deltaX });
+	        this.setState({ dDuration: e.deltaX });
+	      }
+	      if (direction === 'left') {
+	        this.setState({ dDelay: e.deltaX });
 	      }
 	    }
 	  }, {
@@ -26456,14 +26487,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	        store.dispatch({
 	          type: 'SHIFT_SPOT',
 	          data: (0, _extends3.default)({
-	            value: this.state.deltaX2 * 10
+	            duration: this.state.dDuration * 10
 	          }, meta, {
 	            spotIndex: meta.spotIndex
 	          })
 	        });
-
-	        this.setState({ deltaX2: 0 });
 	      }
+
+	      if (direction === 'left') {
+	        store.dispatch({
+	          type: 'SHIFT_SPOT',
+	          data: (0, _extends3.default)({
+	            delay: this.state.dDelay * 10
+	          }, meta, {
+	            spotIndex: meta.spotIndex
+	          })
+	        });
+	      }
+
+	      this.setState({ dDuration: 0, dDelay: 0 });
 	    }
 	  }]);
 	  return PointTimeline;
@@ -29125,11 +29167,12 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports) {
 
 	module.exports = {
-		"point-timeline": "_point-timeline_1gl6d_3",
-		"point-timeline__bar": "_point-timeline__bar_1gl6d_1",
-		"point-timeline__spot": "_point-timeline__spot_1gl6d_59",
-		"point-timeline__spot--right": "_point-timeline__spot--right_1gl6d_1",
-		"is-select": "_is-select_1gl6d_53"
+		"point-timeline": "_point-timeline_449hi_4",
+		"point-timeline__bar": "_point-timeline__bar_449hi_1",
+		"point-timeline__delay": "_point-timeline__delay_449hi_1",
+		"point-timeline__spot": "_point-timeline__spot_449hi_96",
+		"point-timeline__spot--right": "_point-timeline__spot--right_449hi_1",
+		"is-select": "_is-select_449hi_90"
 	};
 
 /***/ },
@@ -29167,7 +29210,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	// module
-	exports.push([module.id, "/*613760*/\n/*$PX:      1/16rem;*/\n/* old was 165px */\n\n._point-timeline_1gl6d_3 {\n  height:     100%;\n  display:    inline-block;\n  vertical-align: top;\n  position:   relative;\n  font-size:  1px\n}\n\n._point-timeline__bar_1gl6d_1 {\n  width:     100%;\n  height:     80%;\n  background:     #FFF5E3;\n  border-radius:     3px;\n  position:     relative;\n  top:     10%;\n  box-shadow:     2px 3px 0 rgba(0, 0, 0, 0.5)\n}\n\n._point-timeline__spot_1gl6d_59 {\n  width:     6px;\n  height:     6px;\n  background:     #3A0839;\n  position:     absolute;\n  top:     50%;\n  margin-top:     -3px;\n  margin-left:     -3px;\n  cursor:     pointer;\n  display:     none\n}\n\n._point-timeline__spot--right_1gl6d_1 {\n  right:     -3px;\n  display:     block\n}\n\n._point-timeline__spot_1gl6d_59:hover {\n  background:     #512750;\n  outline:     1px solid #FF512F\n}\n\n._point-timeline__spot_1gl6d_59:after {\n  content:     '';\n  position:     absolute;\n  width:     300%;\n  height:     300%;\n  margin-left:     -100%;\n  margin-top:     -100%\n}\n\n._point-timeline__spot_1gl6d_59._is-select_1gl6d_53 {\n  background:     #FF512F\n}\n\n._point-timeline_1gl6d_3:first-child ._point-timeline__spot_1gl6d_59 {\n  display:     block\n}\n", ""]);
+	exports.push([module.id, "/*613760*/\n\n/*$PX:      1/16rem;*/\n\n/* old was 165px */\n._point-timeline_449hi_4 {\n  height:     100%;\n  display:    inline-block;\n  vertical-align: top;\n  position:   relative;\n  font-size:  1px\n\n  /*&:first-child {\n    .point-timeline__spot {\n      display: block;\n    }\n  }*/\n}\n._point-timeline__bar_449hi_1 {\n  width:     100%;\n  height:     80%;\n  background:     #FFF5E3;\n  border-radius:     3px;\n  position:     relative;\n  top:     10%;\n  box-shadow:     2px 3px 0 rgba(0, 0, 0, 0.5);\n  overflow:     hidden\n}\n._point-timeline__delay_449hi_1 {\n\n  /*background: rgba(87,45,86,.4);*/\n  background:     #BCA5AA;\n  height:     100%;\n  position:     absolute;\n  left:     0;\n  z-index:     1;\n  border-top-left-radius:     3px;\n  border-bottom-left-radius:     3px\n}\n._point-timeline__spot_449hi_96 {\n  width:     6px;\n  height:     6px;\n  background:     #3A0839;\n  position:     absolute;\n  top:     50%;\n  margin-top:     -3px;\n  margin-left:     -3px;\n  cursor:     pointer;\n  -webkit-transform:     rotate(45deg);\n          transform:     rotate(45deg)\n\n  /*display: none;*/\n\n  /*&:before {\n      content: '';\n      position: absolute;\n      width: 200%;\n      height: 200%;\n      background: $c-orange;\n      z-index: -1;\n      left: 50%;\n      top: 50%;\n      transform: translate(-50%, -50%);\n      cursor: pointer;\n      opacity: 0;\n    }*/\n}\n._point-timeline__spot--right_449hi_1 {\n  right:     -3px;\n  display:     block\n}\n._point-timeline__spot_449hi_96:hover, ._point-timeline__spot_449hi_96:active {\n  background:     #512750;\n  outline:     1px solid #FF512F;\n  outline:     2px solid #BCA5AA\n\n  /*&:before {\n        opacity: 1;\n      }*/\n}\n._point-timeline__spot_449hi_96:after {\n  content:     '';\n  position:     absolute;\n  width:     300%;\n  height:     300%;\n  margin-left:     -100%;\n  margin-top:     -100%;\n  -webkit-transform:     rotate(45deg);\n          transform:     rotate(45deg);\n  -webkit-user-select:     none;\n     -moz-user-select:     none;\n      -ms-user-select:     none;\n          user-select:     none\n}\n._point-timeline__spot_449hi_96._is-select_449hi_90 {\n  background:     #FF512F\n}\n", ""]);
 
 	// exports
 
@@ -29230,7 +29273,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports) {
 
 	module.exports = {
-		"timelines-panel": "_timelines-panel_1vnw3_3"
+		"timelines-panel": "_timelines-panel_12eku_3"
 	};
 
 /***/ },
@@ -29268,7 +29311,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	// module
-	exports.push([module.id, "/*613760*/\n/*$PX:      1/16rem;*/\n/* old was 165px */\n\n._timelines-panel_1vnw3_3 {\n  display:     inline-block;\n  min-width:   100%;\n}\n", ""]);
+	exports.push([module.id, "/*613760*/\n/*$PX:      1/16rem;*/\n/* old was 165px */\n\n._timelines-panel_12eku_3 {\n  display:     inline-block;\n  /*min-width:   100%;*/\n  min-width:   1600px;\n  min-height:  100%;\n}\n", ""]);
 
 	// exports
 
@@ -29278,9 +29321,9 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports) {
 
 	module.exports = {
-		"body-panel": "_body-panel_16ul6_3",
-		"body-panel__left": "_body-panel__left_16ul6_1",
-		"body-panel__right": "_body-panel__right_16ul6_1"
+		"body-panel": "_body-panel_1plp0_3",
+		"body-panel__left": "_body-panel__left_1plp0_1",
+		"body-panel__right": "_body-panel__right_1plp0_1"
 	};
 
 /***/ },
@@ -29318,7 +29361,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	// module
-	exports.push([module.id, "/*613760*/\n/*$PX:      1/16rem;*/\n/* old was 165px */\n\n._body-panel_16ul6_3 {\n  position: absolute;\n  top: 22px;\n  left: 0;\n  right: 0;\n  bottom: 40px;\n  z-index: 0;\n  overflow: auto\n}\n\n._body-panel__left_16ul6_1, ._body-panel__right_16ul6_1 {\n  min-height: 100%;\n  padding-top: 1px\n}\n\n._body-panel__left_16ul6_1 {\n  float: left;\n  width: 195px;\n  background: #3A0839\n}\n\n._body-panel__right_16ul6_1 {\n  margin-left: 195px;\n  background: #512750\n}\n", ""]);
+	exports.push([module.id, "/*613760*/\n/*$PX:      1/16rem;*/\n/* old was 165px */\n\n._body-panel_1plp0_3 {\n  position: absolute;\n  top: 22px;\n  left: 0;\n  right: 0;\n  bottom: 40px;\n  z-index: 0;\n  overflow: auto\n}\n\n._body-panel__left_1plp0_1, ._body-panel__right_1plp0_1 {\n  min-height: 100%;\n  padding-top: 1px\n}\n\n._body-panel__left_1plp0_1 {\n  float: left;\n  width: 195px;\n  background: #3A0839\n}\n\n._body-panel__right_1plp0_1 {\n  margin-left: 195px;\n  background: #512750;\n  min-height: 100%;\n  overflow: auto\n  /*min-width: 1600*$PX*/\n}\n", ""]);
 
 	// exports
 
@@ -30331,7 +30374,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _preact = __webpack_require__(3);
 
 	var Icons = function Icons() {
-	  return (0, _preact.h)('div', { dangerouslySetInnerHTML: { __html: '\n    <svg height="0" version="1.1" xmlns="http://www.w3.org/2000/svg"\n        style="position:absolute; margin-left: -100%; width:0; height:0;"\n        xmlns:xlink="http://www.w3.org/1999/xlink">\n      <g id="ellipsis-shape">\n        <circle cx="11" cy="16" r="1"></circle>\n        <circle cx="16" cy="16" r="1"></circle>\n        <circle cx="21" cy="16" r="1"></circle>\n      </g>\n      <path id="mojs-logo-shape" d="M18.4678907,2.67700048 C19.488586,3.25758625 20.2789227,4.18421651 20.87823,5.1973579 C24.0807788,10.501451 27.2777091,15.8113116 30.480258,21.1154047 C31.1320047,22.1612281 31.7706417,23.2647256 31.9354512,24.5162532 C32.188284,26.0619186 31.6919826,27.7363895 30.5589171,28.80336 C29.4501984,29.8857103 27.8807622,30.3182659 26.3806209,30.3048086 C19.4511293,30.3086535 12.5235106,30.3086535 5.59401901,30.3048086 C3.71556494,30.343258 1.69852104,29.5723478 0.683444165,27.8709623 C-0.406546132,26.1099803 -0.0975282643,23.7914822 0.940022637,22.0843293 C4.34296485,16.4130445 7.76650826,10.7532945 11.1825603,5.08969961 C11.9747698,3.74781595 13.1846215,2.60202418 14.6847628,2.18292584 C15.9451812,1.81573418 17.3348251,2.01182606 18.4678907,2.67700048 Z M15.3334668,9.51526849 C15.6146238,9.03779476 16.0791597,9.02250655 16.3785679,9.4929547 L25.2763555,23.4736913 C25.5723919,23.9388414 25.3568433,24.3159201 24.8074398,24.3159202 L7.62314647,24.3159205 C7.06813505,24.3159206 6.84622798,23.9286889 7.12728913,23.4513779 L15.3334668,9.51526849 Z" fill-rule="evenodd"></path>\n      <path id="hide-icon-shape" d="M18.0297509,24.5024819 C18.1157323,24.4325886 18.1989631,24.3576024 18.2790422,24.2775233 L31.0556518,11.5009137 C32.3147827,10.2417828 32.3147827,8.20347913 31.0556518,6.9443482 C29.7965209,5.68521727 27.7582172,5.68521727 26.4990863,6.9443482 L15.9992406,17.4441939 L5.50091369,6.94586705 C4.24330161,5.68825498 2.20347913,5.68673612 0.944348198,6.94586705 C-0.314782733,8.20499798 -0.314782733,10.2433016 0.944348198,11.5024325 L13.7209578,24.2790422 C14.9005165,25.4586008 16.7638781,25.5331444 18.0298642,24.5026731 L18.0297509,24.5024819 Z"></path>\n      <path id="plus-shape" d="M19.2,19.2 L28.7999796,19.2 C30.5628602,19.2 32,17.7673112 32,16 C32,14.2362849 30.5673021,12.8 28.7999796,12.8 L19.2,12.8 L19.2,3.20002043 C19.2,1.43713981 17.7673112,-1.17239551e-13 16,-1.17239551e-13 C14.2362849,-1.13686838e-13 12.8,1.43269795 12.8,3.20002043 L12.8,12.8 L3.20002043,12.8 C1.43713981,12.8 0,14.2326888 0,16 C0,17.7637151 1.43269795,19.2 3.20002043,19.2 L12.8,19.2 L12.8,28.7999796 C12.8,30.5628602 14.2326888,32 16,32 C17.7637151,32 19.2,30.5673021 19.2,28.7999796 L19.2,19.2 Z"></path>\n      <path id="dropdown-shape" d="M16,25 L0,9 L32,9 L16,25 Z"></path>\n    </svg>' } });
+	  return (0, _preact.h)('div', { dangerouslySetInnerHTML: { __html: '\n    <svg height="0" version="1.1" xmlns="http://www.w3.org/2000/svg"\n        style="position:absolute; margin-left: -100%; width:0; height:0;"\n        xmlns:xlink="http://www.w3.org/1999/xlink">\n      <g id="ellipsis-shape">\n        <circle cx="11" cy="16" r="1"></circle>\n        <circle cx="16" cy="16" r="1"></circle>\n        <circle cx="21" cy="16" r="1"></circle>\n      </g>\n      <path id="mojs-logo-shape" d="M18.4678907,2.67700048 C19.488586,3.25758625 20.2789227,4.18421651 20.87823,5.1973579 C24.0807788,10.501451 27.2777091,15.8113116 30.480258,21.1154047 C31.1320047,22.1612281 31.7706417,23.2647256 31.9354512,24.5162532 C32.188284,26.0619186 31.6919826,27.7363895 30.5589171,28.80336 C29.4501984,29.8857103 27.8807622,30.3182659 26.3806209,30.3048086 C19.4511293,30.3086535 12.5235106,30.3086535 5.59401901,30.3048086 C3.71556494,30.343258 1.69852104,29.5723478 0.683444165,27.8709623 C-0.406546132,26.1099803 -0.0975282643,23.7914822 0.940022637,22.0843293 C4.34296485,16.4130445 7.76650826,10.7532945 11.1825603,5.08969961 C11.9747698,3.74781595 13.1846215,2.60202418 14.6847628,2.18292584 C15.9451812,1.81573418 17.3348251,2.01182606 18.4678907,2.67700048 Z M15.3334668,9.51526849 C15.6146238,9.03779476 16.0791597,9.02250655 16.3785679,9.4929547 L25.2763555,23.4736913 C25.5723919,23.9388414 25.3568433,24.3159201 24.8074398,24.3159202 L7.62314647,24.3159205 C7.06813505,24.3159206 6.84622798,23.9286889 7.12728913,23.4513779 L15.3334668,9.51526849 Z" fill-rule="evenodd"></path>\n      <path id="hide-icon-shape" d="M18.0297509,24.5024819 C18.1157323,24.4325886 18.1989631,24.3576024 18.2790422,24.2775233 L31.0556518,11.5009137 C32.3147827,10.2417828 32.3147827,8.20347913 31.0556518,6.9443482 C29.7965209,5.68521727 27.7582172,5.68521727 26.4990863,6.9443482 L15.9992406,17.4441939 L5.50091369,6.94586705 C4.24330161,5.68825498 2.20347913,5.68673612 0.944348198,6.94586705 C-0.314782733,8.20499798 -0.314782733,10.2433016 0.944348198,11.5024325 L13.7209578,24.2790422 C14.9005165,25.4586008 16.7638781,25.5331444 18.0298642,24.5026731 L18.0297509,24.5024819 Z"></path>\n      <path id="plus-shape" d="M19.2,19.2 L28.7999796,19.2 C30.5628602,19.2 32,17.7673112 32,16 C32,14.2362849 30.5673021,12.8 28.7999796,12.8 L19.2,12.8 L19.2,3.20002043 C19.2,1.43713981 17.7673112,-1.17239551e-13 16,-1.17239551e-13 C14.2362849,-1.13686838e-13 12.8,1.43269795 12.8,3.20002043 L12.8,12.8 L3.20002043,12.8 C1.43713981,12.8 0,14.2326888 0,16 C0,17.7637151 1.43269795,19.2 3.20002043,19.2 L12.8,19.2 L12.8,28.7999796 C12.8,30.5628602 14.2326888,32 16,32 C17.7637151,32 19.2,30.5673021 19.2,28.7999796 L19.2,19.2 Z"></path>\n      <path id="dropdown-shape" d="M16,25 L0,9 L32,9 L16,25 Z"></path>\n      <path id="link-shape" d="M16.5676741,23.5590551 L12.8672799,27.2545932 C11.9421813,28.1784777 10.7227332,28.6824147 9.41918528,28.6824147 C8.11563732,28.6824147 6.89618922,28.1784777 5.97109067,27.2545932 L4.79369251,26.0787402 C3.86859396,25.1548556 3.36399474,23.9370079 3.36399474,22.6351706 C3.36399474,21.3333333 3.86859396,20.1154856 4.79369251,19.191601 L9.71353482,14.2782152 C11.6057819,12.3884514 14.717477,12.3884514 16.609724,14.2782152 L18.3758213,16.0419948 C19.0486202,16.7139108 20.0998686,16.7139108 20.7726675,16.0419948 C21.4454665,15.3700787 21.4454665,14.32021 20.7726675,13.648294 L19.0065703,11.8845144 C15.8107753,8.69291339 10.5545335,8.69291339 7.3587385,11.8845144 L2.39684625,16.7979003 C0.840998686,18.351706 0,20.4094488 0,22.6351706 C0,24.8608924 0.840998686,26.8766404 2.39684625,28.4304462 L3.57424442,29.6062992 C5.13009198,31.160105 7.19053876,32 9.37713535,32 C11.5637319,32 13.6241787,31.160105 15.1800263,29.6062992 L18.8804205,25.9107612 C19.5532194,25.2388451 19.5532194,24.1889764 18.8804205,23.5170604 C18.2917214,22.8871391 17.2404731,22.8871391 16.5676741,23.5590551 Z M28.4678055,2.39370079 C26.911958,0.839895013 24.8515112,0 22.6649146,0 C20.478318,0 18.4178712,0.839895013 16.8620237,2.39370079 L13.7503285,5.50131234 C13.0775296,6.17322835 13.0775296,7.22309711 13.7503285,7.89501312 C14.4231275,8.56692913 15.4743758,8.56692913 16.1471748,7.89501312 L19.2588699,4.78740157 C20.1839685,3.86351706 21.4034166,3.35958005 22.7069645,3.35958005 C24.0105125,3.35958005 25.2299606,3.86351706 26.1550591,4.78740157 L27.3324573,5.96325459 C28.2575558,6.88713911 28.7621551,8.10498688 28.7621551,9.40682415 C28.7621551,10.7086614 28.2575558,11.9265092 27.3324573,12.8503937 L23.0013141,17.1338583 C22.0762155,18.0577428 20.8567674,18.5616798 19.5532194,18.5616798 C18.2496715,18.5616798 17.0302234,18.0577428 16.1051248,17.1338583 L14.3390276,15.3700787 C13.6662286,14.6981627 12.6149803,14.6981627 11.9421813,15.3700787 C11.2693824,16.0419948 11.2693824,17.0918635 11.9421813,17.7637795 L13.7082786,19.5275591 C15.2641261,21.0813648 17.3245729,21.9212598 19.5111695,21.9212598 C21.6977661,21.9212598 23.7582129,21.0813648 25.3140604,19.5275591 L29.6031537,15.2440945 C31.1590013,13.6902887 32,11.6325459 32,9.4488189 C32,7.26509186 31.1590013,5.20734908 29.6031537,3.65354331 L28.4678055,2.39370079 Z"></path>\n      <polygon id="spot-shape" points="16 0.443650814 31.5563492 16 16 31.5563492 0.443650814 16"></polygon>\n    </svg>' } });
 	};
 
 	exports.default = Icons;
@@ -30620,9 +30663,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    key: 'render',
 	    value: function render() {
 	      var state = this.props.state;
-	      var props = state.props;
+	      // const {props} = state;
 
-	      var _getCoords2 = this._getCoords(props);
+	      var _getCoords2 = this._getCoords(state);
 
 	      var _getCoords3 = (0, _slicedToArray3.default)(_getCoords2, 2);
 
@@ -30642,11 +30685,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	  }, {
 	    key: '_getCoords',
-	    value: function _getCoords(props) {
-	      var x = props.x;
-	      var y = props.y;
+	    value: function _getCoords(state) {
+	      var _state$currentProps = state.currentProps;
+	      var x = _state$currentProps.x;
+	      var y = _state$currentProps.y;
 
-	      return [x.spots[x.currentSpot].value, y.spots[y.currentSpot].value];
+
+	      return [x, y];
 	    }
 	  }, {
 	    key: '_getClassName',

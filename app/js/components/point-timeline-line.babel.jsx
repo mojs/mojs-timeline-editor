@@ -43,13 +43,11 @@ class PointTimelineLine extends Component {
     const results = [];
 
     let prevSpot = spots[0];
-    for (let i = 1; i < spots.length; i++) {
+    for (let i = 0; i < spots.length; i++) {
       const spot = spots[i];
-      const start = prevSpot.time;
-      const end = spot.time;
       const meta = { id: state.id, prop: key, spotIndex: i };
       results.push(
-        <PointTimeline duration={end-start} meta={meta} start={start} end={end} />
+        <PointTimeline duration={spot.duration} delay={spot.delay} meta={meta} />
       );
       prevSpot = spot;
     }

@@ -22,6 +22,9 @@
 
   &__right {
     margin-left: $LEFT_PANEL_WIDTH;
-    background: $c-light-purple;
+    background:  $c-light-purple;
+    min-height:  100%;
+    overflow:    auto
+    /*min-width: 1600*$PX*/
   }
 }

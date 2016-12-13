@@ -41,6 +41,15 @@ $height: 22;
     }
   }
 
+  &.is-link {
+    float:      right;
+    fill:       $c-white;
+    [data-component="icon"] {
+      width:    8*$PX;
+      height:   8*$PX;
+    }
+  }
+
   [data-component="icon"] {
     fill:       inherit;
     display:    inline-block;

@@ -26,11 +26,16 @@ class ToolsPanel extends Component {
         <Button className={this._getClassFor('html')} onClick={this._setHtml}>
           {'HTML'}
         </Button>
+
         <a className={`${CLASSES['button']} ${CLASSES['is-logo']}`}
            href='https://github.com/legomushroom/mojs-timeline-editor/'
            target="_blank">
           <Icon shape="mojs-logo" />
         </a>
+
+        <Button className={`${CLASSES['button']} ${CLASSES['is-link']}`}>
+          <Icon shape="link" />
+        </Button>
       </div>
     );
   }

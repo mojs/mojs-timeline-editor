@@ -2,5 +2,7 @@
 
 .timelines-panel {
   display:     inline-block;
-  min-width:   100%;
+  /*min-width:   100%;*/
+  min-width:   1600*$PX;
+  min-height:  100%;
 }

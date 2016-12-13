@@ -17,9 +17,10 @@ class PropertyLine extends Component {
   }
 
   _getValue(p) {
-    const {value} = p;
-    const current = value.spots[value.currentSpot];
-    return current.value;
+    const {name, state} = p;
+    const {currentProps} = state;
+
+    return currentProps[name];
   }
 }
 

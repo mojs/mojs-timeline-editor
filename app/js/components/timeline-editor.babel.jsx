@@ -41,7 +41,7 @@ class TimelineEditor extends Component {
         <Point state={points[i]} />
       );
     }
-    
+
     return results;
   }
 
@@ -71,7 +71,6 @@ class TimelineEditor extends Component {
     if (e.isTimelinePanel) { return; }
     const {store} = this.context;
     const {controls} = this._state;
-    console.log();
 
     if (controls.isMouseInside) {
       store.dispatch({ type: 'CONTROLS_SET_MOUSE_INSIDE', data: false });
