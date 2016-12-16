@@ -22512,6 +22512,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return newState;
 	};
 
+	var setPointPosition = function setPointPosition(state, _ref) {
+	  var deltaX = _ref.deltaX;
+	  var deltaY = _ref.deltaY;
+	  var id = _ref.id;
+
+	  var newState = [];
+	  for (var i = 0; i < state.length; i++) {
+	    var newPoint = (0, _extends3.default)({}, state[i]);
+	    newState.push(newPoint);
+	    if (newPoint.id === id) {
+	      var _newPoint$currentProp = newPoint.currentProps;
+	      var x = _newPoint$currentProp.x;
+	      var y = _newPoint$currentProp.y;
+
+	      newPoint.currentProps = { x: x + deltaX, y: y + deltaY };
+	    }
+	  }
+	  return newState;
+	};
+
 	var insertPoint = function insertPoint() {
 	  var state = arguments.length <= 0 || arguments[0] === undefined ? INITIAL_STATE : arguments[0];
 	  var action = arguments[1];
@@ -22540,6 +22560,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    case 'SHIFT_SPOT':
 	      {
 	        return shiftSpot(state, data);
+	      }
+
+	    case 'CHANGE_POINT_CURRENT_POSITION':
+	      {
+	        return setPointPosition(state, data);
 	      }
 
 	  }
@@ -30617,6 +30642,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _decko = __webpack_require__(139);
 
+	var _hammerjs = __webpack_require__(176);
+
+	var _hammerjs2 = _interopRequireDefault(_hammerjs);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
@@ -30660,10 +30689,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 
 	  (0, _createClass3.default)(Point, [{
+	    key: 'getInitialState',
+	    value: function getInitialState() {
+	      return { deltaX: 0, deltaY: 0 };
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var state = this.props.state;
-	      // const {props} = state;
 
 	      var _getCoords2 = this._getCoords(state);
 
@@ -30672,6 +30705,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var x = _getCoords3[0];
 	      var y = _getCoords3[1];
 
+
+	      x += this.state.deltaX;
+	      y += this.state.deltaY;
 
 	      var style = {
 	        transform: 'translate(' + x + 'px, ' + y + 'px)'
@@ -30690,7 +30726,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var x = _state$currentProps.x;
 	      var y = _state$currentProps.y;
 
-
 	      return [x, y];
 	    }
 	  }, {
@@ -30700,8 +30735,44 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return CLASSES['point'] + ' ' + selectClass;
 	    }
 	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var mc = new _hammerjs2.default.Manager(this.base);
+	      mc.add(new _hammerjs2.default.Pan());
+
+	      mc.on('pan', this._onPan);
+	      mc.on('panend', this._onPanEnd);
+	    }
+	  }, {
+	    key: '_onPan',
+	    value: function _onPan(e) {
+	      var deltaX = e.deltaX;
+	      var deltaY = e.deltaY;
+
+	      this._isPan = true;
+
+	      this.setState({ deltaX: deltaX, deltaY: deltaY });
+	    }
+	  }, {
+	    key: '_onPanEnd',
+	    value: function _onPanEnd(e) {
+	      var store = this.context.store;
+	      var id = this.props.state.id;
+	      var deltaX = e.deltaX;
+	      var deltaY = e.deltaY;
+
+
+	      this.setState({ deltaX: 0, deltaY: 0 });
+	      store.dispatch({
+	        type: 'CHANGE_POINT_CURRENT_POSITION', data: { deltaX: deltaX, deltaY: deltaY, id: id }
+	      });
+	    }
+	  }, {
 	    key: '_onClick',
 	    value: function _onClick(e) {
+	      if (this._isPan) {
+	        return this._isPan = false;
+	      }
 	      var state = this.props.state;
 	      var store = this.context.store;
 
@@ -30710,7 +30781,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	  }]);
 	  return Point;
-	}(_preact.Component), (_applyDecoratedDescriptor(_class.prototype, '_onClick', [_decko.bind], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_onClick'), _class.prototype)), _class);
+	}(_preact.Component), (_applyDecoratedDescriptor(_class.prototype, '_onPan', [_decko.bind], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_onPan'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, '_onPanEnd', [_decko.bind], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_onPanEnd'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, '_onClick', [_decko.bind], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_onClick'), _class.prototype)), _class);
 	exports.default = Point;
 
 /***/ },

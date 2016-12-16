@@ -53,6 +53,19 @@ const shiftSpot = (state, data) => {
   return newState;
 };
 
+const setPointPosition = (state, {deltaX, deltaY, id}) => {
+  const newState = [];
+  for (let i = 0; i < state.length; i++) {
+    const newPoint = {...state[i]};
+    newState.push( newPoint );
+    if (newPoint.id === id) {
+      const {x, y} = newPoint.currentProps;
+      newPoint.currentProps = { x: x+deltaX, y: y+deltaY };
+    }
+  }
+  return newState;
+};
+
 const insertPoint = (state=INITIAL_STATE, action) => {
   const {data} = action;
 
@@ -74,6 +87,10 @@ const insertPoint = (state=INITIAL_STATE, action) => {
 
   case 'SHIFT_SPOT': {
     return shiftSpot(state, data);
+  }
+
+  case 'CHANGE_POINT_CURRENT_POSITION': {
+    return setPointPosition(state, data);
   }
 
   }

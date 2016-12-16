@@ -1,14 +1,18 @@
 import { h, Component } from 'preact';
 import {bind} from 'decko';
+import Hammer from 'hammerjs';
 
 const CLASSES = require('../../css/blocks/point.postcss.css.json');
 require('../../css/blocks/point');
 
 class Point extends Component {
+  getInitialState() { return { deltaX: 0, deltaY: 0 }; }
   render () {
     const {state} = this.props;
-    // const {props} = state;
-    const [x, y]  = this._getCoords(state);
+    let [x, y]  = this._getCoords(state);
+
+    x += this.state.deltaX;
+    y += this.state.deltaY;
 
     const style = {
       transform: `translate(${x}px, ${y}px)`
@@ -25,7 +29,6 @@ class Point extends Component {
 
   _getCoords(state) {
     const {x, y} = state.currentProps;
-
     return [ x, y ];
   }
 
@@ -34,8 +37,37 @@ class Point extends Component {
     return `${CLASSES['point']} ${selectClass}`;
   }
 
+  componentDidMount() {
+    const mc = new Hammer.Manager(this.base);
+    mc.add(new Hammer.Pan);
+
+    mc.on('pan', this._onPan);
+    mc.on('panend', this._onPanEnd);
+  }
+
+  @bind
+  _onPan(e) {
+    const { deltaX, deltaY} = e;
+    this._isPan = true;
+
+    this.setState({ deltaX, deltaY });
+  }
+
+  @bind
+  _onPanEnd(e) {
+    const {store} = this.context;
+    const {id} = this.props.state;
+    const { deltaX, deltaY } = e;
+
+    this.setState({ deltaX: 0, deltaY: 0 });
+    store.dispatch({
+      type: 'CHANGE_POINT_CURRENT_POSITION', data: { deltaX, deltaY, id }
+    });
+  }
+
   @bind
   _onClick(e) {
+    if (this._isPan) { return this._isPan = false; }
     const {state} = this.props;
     const {store} = this.context;
 
