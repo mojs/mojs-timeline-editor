@@ -22369,7 +22369,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  NAME: 'MOJS_TIMLINE_EDITOR_Hjs891ksPP',
 	  IS_PERSIST_STATE: true,
 	  PLAYER_HEIGHT: 40,
-	  TIMELINE_HEIGHT: 22
+	  TIMELINE_HEIGHT: 22,
+	  MIN_DURATION: 40
 	};
 
 /***/ },
@@ -26384,6 +26385,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _hammerjs2 = _interopRequireDefault(_hammerjs);
 
+	var _constants = __webpack_require__(64);
+
+	var _constants2 = _interopRequireDefault(_constants);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var CLASSES = __webpack_require__(177);
@@ -26422,7 +26427,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	      duration /= 10;
 	      duration += this.state.dDuration;
-	      // duration = Math.max(duration, 40/10);
 
 	      var style = { width: duration + delay + 'em' };
 	      var delayStyle = { width: delay + 'em' };
@@ -26495,7 +26499,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    key: '_pan',
 	    value: function _pan(e, direction) {
 	      if (direction === 'right') {
-	        this.setState({ dDuration: e.deltaX });
+	        var threshold = _constants2.default.MIN_DURATION;
+	        var min = -this.props.duration + threshold;
+	        var dDuration = e.deltaX * 10 < min ? min / 10 : e.deltaX;
+	        this.setState({ dDuration: dDuration });
 	      }
 	      if (direction === 'left') {
 	        this.setState({ dDelay: e.deltaX });

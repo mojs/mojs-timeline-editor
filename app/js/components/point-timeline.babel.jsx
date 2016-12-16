@@ -1,9 +1,9 @@
 import { h, Component } from 'preact';
 import {bind} from 'decko';
 import Hammer from 'hammerjs';
+import C from '../constants';
 
-const CLASSES =
-      require('../../css/blocks/point-timeline.postcss.css.json');
+const CLASSES = require('../../css/blocks/point-timeline.postcss.css.json');
 require('../../css/blocks/point-timeline');
 
 class PointTimeline extends Component {
@@ -22,7 +22,6 @@ class PointTimeline extends Component {
 
     duration /= 10;
     duration += this.state.dDuration;
-    // duration = Math.max(duration, 40/10);
 
     const style      = { width: `${duration + delay}em` };
     const delayStyle = { width: `${delay}em` };
@@ -72,7 +71,12 @@ class PointTimeline extends Component {
   }
 
   _pan(e, direction) {
-    if (direction === 'right') { this.setState({ dDuration: e.deltaX }); }
+    if (direction === 'right') {
+      const threshold = C.MIN_DURATION;
+      const min = - this.props.duration + threshold;
+      const dDuration = (e.deltaX*10 < min) ? min/10 : e.deltaX;
+      this.setState({ dDuration });
+    }
     if (direction === 'left') { this.setState({ dDelay: e.deltaX }); }
   }
 
