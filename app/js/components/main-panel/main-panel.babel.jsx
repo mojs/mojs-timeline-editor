@@ -4,6 +4,7 @@ import { bind } from 'decko';
 import LeftPanel from './left-panel';
 import BodyPanel from './body-panel';
 import RightPanel from './right-panel';
+import TimelineHandle from '../timeline-handle';
 import C from '../../constants';
 
 const CLASSES = require('../../../css/blocks/main-panel.postcss.css.json');
@@ -27,6 +28,7 @@ class MainPanel extends Component {
                className={this._getClassNames()}
                data-component="main-panel">
 
+        <TimelineHandle state={entireState} />
         <LeftPanel state={entireState} />
         <RightPanel state={entireState}
                     onResize={this._resizeHeight}

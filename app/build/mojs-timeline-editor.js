@@ -83,7 +83,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _timelineEditor2 = _interopRequireDefault(_timelineEditor);
 
-	var _persist = __webpack_require__(228);
+	var _persist = __webpack_require__(229);
 
 	var _persist2 = _interopRequireDefault(_persist);
 
@@ -21705,6 +21705,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _reduxRecycle2 = _interopRequireDefault(_reduxRecycle);
 
+	var _progressReducer = __webpack_require__(236);
+
+	var _progressReducer2 = _interopRequireDefault(_progressReducer);
+
 	var _mainPanelReducer = __webpack_require__(25);
 
 	var _mainPanelReducer2 = _interopRequireDefault(_mainPanelReducer);
@@ -21720,6 +21724,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var reducer = (0, _reduxRecycle2.default)((0, _redux.combineReducers)({
+	  progress: _progressReducer2.default,
 	  mainPanel: _mainPanelReducer2.default,
 	  controls: _controlsReducer2.default,
 	  points: _pointsReducer2.default
@@ -23470,15 +23475,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _mainPanel2 = _interopRequireDefault(_mainPanel);
 
-	var _icons = __webpack_require__(209);
+	var _icons = __webpack_require__(210);
 
 	var _icons2 = _interopRequireDefault(_icons);
 
-	var _insertPoint = __webpack_require__(210);
+	var _insertPoint = __webpack_require__(211);
 
 	var _insertPoint2 = _interopRequireDefault(_insertPoint);
 
-	var _point = __webpack_require__(214);
+	var _point = __webpack_require__(215);
 
 	var _point2 = _interopRequireDefault(_point);
 
@@ -23517,8 +23522,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return desc;
 	}
 
-	var CLASSES = __webpack_require__(225);
-	__webpack_require__(226);
+	var CLASSES = __webpack_require__(226);
+	__webpack_require__(227);
 
 	var TimelineEditor = (_class = function (_Component) {
 	  (0, _inherits3.default)(TimelineEditor, _Component);
@@ -24510,9 +24515,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _bodyPanel2 = _interopRequireDefault(_bodyPanel);
 
-	var _rightPanel = __webpack_require__(189);
+	var _rightPanel = __webpack_require__(190);
 
 	var _rightPanel2 = _interopRequireDefault(_rightPanel);
+
+	var _timelineHandle = __webpack_require__(186);
+
+	var _timelineHandle2 = _interopRequireDefault(_timelineHandle);
 
 	var _constants = __webpack_require__(64);
 
@@ -24549,8 +24558,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return desc;
 	}
 
-	var CLASSES = __webpack_require__(206);
-	__webpack_require__(207);
+	var CLASSES = __webpack_require__(207);
+	__webpack_require__(208);
 
 	var MainPanel = (_class = function (_Component) {
 	  (0, _inherits3.default)(MainPanel, _Component);
@@ -24582,6 +24591,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        { style: { height: height },
 	          className: this._getClassNames(),
 	          'data-component': 'main-panel' },
+	        (0, _preact.h)(_timelineHandle2.default, { state: entireState }),
 	        (0, _preact.h)(_leftPanel2.default, { state: entireState }),
 	        (0, _preact.h)(_rightPanel2.default, { state: entireState,
 	          onResize: this._resizeHeight,
@@ -25596,8 +25606,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var CLASSES = __webpack_require__(186);
-	__webpack_require__(187);
+	var CLASSES = __webpack_require__(187);
+	__webpack_require__(188);
 
 	var BodyPanel = function (_Component) {
 	  (0, _inherits3.default)(BodyPanel, _Component);
@@ -29350,6 +29360,101 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 186 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _getPrototypeOf = __webpack_require__(101);
+
+	var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+	var _classCallCheck2 = __webpack_require__(104);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _createClass2 = __webpack_require__(105);
+
+	var _createClass3 = _interopRequireDefault(_createClass2);
+
+	var _possibleConstructorReturn2 = __webpack_require__(109);
+
+	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+	var _inherits2 = __webpack_require__(131);
+
+	var _inherits3 = _interopRequireDefault(_inherits2);
+
+	var _preact = __webpack_require__(3);
+
+	var _hammerjs = __webpack_require__(176);
+
+	var _hammerjs2 = _interopRequireDefault(_hammerjs);
+
+	var _icon = __webpack_require__(150);
+
+	var _icon2 = _interopRequireDefault(_icon);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var CLASSES = __webpack_require__(235);
+	__webpack_require__(233);
+
+	var TimelineHandle = function (_Component) {
+	  (0, _inherits3.default)(TimelineHandle, _Component);
+
+	  function TimelineHandle() {
+	    (0, _classCallCheck3.default)(this, TimelineHandle);
+	    return (0, _possibleConstructorReturn3.default)(this, (0, _getPrototypeOf2.default)(TimelineHandle).apply(this, arguments));
+	  }
+
+	  (0, _createClass3.default)(TimelineHandle, [{
+	    key: 'render',
+	    value: function render() {
+	      var _this2 = this;
+
+	      var state = this.props.state;
+
+	      var style = { transform: 'translateX(' + state.progress + 'em)' };
+	      // console.log( state.progress );
+
+	      return (0, _preact.h)(
+	        'div',
+	        { className: CLASSES['timeline-handle'], style: style,
+	          'data-component': 'timeline-handle' },
+	        (0, _preact.h)(
+	          'div',
+	          { className: CLASSES['timeline-handle__head'],
+	            ref: function ref(el) {
+	              _this2._head = el;
+	            } },
+	          (0, _preact.h)(_icon2.default, { shape: 'handle' })
+	        )
+	      );
+	    }
+	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var mc = new _hammerjs2.default.Manager(this._head);
+	      mc.add(new _hammerjs2.default.Pan());
+
+	      var store = this.context.store;
+
+	      mc.on('pan', function (e) {
+	        store.dispatch({ type: 'SET_PROGRESS', data: e.deltaX });
+	      });
+	    }
+	  }]);
+	  return TimelineHandle;
+	}(_preact.Component);
+
+	exports.default = TimelineHandle;
+
+/***/ },
+/* 187 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -29359,13 +29464,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 187 */
+/* 188 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(188);
+	var content = __webpack_require__(189);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(148)(content, {});
@@ -29385,7 +29490,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 188 */
+/* 189 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(147)();
@@ -29399,7 +29504,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 189 */
+/* 190 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29438,15 +29543,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _decko = __webpack_require__(139);
 
-	var _hideButton = __webpack_require__(190);
+	var _hideButton = __webpack_require__(191);
 
 	var _hideButton2 = _interopRequireDefault(_hideButton);
 
-	var _resizeHandle = __webpack_require__(194);
+	var _resizeHandle = __webpack_require__(195);
 
 	var _resizeHandle2 = _interopRequireDefault(_resizeHandle);
 
-	var _timelinePanel = __webpack_require__(199);
+	var _timelinePanel = __webpack_require__(200);
 
 	var _timelinePanel2 = _interopRequireDefault(_timelinePanel);
 
@@ -29481,8 +29586,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return desc;
 	}
 
-	var CLASSES = __webpack_require__(203);
-	__webpack_require__(204);
+	var CLASSES = __webpack_require__(204);
+	__webpack_require__(205);
 
 	var RightPanel = (_class = function (_Component) {
 	  (0, _inherits3.default)(RightPanel, _Component);
@@ -29522,7 +29627,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = RightPanel;
 
 /***/ },
-/* 190 */
+/* 191 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29565,8 +29670,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var CLASSES = __webpack_require__(191);
-	__webpack_require__(192);
+	var CLASSES = __webpack_require__(192);
+	__webpack_require__(193);
 
 	var HideButton = function (_Component) {
 	  (0, _inherits3.default)(HideButton, _Component);
@@ -29609,7 +29714,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = HideButton;
 
 /***/ },
-/* 191 */
+/* 192 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -29619,13 +29724,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 192 */
+/* 193 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(193);
+	var content = __webpack_require__(194);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(148)(content, {});
@@ -29645,7 +29750,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 193 */
+/* 194 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(147)();
@@ -29659,7 +29764,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 194 */
+/* 195 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29694,7 +29799,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _hammerjs2 = _interopRequireDefault(_hammerjs);
 
-	var _propagatingHammerjs = __webpack_require__(195);
+	var _propagatingHammerjs = __webpack_require__(196);
 
 	var _propagatingHammerjs2 = _interopRequireDefault(_propagatingHammerjs);
 
@@ -29704,8 +29809,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var CLASSES = __webpack_require__(196);
-	__webpack_require__(197);
+	var CLASSES = __webpack_require__(197);
+	__webpack_require__(198);
 
 	var ResizeHandle = function (_Component) {
 	  (0, _inherits3.default)(ResizeHandle, _Component);
@@ -29752,7 +29857,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = ResizeHandle;
 
 /***/ },
-/* 195 */
+/* 196 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;'use strict';
@@ -29989,7 +30094,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 196 */
+/* 197 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -29997,13 +30102,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 197 */
+/* 198 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(198);
+	var content = __webpack_require__(199);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(148)(content, {});
@@ -30023,7 +30128,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 198 */
+/* 199 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(147)();
@@ -30037,7 +30142,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 199 */
+/* 200 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30080,6 +30185,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _constants2 = _interopRequireDefault(_constants);
 
+	var _timelineHandle = __webpack_require__(186);
+
+	var _timelineHandle2 = _interopRequireDefault(_timelineHandle);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
@@ -30111,8 +30220,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return desc;
 	}
 
-	var CLASSES = __webpack_require__(200);
-	__webpack_require__(201);
+	var CLASSES = __webpack_require__(201);
+	__webpack_require__(202);
 
 	var TimelinePanel = (_class = function (_Component) {
 	  (0, _inherits3.default)(TimelinePanel, _Component);
@@ -30247,7 +30356,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = TimelinePanel;
 
 /***/ },
-/* 200 */
+/* 201 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -30257,13 +30366,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 201 */
+/* 202 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(202);
+	var content = __webpack_require__(203);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(148)(content, {});
@@ -30283,7 +30392,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 202 */
+/* 203 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(147)();
@@ -30297,7 +30406,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 203 */
+/* 204 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -30305,13 +30414,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 204 */
+/* 205 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(205);
+	var content = __webpack_require__(206);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(148)(content, {});
@@ -30331,7 +30440,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 205 */
+/* 206 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(147)();
@@ -30345,22 +30454,22 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 206 */
+/* 207 */
 /***/ function(module, exports) {
 
 	module.exports = {
-		"main-panel": "_main-panel_cbnjb_5",
-		"main-panel--transition": "_main-panel--transition_cbnjb_1"
+		"main-panel": "_main-panel_sd3d1_5",
+		"main-panel--transition": "_main-panel--transition_sd3d1_1"
 	};
 
 /***/ },
-/* 207 */
+/* 208 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(208);
+	var content = __webpack_require__(209);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(148)(content, {});
@@ -30380,7 +30489,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 208 */
+/* 209 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(147)();
@@ -30388,13 +30497,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	// module
-	exports.push([module.id, "/*613760*/\n/*$PX:      1/16rem;*/\n/* old was 165px */\n\n._main-panel_cbnjb_5 {\n  position: fixed;\n  bottom: 0;\n  width: 100%;\n  height: 100px;\n  color: white;\n  background: #3A0839\n}\n\n._main-panel--transition_cbnjb_1 {\n  -webkit-transition: height 0.4s;\n  transition: height 0.4s\n}\n", ""]);
+	exports.push([module.id, "/*613760*/\n/*$PX:      1/16rem;*/\n/* old was 165px */\n\n._main-panel_sd3d1_5 {\n  position: fixed;\n  bottom: 0;\n  width: 100%;\n  height: 100px;\n  color: white;\n  background: #3A0839;\n}\n\n._main-panel_sd3d1_5 [data-component=\"timeline-handle\"] {\n  margin-left: 195px;\n  font-size: 1px;\n}\n\n._main-panel--transition_sd3d1_1 {\n  -webkit-transition: height 0.4s;\n  transition: height 0.4s;\n}\n", ""]);
 
 	// exports
 
 
 /***/ },
-/* 209 */
+/* 210 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30406,13 +30515,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _preact = __webpack_require__(3);
 
 	var Icons = function Icons() {
-	  return (0, _preact.h)('div', { dangerouslySetInnerHTML: { __html: '\n    <svg height="0" version="1.1" xmlns="http://www.w3.org/2000/svg"\n        style="position:absolute; margin-left: -100%; width:0; height:0;"\n        xmlns:xlink="http://www.w3.org/1999/xlink">\n      <g id="ellipsis-shape">\n        <circle cx="11" cy="16" r="1"></circle>\n        <circle cx="16" cy="16" r="1"></circle>\n        <circle cx="21" cy="16" r="1"></circle>\n      </g>\n      <path id="mojs-logo-shape" d="M18.4678907,2.67700048 C19.488586,3.25758625 20.2789227,4.18421651 20.87823,5.1973579 C24.0807788,10.501451 27.2777091,15.8113116 30.480258,21.1154047 C31.1320047,22.1612281 31.7706417,23.2647256 31.9354512,24.5162532 C32.188284,26.0619186 31.6919826,27.7363895 30.5589171,28.80336 C29.4501984,29.8857103 27.8807622,30.3182659 26.3806209,30.3048086 C19.4511293,30.3086535 12.5235106,30.3086535 5.59401901,30.3048086 C3.71556494,30.343258 1.69852104,29.5723478 0.683444165,27.8709623 C-0.406546132,26.1099803 -0.0975282643,23.7914822 0.940022637,22.0843293 C4.34296485,16.4130445 7.76650826,10.7532945 11.1825603,5.08969961 C11.9747698,3.74781595 13.1846215,2.60202418 14.6847628,2.18292584 C15.9451812,1.81573418 17.3348251,2.01182606 18.4678907,2.67700048 Z M15.3334668,9.51526849 C15.6146238,9.03779476 16.0791597,9.02250655 16.3785679,9.4929547 L25.2763555,23.4736913 C25.5723919,23.9388414 25.3568433,24.3159201 24.8074398,24.3159202 L7.62314647,24.3159205 C7.06813505,24.3159206 6.84622798,23.9286889 7.12728913,23.4513779 L15.3334668,9.51526849 Z" fill-rule="evenodd"></path>\n      <path id="hide-icon-shape" d="M18.0297509,24.5024819 C18.1157323,24.4325886 18.1989631,24.3576024 18.2790422,24.2775233 L31.0556518,11.5009137 C32.3147827,10.2417828 32.3147827,8.20347913 31.0556518,6.9443482 C29.7965209,5.68521727 27.7582172,5.68521727 26.4990863,6.9443482 L15.9992406,17.4441939 L5.50091369,6.94586705 C4.24330161,5.68825498 2.20347913,5.68673612 0.944348198,6.94586705 C-0.314782733,8.20499798 -0.314782733,10.2433016 0.944348198,11.5024325 L13.7209578,24.2790422 C14.9005165,25.4586008 16.7638781,25.5331444 18.0298642,24.5026731 L18.0297509,24.5024819 Z"></path>\n      <path id="plus-shape" d="M19.2,19.2 L28.7999796,19.2 C30.5628602,19.2 32,17.7673112 32,16 C32,14.2362849 30.5673021,12.8 28.7999796,12.8 L19.2,12.8 L19.2,3.20002043 C19.2,1.43713981 17.7673112,-1.17239551e-13 16,-1.17239551e-13 C14.2362849,-1.13686838e-13 12.8,1.43269795 12.8,3.20002043 L12.8,12.8 L3.20002043,12.8 C1.43713981,12.8 0,14.2326888 0,16 C0,17.7637151 1.43269795,19.2 3.20002043,19.2 L12.8,19.2 L12.8,28.7999796 C12.8,30.5628602 14.2326888,32 16,32 C17.7637151,32 19.2,30.5673021 19.2,28.7999796 L19.2,19.2 Z"></path>\n      <path id="dropdown-shape" d="M16,25 L0,9 L32,9 L16,25 Z"></path>\n      <path id="link-shape" d="M16.5676741,23.5590551 L12.8672799,27.2545932 C11.9421813,28.1784777 10.7227332,28.6824147 9.41918528,28.6824147 C8.11563732,28.6824147 6.89618922,28.1784777 5.97109067,27.2545932 L4.79369251,26.0787402 C3.86859396,25.1548556 3.36399474,23.9370079 3.36399474,22.6351706 C3.36399474,21.3333333 3.86859396,20.1154856 4.79369251,19.191601 L9.71353482,14.2782152 C11.6057819,12.3884514 14.717477,12.3884514 16.609724,14.2782152 L18.3758213,16.0419948 C19.0486202,16.7139108 20.0998686,16.7139108 20.7726675,16.0419948 C21.4454665,15.3700787 21.4454665,14.32021 20.7726675,13.648294 L19.0065703,11.8845144 C15.8107753,8.69291339 10.5545335,8.69291339 7.3587385,11.8845144 L2.39684625,16.7979003 C0.840998686,18.351706 0,20.4094488 0,22.6351706 C0,24.8608924 0.840998686,26.8766404 2.39684625,28.4304462 L3.57424442,29.6062992 C5.13009198,31.160105 7.19053876,32 9.37713535,32 C11.5637319,32 13.6241787,31.160105 15.1800263,29.6062992 L18.8804205,25.9107612 C19.5532194,25.2388451 19.5532194,24.1889764 18.8804205,23.5170604 C18.2917214,22.8871391 17.2404731,22.8871391 16.5676741,23.5590551 Z M28.4678055,2.39370079 C26.911958,0.839895013 24.8515112,0 22.6649146,0 C20.478318,0 18.4178712,0.839895013 16.8620237,2.39370079 L13.7503285,5.50131234 C13.0775296,6.17322835 13.0775296,7.22309711 13.7503285,7.89501312 C14.4231275,8.56692913 15.4743758,8.56692913 16.1471748,7.89501312 L19.2588699,4.78740157 C20.1839685,3.86351706 21.4034166,3.35958005 22.7069645,3.35958005 C24.0105125,3.35958005 25.2299606,3.86351706 26.1550591,4.78740157 L27.3324573,5.96325459 C28.2575558,6.88713911 28.7621551,8.10498688 28.7621551,9.40682415 C28.7621551,10.7086614 28.2575558,11.9265092 27.3324573,12.8503937 L23.0013141,17.1338583 C22.0762155,18.0577428 20.8567674,18.5616798 19.5532194,18.5616798 C18.2496715,18.5616798 17.0302234,18.0577428 16.1051248,17.1338583 L14.3390276,15.3700787 C13.6662286,14.6981627 12.6149803,14.6981627 11.9421813,15.3700787 C11.2693824,16.0419948 11.2693824,17.0918635 11.9421813,17.7637795 L13.7082786,19.5275591 C15.2641261,21.0813648 17.3245729,21.9212598 19.5111695,21.9212598 C21.6977661,21.9212598 23.7582129,21.0813648 25.3140604,19.5275591 L29.6031537,15.2440945 C31.1590013,13.6902887 32,11.6325459 32,9.4488189 C32,7.26509186 31.1590013,5.20734908 29.6031537,3.65354331 L28.4678055,2.39370079 Z"></path>\n      <polygon id="spot-shape" points="16 0.443650814 31.5563492 16 16 31.5563492 0.443650814 16"></polygon>\n    </svg>' } });
+	  return (0, _preact.h)('div', { dangerouslySetInnerHTML: { __html: '\n    <svg height="0" version="1.1" xmlns="http://www.w3.org/2000/svg"\n        style="position:absolute; margin-left: -100%; width:0; height:0;"\n        xmlns:xlink="http://www.w3.org/1999/xlink">\n      <g id="ellipsis-shape">\n        <circle cx="11" cy="16" r="1"></circle>\n        <circle cx="16" cy="16" r="1"></circle>\n        <circle cx="21" cy="16" r="1"></circle>\n      </g>\n      <path id="mojs-logo-shape" d="M18.4678907,2.67700048 C19.488586,3.25758625 20.2789227,4.18421651 20.87823,5.1973579 C24.0807788,10.501451 27.2777091,15.8113116 30.480258,21.1154047 C31.1320047,22.1612281 31.7706417,23.2647256 31.9354512,24.5162532 C32.188284,26.0619186 31.6919826,27.7363895 30.5589171,28.80336 C29.4501984,29.8857103 27.8807622,30.3182659 26.3806209,30.3048086 C19.4511293,30.3086535 12.5235106,30.3086535 5.59401901,30.3048086 C3.71556494,30.343258 1.69852104,29.5723478 0.683444165,27.8709623 C-0.406546132,26.1099803 -0.0975282643,23.7914822 0.940022637,22.0843293 C4.34296485,16.4130445 7.76650826,10.7532945 11.1825603,5.08969961 C11.9747698,3.74781595 13.1846215,2.60202418 14.6847628,2.18292584 C15.9451812,1.81573418 17.3348251,2.01182606 18.4678907,2.67700048 Z M15.3334668,9.51526849 C15.6146238,9.03779476 16.0791597,9.02250655 16.3785679,9.4929547 L25.2763555,23.4736913 C25.5723919,23.9388414 25.3568433,24.3159201 24.8074398,24.3159202 L7.62314647,24.3159205 C7.06813505,24.3159206 6.84622798,23.9286889 7.12728913,23.4513779 L15.3334668,9.51526849 Z" fill-rule="evenodd"></path>\n      <path id="hide-icon-shape" d="M18.0297509,24.5024819 C18.1157323,24.4325886 18.1989631,24.3576024 18.2790422,24.2775233 L31.0556518,11.5009137 C32.3147827,10.2417828 32.3147827,8.20347913 31.0556518,6.9443482 C29.7965209,5.68521727 27.7582172,5.68521727 26.4990863,6.9443482 L15.9992406,17.4441939 L5.50091369,6.94586705 C4.24330161,5.68825498 2.20347913,5.68673612 0.944348198,6.94586705 C-0.314782733,8.20499798 -0.314782733,10.2433016 0.944348198,11.5024325 L13.7209578,24.2790422 C14.9005165,25.4586008 16.7638781,25.5331444 18.0298642,24.5026731 L18.0297509,24.5024819 Z"></path>\n      <path id="plus-shape" d="M19.2,19.2 L28.7999796,19.2 C30.5628602,19.2 32,17.7673112 32,16 C32,14.2362849 30.5673021,12.8 28.7999796,12.8 L19.2,12.8 L19.2,3.20002043 C19.2,1.43713981 17.7673112,-1.17239551e-13 16,-1.17239551e-13 C14.2362849,-1.13686838e-13 12.8,1.43269795 12.8,3.20002043 L12.8,12.8 L3.20002043,12.8 C1.43713981,12.8 0,14.2326888 0,16 C0,17.7637151 1.43269795,19.2 3.20002043,19.2 L12.8,19.2 L12.8,28.7999796 C12.8,30.5628602 14.2326888,32 16,32 C17.7637151,32 19.2,30.5673021 19.2,28.7999796 L19.2,19.2 Z"></path>\n      <path id="dropdown-shape" d="M16,25 L0,9 L32,9 L16,25 Z"></path>\n      <path id="link-shape" d="M16.5676741,23.5590551 L12.8672799,27.2545932 C11.9421813,28.1784777 10.7227332,28.6824147 9.41918528,28.6824147 C8.11563732,28.6824147 6.89618922,28.1784777 5.97109067,27.2545932 L4.79369251,26.0787402 C3.86859396,25.1548556 3.36399474,23.9370079 3.36399474,22.6351706 C3.36399474,21.3333333 3.86859396,20.1154856 4.79369251,19.191601 L9.71353482,14.2782152 C11.6057819,12.3884514 14.717477,12.3884514 16.609724,14.2782152 L18.3758213,16.0419948 C19.0486202,16.7139108 20.0998686,16.7139108 20.7726675,16.0419948 C21.4454665,15.3700787 21.4454665,14.32021 20.7726675,13.648294 L19.0065703,11.8845144 C15.8107753,8.69291339 10.5545335,8.69291339 7.3587385,11.8845144 L2.39684625,16.7979003 C0.840998686,18.351706 0,20.4094488 0,22.6351706 C0,24.8608924 0.840998686,26.8766404 2.39684625,28.4304462 L3.57424442,29.6062992 C5.13009198,31.160105 7.19053876,32 9.37713535,32 C11.5637319,32 13.6241787,31.160105 15.1800263,29.6062992 L18.8804205,25.9107612 C19.5532194,25.2388451 19.5532194,24.1889764 18.8804205,23.5170604 C18.2917214,22.8871391 17.2404731,22.8871391 16.5676741,23.5590551 Z M28.4678055,2.39370079 C26.911958,0.839895013 24.8515112,0 22.6649146,0 C20.478318,0 18.4178712,0.839895013 16.8620237,2.39370079 L13.7503285,5.50131234 C13.0775296,6.17322835 13.0775296,7.22309711 13.7503285,7.89501312 C14.4231275,8.56692913 15.4743758,8.56692913 16.1471748,7.89501312 L19.2588699,4.78740157 C20.1839685,3.86351706 21.4034166,3.35958005 22.7069645,3.35958005 C24.0105125,3.35958005 25.2299606,3.86351706 26.1550591,4.78740157 L27.3324573,5.96325459 C28.2575558,6.88713911 28.7621551,8.10498688 28.7621551,9.40682415 C28.7621551,10.7086614 28.2575558,11.9265092 27.3324573,12.8503937 L23.0013141,17.1338583 C22.0762155,18.0577428 20.8567674,18.5616798 19.5532194,18.5616798 C18.2496715,18.5616798 17.0302234,18.0577428 16.1051248,17.1338583 L14.3390276,15.3700787 C13.6662286,14.6981627 12.6149803,14.6981627 11.9421813,15.3700787 C11.2693824,16.0419948 11.2693824,17.0918635 11.9421813,17.7637795 L13.7082786,19.5275591 C15.2641261,21.0813648 17.3245729,21.9212598 19.5111695,21.9212598 C21.6977661,21.9212598 23.7582129,21.0813648 25.3140604,19.5275591 L29.6031537,15.2440945 C31.1590013,13.6902887 32,11.6325459 32,9.4488189 C32,7.26509186 31.1590013,5.20734908 29.6031537,3.65354331 L28.4678055,2.39370079 Z"></path>\n      <polygon id="spot-shape" points="16 0.443650814 31.5563492 16 16 31.5563492 0.443650814 16"></polygon>\n      <g id="handle-shape"><rect x="0" y="7" width="32" height="6.33333333"></rect><rect x="0" y="19.6666667" width="32" height="6.33333333"></rect></g>\n    </svg>' } });
 	};
 
 	exports.default = Icons;
 
 /***/ },
-/* 210 */
+/* 211 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30486,8 +30595,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return desc;
 	}
 
-	var CLASSES = __webpack_require__(211);
-	__webpack_require__(212);
+	var CLASSES = __webpack_require__(212);
+	__webpack_require__(213);
 
 	var Point = (_class = function (_Component) {
 	  (0, _inherits3.default)(Point, _Component);
@@ -30558,7 +30667,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = Point;
 
 /***/ },
-/* 211 */
+/* 212 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -30566,13 +30675,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 212 */
+/* 213 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(213);
+	var content = __webpack_require__(214);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(148)(content, {});
@@ -30592,7 +30701,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 213 */
+/* 214 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(147)();
@@ -30606,7 +30715,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 214 */
+/* 215 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30619,7 +30728,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
 
-	var _slicedToArray2 = __webpack_require__(215);
+	var _slicedToArray2 = __webpack_require__(216);
 
 	var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
 
@@ -30684,8 +30793,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return desc;
 	}
 
-	var CLASSES = __webpack_require__(222);
-	__webpack_require__(223);
+	var CLASSES = __webpack_require__(223);
+	__webpack_require__(224);
 
 	var Point = (_class = function (_Component) {
 	  (0, _inherits3.default)(Point, _Component);
@@ -30792,18 +30901,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = Point;
 
 /***/ },
-/* 215 */
+/* 216 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
 	exports.__esModule = true;
 
-	var _isIterable2 = __webpack_require__(216);
+	var _isIterable2 = __webpack_require__(217);
 
 	var _isIterable3 = _interopRequireDefault(_isIterable2);
 
-	var _getIterator2 = __webpack_require__(219);
+	var _getIterator2 = __webpack_require__(220);
 
 	var _getIterator3 = _interopRequireDefault(_getIterator2);
 
@@ -30848,21 +30957,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	}();
 
 /***/ },
-/* 216 */
+/* 217 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(217), __esModule: true };
+	module.exports = { "default": __webpack_require__(218), __esModule: true };
 
 /***/ },
-/* 217 */
+/* 218 */
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(113);
 	__webpack_require__(70);
-	module.exports = __webpack_require__(218);
+	module.exports = __webpack_require__(219);
 
 /***/ },
-/* 218 */
+/* 219 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var classof   = __webpack_require__(88)
@@ -30876,21 +30985,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 219 */
+/* 220 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(220), __esModule: true };
+	module.exports = { "default": __webpack_require__(221), __esModule: true };
 
 /***/ },
-/* 220 */
+/* 221 */
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(113);
 	__webpack_require__(70);
-	module.exports = __webpack_require__(221);
+	module.exports = __webpack_require__(222);
 
 /***/ },
-/* 221 */
+/* 222 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var anObject = __webpack_require__(37)
@@ -30902,7 +31011,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 222 */
+/* 223 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -30911,13 +31020,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 223 */
+/* 224 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(224);
+	var content = __webpack_require__(225);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(148)(content, {});
@@ -30937,7 +31046,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 224 */
+/* 225 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(147)();
@@ -30951,7 +31060,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 225 */
+/* 226 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -30959,13 +31068,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 226 */
+/* 227 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(227);
+	var content = __webpack_require__(228);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(148)(content, {});
@@ -30985,7 +31094,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 227 */
+/* 228 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(147)();
@@ -30999,7 +31108,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 228 */
+/* 229 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31008,7 +31117,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  value: true
 	});
 
-	var _stringify = __webpack_require__(229);
+	var _stringify = __webpack_require__(230);
 
 	var _stringify2 = _interopRequireDefault(_stringify);
 
@@ -31016,7 +31125,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _constants2 = _interopRequireDefault(_constants);
 
-	var _addUnload = __webpack_require__(231);
+	var _addUnload = __webpack_require__(232);
 
 	var _addUnload2 = _interopRequireDefault(_addUnload);
 
@@ -31057,13 +31166,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 229 */
+/* 230 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(230), __esModule: true };
+	module.exports = { "default": __webpack_require__(231), __esModule: true };
 
 /***/ },
-/* 230 */
+/* 231 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var core  = __webpack_require__(32)
@@ -31073,7 +31182,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 231 */
+/* 232 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31090,6 +31199,119 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var unloadEvent = 'onpagehide' in window ? 'pagehide' : 'beforeunload';
 	  window.addEventListener(unloadEvent, fn);
 	};
+
+/***/ },
+/* 233 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(234);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(148)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/postcss-loader/index.js!./../../../node_modules/source-map-loader/index.js!./timeline-handle.postcss.css", function() {
+				var newContent = require("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/postcss-loader/index.js!./../../../node_modules/source-map-loader/index.js!./timeline-handle.postcss.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 234 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(147)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "/*613760*/\n/*$PX:      1/16rem;*/\n/* old was 165px */\n\n._timeline-handle_1ajze_4 {\n  position:   absolute;\n  min-height: 100%;\n  width:      1px;\n  background: #FF512F;\n  z-index:    20\n}\n\n._timeline-handle__head_1ajze_1 {\n  cursor:   pointer;\n  background:   #3A0839;\n  border:   1px solid #FF512F;\n  width:   14px;\n  height:   14px;\n  border-radius:   5px;\n  border-bottom-left-radius:   11px;\n  border-bottom-right-radius:   11px;\n  position:   absolute;\n  left:   -7px;\n  top:   -11.2px;\n}\n\n._timeline-handle__head_1ajze_1 [data-component=\"icon\"] {\n  position:   absolute;\n  width:   6px;\n  height:   6px;\n  left:   50%;\n  top:   50%;\n  margin-left:   -3px;\n  margin-top:   -4px\n}\n\n._timeline-handle__head_1ajze_1:hover [data-component=\"icon\"] {\n  opacity:   .85\n}\n", ""]);
+
+	// exports
+
+
+/***/ },
+/* 235 */
+/***/ function(module, exports) {
+
+	module.exports = {
+		"timeline-handle": "_timeline-handle_1ajze_4",
+		"timeline-handle__head": "_timeline-handle__head_1ajze_1"
+	};
+
+/***/ },
+/* 236 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _constants = __webpack_require__(64);
+
+	var _constants2 = _interopRequireDefault(_constants);
+
+	var _clamp = __webpack_require__(237);
+
+	var _clamp2 = _interopRequireDefault(_clamp);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var INITIAL_STATE = 0;
+	var progress = function progress() {
+	  var state = arguments.length <= 0 || arguments[0] === undefined ? INITIAL_STATE : arguments[0];
+	  var action = arguments[1];
+	  var data = action.data;
+
+
+	  switch (action.type) {
+
+	    case 'SET_PROGRESS':
+	      {
+	        return (0, _clamp2.default)(data, 0, 200);
+	      }
+
+	  }
+
+	  return state;
+	};
+
+	exports.default = progress;
+
+/***/ },
+/* 237 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	/* Function to clamp some value
+	  @param {Number} Value to clamp.
+	  @param {Number} Min clamp bound.
+	  @param {Number} Max clamp bound.
+	  @returns {Number} Clamped value.
+	*/
+
+	var clamp = function clamp(value, min, max) {
+	  return Math.min(Math.max(value, min), max);
+	};
+
+	exports.default = clamp;
 
 /***/ }
 /******/ ])

@@ -2,6 +2,8 @@ import { h, Component } from 'preact';
 import { bind } from 'decko';
 import C from '../constants';
 
+import TimelineHandle from './timeline-handle';
+
 const CLASSES = require('../../css/blocks/timeline-panel.postcss.css.json');
 require('../../css/blocks/timeline-panel');
 

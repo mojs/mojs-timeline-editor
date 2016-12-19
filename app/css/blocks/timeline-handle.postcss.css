@@ -1,0 +1,40 @@
+
+@import '../assets/globals.postcss.css';
+
+.timeline-handle {
+  position:   absolute;
+  min-height: 100%;
+  width:      1*$PX;
+  background: $c-orange;
+  z-index:    20;
+
+  $size: 14*$PX;
+  &__head {
+    cursor: pointer;
+    background: $c-purple;
+    border: 1*$PX solid $c-orange;
+    width:  $size;
+    height: $size;
+    border-radius: 5*$PX;
+    $bigRadus: 11*$PX;
+    border-bottom-left-radius:  $bigRadus;
+    border-bottom-right-radius: $bigRadus;
+    position: absolute;
+    left: -($size/2);
+    top: -.8*$size;
+
+    $size: 6*$PX;
+    [data-component="icon"] {
+      position: absolute;
+      width:  $size;
+      height: $size;
+      left: 50%;
+      top:  50%;
+      margin-left: -$size/2;
+      margin-top:  -$size/2 - 1*$PX;
+    }
+    &:hover {
+      [data-component="icon"] { opacity: .85; }
+    }
+  }
+}

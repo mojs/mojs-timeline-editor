@@ -2,7 +2,7 @@ import { h, Component } from 'preact';
 import {bind} from 'decko';
 
 const CLASSES =
-      require('../../css/blocks/point-timeline-line.postcss.css.json');
+  require('../../css/blocks/point-timeline-line.postcss.css.json');
 require('../../css/blocks/point-timeline-line');
 
 import PointTimeline from './point-timeline';

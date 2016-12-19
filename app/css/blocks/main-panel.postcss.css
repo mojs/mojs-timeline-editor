@@ -13,4 +13,9 @@ $player-height: 40*$PX;
   &--transition {
     transition: height 0.4s;
   }
+
+  [data-component="timeline-handle"] {
+    margin-left: $LEFT_PANEL_WIDTH;
+    font-size: 1px;
+  }
 }
