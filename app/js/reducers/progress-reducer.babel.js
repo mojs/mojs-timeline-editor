@@ -7,9 +7,7 @@ const progress = (state=INITIAL_STATE, action) => {
 
   switch (action.type) {
 
-  case 'SET_PROGRESS': {
-    return clamp(data, 0, 200);
-  }
+  case 'SET_PROGRESS': { return data; }
 
   }
 

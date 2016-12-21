@@ -14,7 +14,7 @@
   }
 
   &.is-check {
-    .open-toggle {
+    .button {
       &:hover {
         background: rgba(61,12,59,.2);
       }
@@ -28,8 +28,10 @@
   }
 
   &.is-open {
-    .open-toggle__inner {
-      transform: rotate(180deg);
+    .button.is-arrow {
+      .button__inner {
+        transform: rotate(180deg);
+      }
     }
     .body {
       display:  block;
@@ -55,7 +57,7 @@
   display: none;
 }
 
-.open-toggle {
+.button {
   position:      absolute;
   top:           0;
   right:         0;
@@ -63,6 +65,7 @@
   height:        $POINT_LINE_HEIGHT - 2;
   background:    inherit;
   border-left:   1px solid $c-light-purple;
+
   &__inner {
     position:    absolute;
     width:       100%;
@@ -86,4 +89,28 @@
   &:hover {
     background: $c-light-purple;
   }
+
+  &.is-spot {
+    right: $POINT_LINE_HEIGHT;
+  }
 }
+
+/*.add-spot {
+  position: absolute;
+  right: $POINT_LINE_HEIGHT;
+  width: $POINT_LINE_HEIGHT;
+  height: $POINT_LINE_HEIGHT;
+  border-left: 1*$PX solid $c-purple;
+
+  $size: 6*$PX;
+  [data-component="icon"] {
+    fill: $c-purple;
+    position: absolute;
+    width: $size;
+    height: $size;
+    left: 50%;
+    top: 50%;
+    margin-left: -$size/2;
+    margin-top:  -$size/2 - 1;
+  }
+}*/

@@ -1,8 +1,9 @@
 import C from '../constants';
 
+const INTIAL_SIZE  = 400;
 const INITIAL_STATE = {
-  prevHeight:   100,
-  ySize:        100,
+  prevHeight:   INTIAL_SIZE,
+  ySize:        INTIAL_SIZE,
   isHidden:     false,
   isTransition: false
 };

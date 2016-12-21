@@ -1,5 +1,6 @@
 import C from '../constants';
 import createPoint from '../helpers/create-point';
+import createSpot from '../helpers/create-spot';
 
 const INITIAL_STATE = [];
 
@@ -33,21 +34,26 @@ const selectPoint = (state, id) => {
   return newState;
 };
 
+const ensureEndTimes = (prop, i = 0, start=0) => {
+  if (i >= prop.length) { return; }
+  prop[i].timeEnd = start + prop[i].delay + prop[i].duration;
+  ensureEndTimes(prop, i+1, prop[i].timeEnd);
+};
+
 const shiftSpot = (state, data) => {
   const newState = [];
   for (let i = 0; i < state.length; i++) {
     const newPoint = { ...state[i] };
     newState[i] = newPoint;
     if (newPoint.id === data.id) {
-      const prop = { ...newPoint.props[data.prop] };
+      const prop = [ ...newPoint.props[data.prop] ];
       newPoint.props[data.prop] = prop;
-      const spots = [...prop.spots];
-      prop.spots = spots;
       const i = data.spotIndex;
-      spots[i].duration += data.duration || 0;
-      spots[i].delay    += data.delay || 0;
-      spots[i].duration = Math.max(spots[i].duration, 40);
-      spots[i].delay    = Math.max(spots[i].delay, 0);
+      prop[i].duration += data.duration || 0;
+      prop[i].delay    += data.delay || 0;
+      prop[i].duration = Math.max(prop[i].duration, 40);
+      prop[i].delay    = Math.max(prop[i].delay, 0);
+      ensureEndTimes(prop);
     }
   }
   return newState;
@@ -66,6 +72,65 @@ const setPointPosition = (state, {deltaX, deltaY, id}) => {
   return newState;
 };
 
+const addPropertySpot = (props, name, data, endValue) => {
+  const spots = [...props[name]];
+  props[name] = spots;
+
+  const prevSpot = spots[spots.length-1];
+  // if very first unchanged segment - alter it's tail
+  const isChanged = spots.length > 1 || spots[0].isChanged;
+  const isUpdate = !isChanged && spots[0].duration === C.MIN_DURATION;
+  if (isUpdate) {
+    spots[0].endValue = endValue;
+    spots[0].duration = (data.time - spots[0].delay);
+    ensureEndTimes(spots);
+  // if not - create entirely new segement
+  } else {
+    const duration = (data.time - prevSpot.timeEnd);
+    spots.push(
+      createSpot({
+        index:      spots.length + 1,
+        startValue: prevSpot.endValue,
+        timeEnd:    prevSpot.timeEnd + duration,
+        endValue,
+        duration
+      })
+    );
+  }
+
+};
+
+const addSpot = (state, data) => {
+  const newState = [];
+  for (let i = 0; i < state.length; i++) {
+    const newPoint = {...state[i]};
+    newState.push( newPoint );
+    if (newPoint.id === data.id) {
+      const {x, y} = newPoint.currentProps;
+      const props = { ...newPoint.props };
+      newPoint.props = props;
+      addPropertySpot(props, 'x', data, x);
+      addPropertySpot(props, 'y', data, y);
+    }
+  }
+  return newState;
+};
+
+const createPropertySpot = (state, data) => {
+  const newState = [];
+  for (let i = 0; i < state.length; i++) {
+    const newPoint = {...state[i]};
+    newState.push( newPoint );
+    if (newPoint.id === data.id) {
+      const {name} = data;
+      const props = { ...newPoint.props };
+      newPoint.props = props;
+      addPropertySpot(props, name, data, newPoint.currentProps[name]);
+    }
+  }
+  return newState;
+};
+
 const insertPoint = (state=INITIAL_STATE, action) => {
   const {data} = action;
 
@@ -75,6 +140,14 @@ const insertPoint = (state=INITIAL_STATE, action) => {
     const newState = resetSelected(state);
     newState.push( createPoint(data, newState.length) );
     return newState;
+  }
+
+  case 'ADD_SPOT': {
+    return addSpot(state, data);
+  }
+
+  case 'ADD_PROPERTY_SPOT': {
+    return createPropertySpot(state, data);
   }
 
   case 'TOGGLE_OPEN_POINT': {

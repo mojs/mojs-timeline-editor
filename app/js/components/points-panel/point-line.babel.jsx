@@ -1,7 +1,7 @@
 import { h, Component } from 'preact';
 import {bind} from 'decko';
 
-const CLASSES = require('../../../css/blocks/point-line.postcss.css.json');
+const CLS = require('../../../css/blocks/point-line.postcss.css.json');
 require('../../../css/blocks/point-line');
 
 import PropertyLine from './property-line';
@@ -13,15 +13,24 @@ class PointLine extends Component {
 
     return (
       <div className={this._getClassName(state)}>
-        <div className={CLASSES['label']} onClick={this._onCheck}>
+        <div className={CLS['label']} onClick={this._onCheck}>
           {state.name}
         </div>
-        <div className={CLASSES['open-toggle']} onClick={this._onOpen}>
-          <div className={CLASSES['open-toggle__inner']}>
+
+        <div className={`${CLS['button']} ${CLS['is-spot']}`}
+              onClick={this._onAddSpot}>
+          <div className={CLS['button__inner']}>
+            <Icon shape="spot" />
+          </div>
+        </div>
+
+        <div  className={`${CLS['button']} ${CLS['is-arrow']}`}
+              onClick={this._onOpen}>
+          <div className={CLS['button__inner']}>
             <Icon shape="dropdown" />
           </div>
         </div>
-        <div className={CLASSES['body']}>
+        <div className={CLS['body']}>
           {this._renderProperties(state)}
         </div>
       </div>
@@ -29,9 +38,9 @@ class PointLine extends Component {
   }
 
   _getClassName(state) {
-    const openClass  = (state.isOpen) ? CLASSES['is-open']: '';
-    const checkClass = (state.isSelected) ? CLASSES['is-check']: '';
-    return `${CLASSES['point-line']} ${openClass} ${checkClass}`;
+    const openClass  = (state.isOpen) ? CLS['is-open']: '';
+    const checkClass = (state.isSelected) ? CLS['is-check']: '';
+    return `${CLS['point-line']} ${openClass} ${checkClass}`;
   }
 
   _renderProperties(state) {
@@ -54,7 +63,16 @@ class PointLine extends Component {
     const {state} = this.props;
     const {store} = this.context;
 
-    store.dispatch({ type: 'SELECT_POINT', data: state.id });
+    // store.dispatch({ type: 'SELECT_POINT', data: state.id });
+  }
+
+  @bind
+  _onAddSpot() {
+    const {state, entireState} = this.props;
+    const {store} = this.context;
+
+    const data = { id: state.id, time: entireState.progress };
+    store.dispatch({ type: 'ADD_SPOT', data });
   }
 
   @bind

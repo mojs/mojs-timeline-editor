@@ -39,12 +39,11 @@ class PointTimelineLine extends Component {
 
   _renderProperty(key, prop) {
     const {state} = this.props;
-    const {spots} = prop;
     const results = [];
 
-    let prevSpot = spots[0];
-    for (let i = 0; i < spots.length; i++) {
-      const spot = spots[i];
+    let prevSpot = prop[0];
+    for (let i = 0; i < prop.length; i++) {
+      const spot = prop[i];
       const meta = { id: state.id, prop: key, spotIndex: i };
       results.push(
         <PointTimeline duration={spot.duration} delay={spot.delay} meta={meta} />

@@ -33,7 +33,11 @@ class Point extends Component {
   @bind
   _addPoint() {
     const {store} = this.context;
-    store.dispatch({ type: 'ADD_POINT', data: { ...this.state } });
+    const {state} = this.props;
+    store.dispatch({
+      type: 'ADD_POINT',
+      data: { ...this.state, time: state.progress }
+    });
   }
 
   @bind
