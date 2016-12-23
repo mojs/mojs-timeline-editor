@@ -33,9 +33,11 @@ class ToolsPanel extends Component {
           <Icon shape="mojs-logo" />
         </a>
 
-        <Button className={`${CLASSES['button']} ${CLASSES['is-link']}`}>
-          <Icon shape="link" />
-        </Button>
+        {/*
+          <Button className={`${CLASSES['button']} ${CLASSES['is-link']}`}>
+            <Icon shape="link" />
+          </Button>
+        */}
       </div>
     );
   }

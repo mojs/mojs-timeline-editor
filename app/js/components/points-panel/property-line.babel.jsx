@@ -34,10 +34,11 @@ class PropertyLine extends Component {
   _onAddSpot(e) {
     const {store} = this.context;
     const p = this.props;
+    const {state, entireState} = p;
 
     store.dispatch({
-      type: 'ADD_PROPERTY_SPOT',
-      data: { id: p.id, name: p.name }
+      type: 'ADD_PROPERTY_SEGMENT',
+      data: { id: p.id, name: p.name, time: entireState.progress }
     });
   }
 }

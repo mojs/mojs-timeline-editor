@@ -31,7 +31,7 @@ class PointLine extends Component {
           </div>
         </div>
         <div className={CLS['body']}>
-          {this._renderProperties(state)}
+          {this._renderProperties()}
         </div>
       </div>
     );
@@ -43,7 +43,8 @@ class PointLine extends Component {
     return `${CLS['point-line']} ${openClass} ${checkClass}`;
   }
 
-  _renderProperties(state) {
+  _renderProperties() {
+    const {state} = this.props;
     const {props} = state;
     const names = Object.keys(props);
     const results = [];
@@ -51,7 +52,7 @@ class PointLine extends Component {
     for (let i = 0; i < names.length; i++) {
       const name = names[i];
       results.push(
-        <PropertyLine id={state.id} name={name} state={state} />
+        <PropertyLine id={state.id} name={name} {...this.props} />
       );
     }
 

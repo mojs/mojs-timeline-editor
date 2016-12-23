@@ -8,6 +8,8 @@ import TimelineEditor from './components/timeline-editor';
 import persist from './helpers/persist';
 
 /* TODO:
+    [x] point-timleine.abbel.jsx add animation
+        when start/end points got selected
     [x] test if `onClick` handler on components is optimized for mobiles
 */
 

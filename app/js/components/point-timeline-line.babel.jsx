@@ -5,7 +5,7 @@ const CLASSES =
   require('../../css/blocks/point-timeline-line.postcss.css.json');
 require('../../css/blocks/point-timeline-line');
 
-import PointTimeline from './point-timeline';
+import SegmentTimeline from './segment-timeline';
 
 class PointTimelineLine extends Component {
   render () {
@@ -38,7 +38,7 @@ class PointTimelineLine extends Component {
   }
 
   _renderProperty(key, prop) {
-    const {state} = this.props;
+    const {state, entireState} = this.props;
     const results = [];
 
     let prevSpot = prop[0];
@@ -46,7 +46,7 @@ class PointTimelineLine extends Component {
       const spot = prop[i];
       const meta = { id: state.id, prop: key, spotIndex: i };
       results.push(
-        <PointTimeline duration={spot.duration} delay={spot.delay} meta={meta} />
+        <SegmentTimeline state={spot} meta={meta} entireState={entireState} />
       );
       prevSpot = spot;
     }

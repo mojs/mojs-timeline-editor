@@ -5,8 +5,8 @@
 /*$PX:      1/16rem;*/
 $PX:      1px;
 $FPX:     1px;
-$GS:      calc( 10 * $PX );
-$BRADIUS: calc( 3 * $PX );
+$GS:      10*$PX;
+$BRADIUS: 3*$PX;
 
 $LEFT_PANEL_WIDTH: 19.5*$GS; /* old was 165px */
 $POINT_SIZE: 6*$PX;

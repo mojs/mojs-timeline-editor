@@ -1,0 +1,59 @@
+
+@import '../assets/globals.postcss.css';
+
+.spot {
+  position:    relative;
+  height:      100%;
+  float:       left;
+  background:  #BCA5AA;
+  height:      20*$PX;
+  border-top-left-radius: $BRADIUS;
+  border-bottom-left-radius: $BRADIUS;
+
+  &--end {
+    display:    block;
+    background: transparent;
+    /*background: yellow;*/
+    /*z-index: 0;*/
+  }
+
+  $size: 6*$PX;
+  &__dot {
+    width:        $size;
+    height:       $size;
+    background:   $c-purple;
+    position:     absolute;
+    z-index:      1;
+    top:          50%;
+    right:       -($size/2);
+    margin-top:  -($size/2);
+    /*margin-left: -($size/2);*/
+    cursor:       pointer;
+    transform:    rotate(45deg);
+
+    &:hover,
+    &:active {
+      background: $c-light-purple;
+      outline:    1*$PX solid $c-orange;
+      outline:    2*$PX solid #BCA5AA;
+    }
+
+    $size: 300%;
+    &:after {
+      content:     '';
+      position:    absolute;
+      width:       $size;
+      height:      $size;
+      margin-left: (100% - $size)/2;
+      margin-top:  (100% - $size)/2;
+      transform:   rotate(45deg);
+      user-select: none;
+    }
+  }
+
+  &.is-selected {
+    .spot__dot {
+      background: $c-orange;
+    }
+  }
+}

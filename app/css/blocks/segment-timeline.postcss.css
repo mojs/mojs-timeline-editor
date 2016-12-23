@@ -1,0 +1,32 @@
+@import '../assets/globals.postcss.css';
+
+$borderRadius: 3*$PX;
+.segment-timeline {
+  height:     100%;
+  display:    inline-block;
+  vertical-align: top;
+  position:   relative;
+  font-size:  1px;
+
+  $size: 80%;
+  &__bar {
+    width: 100%;
+    /*height: $size;*/
+    background:     $c-creamy;
+    border-radius:  $borderRadius;
+    position:       relative;
+    top:            (100% - $size)/2;
+    box-shadow:     2*$PX 3*$PX 0 rgba(0,0,0,.5);
+    overflow:       hidden;
+  }
+
+  /*&__delay {
+    background: #BCA5AA;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    z-index: 1;
+    border-top-left-radius: $borderRadius;
+    border-bottom-left-radius: $borderRadius;
+  }*/
+}

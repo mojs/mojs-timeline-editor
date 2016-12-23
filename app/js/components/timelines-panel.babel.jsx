@@ -8,19 +8,22 @@ require('../../css/blocks/timelines-panel');
 
 class TimelinePanel extends Component {
   render () {
-    const {state} = this.props;
+
     return (
       <div className={CLASSES['timelines-panel']}>
-        { this._renderTimelines(state) }
+        { this._renderTimelines() }
       </div>
     );
   }
 
-  _renderTimelines(state) {
+  _renderTimelines() {
+    const {state} = this.props;
+    const {points} = state;
+
     const results = [];
-    for (let i = 0; i < state.length; i++) {
+    for (let i = 0; i < points.length; i++) {
       results.push(
-        <PointTimelineLine state={state[i]} />
+        <PointTimelineLine state={points[i]} entireState={state} />
       );
     }
 

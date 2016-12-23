@@ -1,6 +1,6 @@
 
 import makeID from './makeID';
-import createSpot from './create-spot';
+import createSegment from './create-segment';
 
 export default (data, i=0) => {
   const { x, y, name, time } = data;
@@ -11,9 +11,11 @@ export default (data, i=0) => {
     isOpen:       true,
     isSelected:   false,
     currentProps: {x, y},
+    // start:        0,
+    // end:          0,
     props: {
-      x: [ createSpot({ startValue: x, delay: time }) ],
-      y: [ createSpot({ startValue: y, delay: time }) ]
+      x: [ createSegment({ startValue: x, delay: time }) ],
+      y: [ createSegment({ startValue: y, delay: time }) ]
     }
   };
 };

@@ -17,7 +17,7 @@ class BodyPanel extends Component {
           <PointsPanel state={state.points} entireState={state} />
         </div>
         <div className={CLASSES['body-panel__right']}>
-          <TimelinesPanel state={state.points} />
+          <TimelinesPanel state={state} />
         </div>
       </div>
     );
