@@ -1,4 +1,5 @@
 
+import C from '../constants';
 import makeID from './makeID';
 import createSegment from './create-segment';
 
@@ -10,14 +11,14 @@ export default (data, i=0) => {
     name:         name || `point${i+1}`,
     isOpen:       true,
     isSelected:   false,
-    currentProps: { ['x / y']: [x, y] },
+    currentProps: { [C.POSITION_NAME]: [x, y] },
     selectedSpot: {
       prop:     null,
       segment:  0,
       type:     null
     },
     props: {
-      ['x / y']: [ createSegment({ startValue: [x, y], delay: time }) ]
+      [C.POSITION_NAME]: [ createSegment({ startValue: [x, y], delay: time }) ]
     }
   };
 };

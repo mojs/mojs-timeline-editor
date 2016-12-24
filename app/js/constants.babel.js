@@ -14,5 +14,6 @@ export default {
   /* defines the period in which start and end points
       on a timeline will be selected.
   */
-  SPOT_SELECTION_GAP: 20
+  SPOT_SELECTION_GAP: 20,
+  POSITION_NAME:      'x : y'
 };

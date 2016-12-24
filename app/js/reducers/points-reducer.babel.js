@@ -73,8 +73,8 @@ const points = (state=INITIAL_STATE, action) => {
   case 'ADD_SPOT': {
     const {x, y, id} = data;
     return change(state,
-      [id, 'props', 'x / y'],
-      segments => addPropertySegment([...segments], 'x / y', data)
+      [id, 'props', C.POSITION_NAME],
+      segments => addPropertySegment([...segments], C.POSITION_NAME, data)
     );
   }
 
@@ -83,15 +83,15 @@ const points = (state=INITIAL_STATE, action) => {
 
     return change(state,
       [id, 'props', name],
-      segments => addPropertySegment([...segments], 'x / y', data)
+      segments => addPropertySegment([...segments], C.POSITION_NAME, data)
     );
   }
 
   case 'CHANGE_POINT_CURRENT_POSITION': {
     return change(state, [data.id, 'currentProps'], (obj) => {
       const {deltaX: dX, deltaY: dY} = data;
-      const pos = obj['x / y'];
-      return {...obj, [`x / y`]: [pos[0] + dX, pos[1] + dY] };
+      const pos = obj[C.POSITION_NAME];
+      return {...obj, [C.POSITION_NAME]: [pos[0] + dX, pos[1] + dY] };
     });
   }
 

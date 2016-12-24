@@ -1,6 +1,7 @@
 import { h, Component } from 'preact';
 import {bind} from 'decko';
 import Hammer from 'hammerjs';
+import C from '../constants';
 
 const CLASSES = require('../../css/blocks/point.postcss.css.json');
 require('../../css/blocks/point');
@@ -25,7 +26,7 @@ class Point extends Component {
     );
   }
 
-  _getCoords(state) { return state.currentProps['x / y']; }
+  _getCoords(state) { return state.currentProps[C.POSITION_NAME]; }
 
   _getClassName(state) {
     const selectClass = (state.isSelected) ? CLASSES['is-selected']: '';

@@ -21830,7 +21830,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  /* defines the period in which start and end points
 	      on a timeline will be selected.
 	  */
-	  SPOT_SELECTION_GAP: 20
+	  SPOT_SELECTION_GAP: 20,
+	  POSITION_NAME: 'x : y'
 	};
 
 /***/ },
@@ -22639,8 +22640,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var y = data.y;
 	        var id = data.id;
 
-	        return (0, _change2.default)(state, [id, 'props', 'x / y'], function (segments) {
-	          return addPropertySegment([].concat((0, _toConsumableArray3.default)(segments)), 'x / y', data);
+	        return (0, _change2.default)(state, [id, 'props', _constants2.default.POSITION_NAME], function (segments) {
+	          return addPropertySegment([].concat((0, _toConsumableArray3.default)(segments)), _constants2.default.POSITION_NAME, data);
 	        });
 	      }
 
@@ -22652,7 +22653,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	        return (0, _change2.default)(state, [_id, 'props', name], function (segments) {
-	          return addPropertySegment([].concat((0, _toConsumableArray3.default)(segments)), 'x / y', data);
+	          return addPropertySegment([].concat((0, _toConsumableArray3.default)(segments)), _constants2.default.POSITION_NAME, data);
 	        });
 	      }
 
@@ -22662,8 +22663,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	          var dX = data.deltaX;
 	          var dY = data.deltaY;
 
-	          var pos = obj['x / y'];
-	          return (0, _extends4.default)({}, obj, (0, _defineProperty3.default)({}, 'x / y', [pos[0] + dX, pos[1] + dY]));
+	          var pos = obj[_constants2.default.POSITION_NAME];
+	          return (0, _extends4.default)({}, obj, (0, _defineProperty3.default)({}, _constants2.default.POSITION_NAME, [pos[0] + dX, pos[1] + dY]));
 	        });
 	      }
 
@@ -23299,6 +23300,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _defineProperty3 = _interopRequireDefault(_defineProperty2);
 
+	var _constants = __webpack_require__(26);
+
+	var _constants2 = _interopRequireDefault(_constants);
+
 	var _makeID = __webpack_require__(102);
 
 	var _makeID2 = _interopRequireDefault(_makeID);
@@ -23322,13 +23327,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    name: name || 'point' + (i + 1),
 	    isOpen: true,
 	    isSelected: false,
-	    currentProps: (0, _defineProperty3.default)({}, 'x / y', [x, y]),
+	    currentProps: (0, _defineProperty3.default)({}, _constants2.default.POSITION_NAME, [x, y]),
 	    selectedSpot: {
 	      prop: null,
 	      segment: 0,
 	      type: null
 	    },
-	    props: (0, _defineProperty3.default)({}, 'x / y', [(0, _createSegment2.default)({ startValue: [x, y], delay: time })])
+	    props: (0, _defineProperty3.default)({}, _constants2.default.POSITION_NAME, [(0, _createSegment2.default)({ startValue: [x, y], delay: time })])
 	  };
 	};
 
@@ -26791,7 +26796,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: '_renderProperty',
 	    value: function _renderProperty(key, prop) {
-	      console.log(key, prop);
 	      var _props = this.props;
 	      var state = _props.state;
 	      var entireState = _props.entireState;
@@ -31471,6 +31475,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _hammerjs2 = _interopRequireDefault(_hammerjs);
 
+	var _constants = __webpack_require__(26);
+
+	var _constants2 = _interopRequireDefault(_constants);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
@@ -31545,7 +31553,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: '_getCoords',
 	    value: function _getCoords(state) {
-	      return state.currentProps['x / y'];
+	      return state.currentProps[_constants2.default.POSITION_NAME];
 	    }
 	  }, {
 	    key: '_getClassName',

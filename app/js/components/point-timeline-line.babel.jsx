@@ -38,7 +38,6 @@ class PointTimelineLine extends Component {
   }
 
   _renderProperty(key, prop) {
-    console.log(key, prop);
     const {state, entireState} = this.props;
     const results = [];
 
