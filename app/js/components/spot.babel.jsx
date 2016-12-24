@@ -19,7 +19,6 @@ class Spot extends Component {
 
     const style = {
       width: `${(type === 'start') ? delayWidth : durationWidth}em`
-      // zIndex:    50 - meta.spotIndex,
     };
 
     return (<div className={this._getClassName()}
@@ -30,28 +29,6 @@ class Spot extends Component {
             </div>);
   }
 
-  _checkSelected() {
-    // return;
-    // const {state, entireState, meta, type} = this.props;
-    // const {start, end, delay} = state;
-    // const {progress} = entireState;
-    // const {store} = this.context;
-    //
-    // const dot = state[type];
-    //
-    // const delta = Math.abs(progress - dot.time);
-    // const isSelected = (delta < C.SPOT_SELECTION_GAP);
-    //
-    // if (dot.isSelected !== isSelected) {
-    //   store.dispatch({
-    //     type: 'SET_SPOT_SELECTION',
-    //     data: { ...meta, type, state: isSelected }
-    //   });
-    // } else {
-    //   console.log('ok');
-    // }
-  }
-
   _getClassName() {
     const {type, state} = this.props;
     const endClass = (type === 'end') ? CLASSES['spot--end'] : '';
@@ -60,18 +37,6 @@ class Spot extends Component {
     return `${CLASSES['spot']} ${endClass} ${selectClass}`;
   }
 
-  // _isSelected() {
-  //   const {type, state, entireState, meta} = this.props;
-  //   const {store} = this.context;
-  //   const dot = state[type];
-  //   const delta1 = Math.abs(entireState.progress - dot.time);
-  //   const delta2 = Math.abs(entireState.progress - (dot.time + state.delay));
-  //   const isSelect1 = delta1 <= C.SPOT_SELECTION_GAP && !state.delay;
-  //   const isSelect2 = delta2 <= C.SPOT_SELECTION_GAP;
-  //
-  //   return isSelect1 || isSelect2;
-  // }
-
   _isCounterpartSelected() {
     const {type, state, entireState, meta} = this.props;
   }
@@ -79,10 +44,12 @@ class Spot extends Component {
   componentDidMount() {
     const mc  = new Hammer.Manager(this._dot);
     mc.add(new Hammer.Pan);
+    mc.add(new Hammer.Tap);
     mc.get('pan').set({ direction: Hammer.DIRECTION_HORIZONTAL });
 
     mc.on('pan', this._pan);
     mc.on('panend', this._panEnd);
+    mc.on('tap', this._tap);
   }
 
   @bind
@@ -112,6 +79,15 @@ class Spot extends Component {
     });
 
     this.setState({ dDelay: 0, dDuration: 0 });
+  }
+
+  @bind
+  _tap(e) {
+    const {store} = this.context;
+    const {meta, type}  = this.props;
+
+    // store.dispatch({ type: 'SELECT_SPOT', data: { type, ...meta } });
+    store.dispatch({ type: 'TOGGLE_SPOT_SELECTION', data: { type, ...meta } });
   }
 }
 

@@ -22518,10 +22518,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  value: true
 	});
 
-	var _keys = __webpack_require__(69);
-
-	var _keys2 = _interopRequireDefault(_keys);
-
 	var _toConsumableArray2 = __webpack_require__(73);
 
 	var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
@@ -22698,38 +22694,69 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return newState;
 	};
 
-	var setSpotSelection = function setSpotSelection(state, progress) {
+	// const setSpotSelection = (state, data) => {
+	//   const newState = [];
+	//
+	//   console.log('setSpotSelection', data);
+	//
+	//   for (let i = 0; i < state.length; i++) {
+	//     const point = { ...state[i] };
+	//     newState.push(point);
+	//     if (point.id === data.id) {
+	//       point.props = {...point.props};
+	//       point.props[data.prop] = [...point.props[data.prop]];
+	//       const segments = point.props[data.prop];
+	//       segments[data.spotIndex] = {...segments[data.spotIndex]};
+	//       const segment = segments[data.spotIndex];
+	//       segment[data.type] = {...segment[data.type]};
+	//       const spot = segment[data.type];
+	//       spot.isSelected = true;
+	//
+	//       if (spot.connected === 'prev' && data.spotIndex > 0) {
+	//         segments[data.spotIndex-1] = {...segments[data.spotIndex-1]};
+	//         const prevSegment = segments[data.spotIndex-1];
+	//         const spot = prevSegment.end;
+	//         spot.isSelected = true;
+	//       }
+	//
+	//     }
+	//   }
+	//   return newState;
+	// };
+
+
+	var toggleSpotSelection = function toggleSpotSelection(state, data) {
 	  var newState = [];
+
+	  console.log('setSpotSelection', data);
 
 	  for (var i = 0; i < state.length; i++) {
 	    var point = (0, _extends3.default)({}, state[i]);
 	    newState.push(point);
+	    if (point.id === data.id) {
+	      point.props = (0, _extends3.default)({}, point.props);
+	      point.props[data.prop] = [].concat((0, _toConsumableArray3.default)(point.props[data.prop]));
+	      var prop = point.props[data.prop];
 
-	    point.props = (0, _extends3.default)({}, point.props);
-	    var props = (0, _keys2.default)(point.props);
+	      var segments = point.props[data.prop];
+	      segments[data.spotIndex] = (0, _extends3.default)({}, segments[data.spotIndex]);
+	      var segment = segments[data.spotIndex];
+	      segment[data.type] = (0, _extends3.default)({}, segment[data.type]);
+	      var spot = segment[data.type];
+	      spot.isSelected = !spot.isSelected;
 
-	    for (var _i2 = 0; _i2 < props.length; _i2++) {
-	      var propName = props[_i2];
-	      point.props[propName] = [].concat((0, _toConsumableArray3.default)(point.props[propName]));
-	      var propSegments = point.props[propName];
+	      if (spot.connected === 'prev' && data.spotIndex > 0) {
+	        segments[data.spotIndex - 1] = (0, _extends3.default)({}, segments[data.spotIndex - 1]);
+	        var prevSegment = segments[data.spotIndex - 1];
+	        var prevSpot = prevSegment.end;
+	        prevSpot.isSelected = spot.isSelected;
+	      }
 
-	      for (var j = 0; j < propSegments.length; j++) {
-	        propSegments[j] = (0, _extends3.default)({}, propSegments[j]);
-	        var _propSegments$j = propSegments[j];
-	        var end = _propSegments$j.end;
-	        var start = _propSegments$j.start;
-	        var delay = _propSegments$j.delay;
-
-	        var deltaEnd = Math.abs(end.time - progress);
-	        var deltaStart = Math.abs(start.time - progress + delay);
-
-	        propSegments[j].end = (0, _extends3.default)({}, propSegments[j].end, {
-	          isSelected: deltaEnd <= _constants2.default.SPOT_SELECTION_GAP
-	        });
-
-	        propSegments[j].start = (0, _extends3.default)({}, propSegments[j].start, {
-	          isSelected: deltaStart <= _constants2.default.SPOT_SELECTION_GAP
-	        });
+	      if (spot.connected === 'next' && data.spotIndex < prop.length - 2) {
+	        segments[data.spotIndex + 1] = (0, _extends3.default)({}, segments[data.spotIndex + 1]);
+	        var nextSegment = segments[data.spotIndex + 1];
+	        var nextSpot = nextSegment.start;
+	        nextSpot.isSelected = spot.isSelected;
 	      }
 	    }
 	  }
@@ -22781,9 +22808,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return setPointPosition(state, data);
 	      }
 
-	    case 'SET_PROGRESS':
+	    // case 'SELECT_SPOT': {
+	    //   return setSpotSelection(state, data);
+	    // }
+
+	    case 'TOGGLE_SPOT_SELECTION':
 	      {
-	        return setSpotSelection(state, data);
+	        return toggleSpotSelection(state, data);
 	      }
 
 	  }
@@ -29639,7 +29670,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	      var style = {
 	        width: (type === 'start' ? delayWidth : durationWidth) + 'em'
-	        // zIndex:    50 - meta.spotIndex,
 	      };
 
 	      return (0, _preact.h)(
@@ -29654,29 +29684,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      );
 	    }
 	  }, {
-	    key: '_checkSelected',
-	    value: function _checkSelected() {
-	      // return;
-	      // const {state, entireState, meta, type} = this.props;
-	      // const {start, end, delay} = state;
-	      // const {progress} = entireState;
-	      // const {store} = this.context;
-	      //
-	      // const dot = state[type];
-	      //
-	      // const delta = Math.abs(progress - dot.time);
-	      // const isSelected = (delta < C.SPOT_SELECTION_GAP);
-	      //
-	      // if (dot.isSelected !== isSelected) {
-	      //   store.dispatch({
-	      //     type: 'SET_SPOT_SELECTION',
-	      //     data: { ...meta, type, state: isSelected }
-	      //   });
-	      // } else {
-	      //   console.log('ok');
-	      // }
-	    }
-	  }, {
 	    key: '_getClassName',
 	    value: function _getClassName() {
 	      var _props2 = this.props;
@@ -29688,19 +29695,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	      return CLASSES['spot'] + ' ' + endClass + ' ' + selectClass;
 	    }
-
-	    // _isSelected() {
-	    //   const {type, state, entireState, meta} = this.props;
-	    //   const {store} = this.context;
-	    //   const dot = state[type];
-	    //   const delta1 = Math.abs(entireState.progress - dot.time);
-	    //   const delta2 = Math.abs(entireState.progress - (dot.time + state.delay));
-	    //   const isSelect1 = delta1 <= C.SPOT_SELECTION_GAP && !state.delay;
-	    //   const isSelect2 = delta2 <= C.SPOT_SELECTION_GAP;
-	    //
-	    //   return isSelect1 || isSelect2;
-	    // }
-
 	  }, {
 	    key: '_isCounterpartSelected',
 	    value: function _isCounterpartSelected() {
@@ -29715,10 +29709,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: function componentDidMount() {
 	      var mc = new _hammerjs2.default.Manager(this._dot);
 	      mc.add(new _hammerjs2.default.Pan());
+	      mc.add(new _hammerjs2.default.Tap());
 	      mc.get('pan').set({ direction: _hammerjs2.default.DIRECTION_HORIZONTAL });
 
 	      mc.on('pan', this._pan);
 	      mc.on('panend', this._panEnd);
+	      mc.on('tap', this._tap);
 	    }
 	  }, {
 	    key: '_pan',
@@ -29751,9 +29747,21 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	      this.setState({ dDelay: 0, dDuration: 0 });
 	    }
+	  }, {
+	    key: '_tap',
+	    value: function _tap(e) {
+	      var store = this.context.store;
+	      var _props4 = this.props;
+	      var meta = _props4.meta;
+	      var type = _props4.type;
+
+	      // store.dispatch({ type: 'SELECT_SPOT', data: { type, ...meta } });
+
+	      store.dispatch({ type: 'TOGGLE_SPOT_SELECTION', data: (0, _extends3.default)({ type: type }, meta) });
+	    }
 	  }]);
 	  return Spot;
-	}(_preact.Component), (_applyDecoratedDescriptor(_class.prototype, '_pan', [_decko.bind], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_pan'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, '_panEnd', [_decko.bind], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_panEnd'), _class.prototype)), _class);
+	}(_preact.Component), (_applyDecoratedDescriptor(_class.prototype, '_pan', [_decko.bind], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_pan'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, '_panEnd', [_decko.bind], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_panEnd'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, '_tap', [_decko.bind], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_tap'), _class.prototype)), _class);
 	exports.default = Spot;
 
 /***/ },

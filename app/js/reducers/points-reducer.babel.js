@@ -135,38 +135,71 @@ const createPropertySegment = (state, data) => {
   return newState;
 };
 
-const setSpotSelection = (state, progress) => {
+// const setSpotSelection = (state, data) => {
+//   const newState = [];
+//
+//   console.log('setSpotSelection', data);
+//
+//   for (let i = 0; i < state.length; i++) {
+//     const point = { ...state[i] };
+//     newState.push(point);
+//     if (point.id === data.id) {
+//       point.props = {...point.props};
+//       point.props[data.prop] = [...point.props[data.prop]];
+//       const segments = point.props[data.prop];
+//       segments[data.spotIndex] = {...segments[data.spotIndex]};
+//       const segment = segments[data.spotIndex];
+//       segment[data.type] = {...segment[data.type]};
+//       const spot = segment[data.type];
+//       spot.isSelected = true;
+//
+//       if (spot.connected === 'prev' && data.spotIndex > 0) {
+//         segments[data.spotIndex-1] = {...segments[data.spotIndex-1]};
+//         const prevSegment = segments[data.spotIndex-1];
+//         const spot = prevSegment.end;
+//         spot.isSelected = true;
+//       }
+//
+//     }
+//   }
+//   return newState;
+// };
+
+
+const toggleSpotSelection = (state, data) => {
   const newState = [];
+
+  console.log('setSpotSelection', data);
 
   for (let i = 0; i < state.length; i++) {
     const point = { ...state[i] };
     newState.push(point);
+    if (point.id === data.id) {
+      point.props = {...point.props};
+      point.props[data.prop] = [...point.props[data.prop]];
+      const prop = point.props[data.prop];
 
-    point.props = {...point.props};
-    const props = Object.keys(point.props);
+      const segments = point.props[data.prop];
+      segments[data.spotIndex] = {...segments[data.spotIndex]};
+      const segment = segments[data.spotIndex];
+      segment[data.type] = {...segment[data.type]};
+      const spot = segment[data.type];
+      spot.isSelected = !spot.isSelected;
 
-    for (let i = 0; i < props.length; i++) {
-      const propName = props[i];
-      point.props[propName] = [...point.props[propName]];
-      const propSegments = point.props[propName];
-
-      for (let j = 0; j < propSegments.length; j++) {
-        propSegments[j] = {...propSegments[j]};
-        const {end, start, delay} = propSegments[j];
-        const deltaEnd   = Math.abs(end.time - progress);
-        const deltaStart = Math.abs(start.time - progress + delay);
-
-        propSegments[j].end = {
-          ...propSegments[j].end,
-          isSelected: deltaEnd <= C.SPOT_SELECTION_GAP
-        };
-
-        propSegments[j].start = {
-          ...propSegments[j].start,
-          isSelected: deltaStart <= C.SPOT_SELECTION_GAP
-        };
-
+      if (spot.connected === 'prev' && data.spotIndex > 0) {
+        segments[data.spotIndex-1] = {...segments[data.spotIndex-1]};
+        const prevSegment = segments[data.spotIndex-1];
+        const prevSpot = prevSegment.end;
+        prevSpot.isSelected = spot.isSelected;
       }
+
+      if (spot.connected === 'next' && data.spotIndex < prop.length-2) {
+        segments[data.spotIndex+1] = {...segments[data.spotIndex+1]};
+        const nextSegment = segments[data.spotIndex+1];
+        const nextSpot = nextSegment.start;
+        nextSpot.isSelected = spot.isSelected;
+      }
+
     }
   }
   return newState;
@@ -183,9 +216,7 @@ const insertPoint = (state=INITIAL_STATE, action) => {
     return newState;
   }
 
-  case 'ADD_SPOT': {
-    return addSpot(state, data);
-  }
+  case 'ADD_SPOT': { return addSpot(state, data); }
 
   case 'ADD_PROPERTY_SEGMENT': {
     return createPropertySegment(state, data);
@@ -207,8 +238,12 @@ const insertPoint = (state=INITIAL_STATE, action) => {
     return setPointPosition(state, data);
   }
 
-  case 'SET_PROGRESS': {
-    return setSpotSelection(state, data);
+  // case 'SELECT_SPOT': {
+  //   return setSpotSelection(state, data);
+  // }
+
+  case 'TOGGLE_SPOT_SELECTION': {
+    return toggleSpotSelection(state, data);
   }
 
   }
