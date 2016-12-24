@@ -1,15 +1,20 @@
 @import '../assets/globals.postcss.css';
 
+$labelWidth: 25%;
 .property-line {
   @mixin pointLine;
   width:       100%;
-}
 
-$width: 20%;
+  &__inputs {
+    position:     absolute;
+    right:        $POINT_LINE_HEIGHT;
+    left:         $labelWidth;
+  }
+}
 .label {
   position: absolute;
   left: 0;
-  width: $width;
+  width: $labelWidth;
   padding-left: 10*$PX;
   line-height: $POINT_LINE_HEIGHT - 1;
 }
@@ -19,16 +24,44 @@ $width: 20%;
   color:        white;
   background:   transparent;
   border:       none;
-  height:       100%;
-  position:     absolute;
-  right:        $POINT_LINE_HEIGHT;
-  width:        (100% - $width);
-  /*left:         $width*$PX;*/
+  height:       $POINT_LINE_HEIGHT;
   text-align:   center;
   outline:      0;
   font-size:    10*$PX;
   padding-top:  0;
-  /*outline: 1px solid cyan;*/
+  width:        100%;
+  float:        left;
+  position:     relative;
+  border-left: 1*$PX solid $c-light-purple;
+
+  & + .input {
+    /*&:after {
+      content: '';
+      position: absolute;
+      left: 0;
+      height: 50%;
+      width: 1*$PX;
+      background: yellow;
+    }*/
+  }
+
+  &[data-width="1/2"] {
+    width: calc(100%/2);
+    /*&:first-child {
+      text-align: right;
+      padding-right: 5*$PX;
+    }
+    &:last-child {
+      text-align: left;
+      padding-left: 5*$PX;
+    }*/
+  }
+  &[data-width="1/3"] {
+    width: calc(100%/3);
+  }
+  &[data-width="1/4"] {
+    width: calc(100%/4);
+  }
 }
 
 .button {

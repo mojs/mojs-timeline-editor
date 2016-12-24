@@ -19,11 +19,13 @@ class TimelinePanel extends Component {
   _renderTimelines() {
     const {state} = this.props;
     const {points} = state;
+    const keys = Object.keys(points);
 
     const results = [];
-    for (let i = 0; i < points.length; i++) {
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i];
       results.push(
-        <PointTimelineLine state={points[i]} entireState={state} />
+        <PointTimelineLine state={points[key]} entireState={state} />
       );
     }
 

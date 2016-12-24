@@ -18,9 +18,11 @@ class PointsPanel extends Component {
 
   _renderPoints(state) {
     const {entireState} = this.props;
+    const props = Object.keys(state);
     const points = [];
-    for (let i=0; i< state.length; i++) {
-      points.push( <PointLine state={state[i]} entireState={entireState} /> );
+    for (let i=0; i< props.length; i++) {
+      const key = props[i];
+      points.push(<PointLine state={state[key]} entireState={entireState} />);
     }
     return points;
   }

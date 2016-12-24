@@ -13,7 +13,9 @@ class PropertyLine extends Component {
     return (
       <div className={CLASSES['property-line']}>
         <div className={CLASSES['label']}>{p.name}</div>
-        <input className={CLASSES['input']} value={this._getValue(p)} />
+        <div className={CLASSES['property-line__inputs']}>
+          {this._renderInputs()}
+        </div>
         <div className={CLASSES['button']} onClick={this._onAddSpot}>
           <div className={CLASSES['button__inner']}>
             <Icon shape="spot" />
@@ -21,6 +23,24 @@ class PropertyLine extends Component {
         </div>
       </div>
     );
+  }
+
+  _renderInputs() {
+    const {state, name} = this.props;
+    const {currentProps} = state;
+    const value = currentProps[name];
+    const result = [];
+    if (value instanceof Array) {
+      for (let i = 0; i < value.length; i++) {
+        result.push(
+          <input  className={CLASSES['input']} value={value[i]}
+                  data-width={`1/${value.length}`} />
+        );
+      }
+    } else {
+      result.push( <input className={CLASSES['input']} value={value} /> );
+    }
+    return result;
   }
 
   _getValue(p) {

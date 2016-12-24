@@ -10,12 +10,14 @@ export default (data, i=0) => {
     name:         name || `point${i+1}`,
     isOpen:       true,
     isSelected:   false,
-    currentProps: {x, y},
-    // start:        0,
-    // end:          0,
+    currentProps: { ['x / y']: [x, y] },
+    selectedSpot: {
+      prop:     null,
+      segment:  0,
+      type:     null
+    },
     props: {
-      x: [ createSegment({ startValue: x, delay: time }) ],
-      y: [ createSegment({ startValue: y, delay: time }) ]
+      ['x / y']: [ createSegment({ startValue: [x, y], delay: time }) ]
     }
   };
 };

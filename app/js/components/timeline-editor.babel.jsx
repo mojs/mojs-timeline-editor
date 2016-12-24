@@ -35,10 +35,12 @@ class TimelineEditor extends Component {
   _renderPoints() {
     const results = [];
     const {points} = this._state;
+    const props = Object.keys(points);
 
-    for (let i = 0; i < points.length; i++) {
+    for (let i = 0; i < props.length; i++) {
+      const key = props[i];
       results.push(
-        <Point state={points[i]} />
+        <Point state={points[key]} />
       );
     }
 

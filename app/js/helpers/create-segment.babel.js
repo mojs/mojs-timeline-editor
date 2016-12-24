@@ -11,13 +11,13 @@ export default (o={}) => {
   return {
     index: fallback(o.index, 0),
     start: createSpot({
-      time:  start,
-      value: o.startValue,
+      time:      start,
+      value:     o.startValue,
       connected: 'prev'
     }),
     end:   createSpot({
-      time:  start + delay + duration,
-      value: o.endValue,
+      time:      start + delay + duration,
+      value:     o.endValue,
       connected: 'next'
     }),
     isChanged:  false, // if was changed by the user

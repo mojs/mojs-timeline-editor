@@ -14,9 +14,7 @@ class Point extends Component {
     x += this.state.deltaX;
     y += this.state.deltaY;
 
-    const style = {
-      transform: `translate(${x}px, ${y}px)`
-    };
+    const style = { transform: `translate(${x}px, ${y}px)` };
 
     return (
       <div  style={style}
@@ -27,10 +25,7 @@ class Point extends Component {
     );
   }
 
-  _getCoords(state) {
-    const {x, y} = state.currentProps;
-    return [ x, y ];
-  }
+  _getCoords(state) { return state.currentProps['x / y']; }
 
   _getClassName(state) {
     const selectClass = (state.isSelected) ? CLASSES['is-selected']: '';
