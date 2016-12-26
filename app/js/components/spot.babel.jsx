@@ -2,6 +2,7 @@ import { h, Component } from 'preact';
 import {bind} from 'decko';
 import Hammer from 'hammerjs';
 import C from '../constants';
+import isSelectedByConnection from '../helpers/is-selected-by-connection';
 
 const CLASSES = require('../../css/blocks/spot.postcss.css.json');
 require('../../css/blocks/spot');
@@ -30,15 +31,24 @@ class Spot extends Component {
   }
 
   _getClassName() {
-    const {type, state} = this.props;
+    const {type} = this.props;
+
     const endClass = (type === 'end') ? CLASSES['spot--end'] : '';
-    const selectClass = state[type].isSelected ? CLASSES['is-selected'] : '';
+    const selectClass = this._isSelected() ? CLASSES['is-selected'] : '';
 
     return `${CLASSES['spot']} ${endClass} ${selectClass}`;
   }
 
-  _isCounterpartSelected() {
+  _isSelected() {
     const {type, state, entireState, meta} = this.props;
+    const {selectedSpot, points} = entireState;
+    const {id, spotIndex, type: selType, prop } = selectedSpot;
+
+    return (  meta.id === id &&
+              type === selType &&
+              meta.spotIndex === spotIndex &&
+              meta.prop === prop
+            ) || isSelectedByConnection({...meta, type}, selectedSpot, points);
   }
 
   componentDidMount() {
@@ -86,8 +96,7 @@ class Spot extends Component {
     const {store} = this.context;
     const {meta, type}  = this.props;
 
-    // store.dispatch({ type: 'SELECT_SPOT', data: { type, ...meta } });
-    store.dispatch({ type: 'TOGGLE_SPOT_SELECTION', data: { type, ...meta } });
+    store.dispatch({ type: 'SET_SELECTED_SPOT', data: { type, ...meta } });
   }
 }
 
