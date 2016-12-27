@@ -4,6 +4,7 @@ $labelWidth: 25%;
 .property-line {
   @mixin pointLine;
   width:       100%;
+  cursor: default;
 
   &__inputs {
     position:     absolute;
@@ -33,6 +34,11 @@ $labelWidth: 25%;
   float:        left;
   position:     relative;
   border-left: 1*$PX solid $c-light-purple;
+
+  &::selection {
+    background: $c-orange;
+    /*color: $c-purple;*/
+  }
 
   & + .input {
     /*&:after {

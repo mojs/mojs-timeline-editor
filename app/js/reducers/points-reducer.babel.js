@@ -28,22 +28,23 @@ const ensureTimeBounds = (prop, i = 0, start=0) => {
   ensureTimeBounds(prop, i+1, item.end.time);
 };
 
-const addPropertySegment = (segments, name, data) => {
+const addSegment = (segments, name, data, current) => {
   const prevSpot = getLast(segments);
   const isChanged = segments.length > 1 || segments[0].isChanged;
   const isUpdate = !isChanged && segments[0].duration === C.MIN_DURATION;
 
   if (isUpdate) {
-    segments[0].end.value = data[name];
+    segments[0].end.value = current[name];
     segments[0].duration = (data.time - segments[0].delay);
   // if not - create entirely new segement
   } else {
     const duration = (data.time - prevSpot.end.time);
+
     segments.push(
       createSegment({
         index:      segments.length + 1,
-        startValue: prevSpot.endValue,
-        endValue:   data[name],
+        startValue: prevSpot.end.value,
+        endValue:   current[name],
         duration
       })
     );
@@ -72,18 +73,21 @@ const points = (state=INITIAL_STATE, action) => {
   }
   case 'ADD_SPOT': {
     const {x, y, id} = data;
+    const current = state[id].currentProps;
+
     return change(state,
       [id, 'props', C.POSITION_NAME],
-      segments => addPropertySegment([...segments], C.POSITION_NAME, data)
+      segments => addSegment([...segments], C.POSITION_NAME, data, current)
     );
   }
 
   case 'ADD_PROPERTY_SEGMENT': {
     const {id, name, time} = data;
+    const current = state[id].currentProps;
 
     return change(state,
       [id, 'props', name],
-      segments => addPropertySegment([...segments], C.POSITION_NAME, data)
+      segments => addSegment([...segments], C.POSITION_NAME, data, current)
     );
   }
 
@@ -114,14 +118,14 @@ const points = (state=INITIAL_STATE, action) => {
     return newState;
   }
 
-  case 'TOGGLE_SPOT_SELECTION': {
-    const {id, prop, spotIndex, type} = data;
-
-    return change(state,
-      [id, 'props', prop, spotIndex, type, 'isSelected'],
-      state => !state
-    );
-  }
+  // case 'TOGGLE_SPOT_SELECTION': {
+  //   const {id, prop, spotIndex, type} = data;
+  //
+  //   return change(state,
+  //     [id, 'props', prop, spotIndex, type, 'isSelected'],
+  //     state => !state
+  //   );
+  // }
 
   }
 

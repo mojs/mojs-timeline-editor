@@ -21826,7 +21826,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = {
 	  NAME: 'MOJS_TIMLINE_EDITOR_Hjs891ksPP',
 	  /* defines if need to persist the state of the editor in localStorage */
-	  IS_PERSIST_STATE: true,
+	  IS_PERSIST_STATE: false,
 	  /* height of `mojs-timeline-player` module */
 	  PLAYER_HEIGHT: 40,
 	  /* height of a timeline line */
@@ -22529,6 +22529,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _defineProperty3 = _interopRequireDefault(_defineProperty2);
 
+	var _typeof2 = __webpack_require__(123);
+
+	var _typeof3 = _interopRequireDefault(_typeof2);
+
 	var _toConsumableArray2 = __webpack_require__(73);
 
 	var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
@@ -22591,21 +22595,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	  ensureTimeBounds(prop, i + 1, item.end.time);
 	};
 
-	var addPropertySegment = function addPropertySegment(segments, name, data) {
+	var addSegment = function addSegment(segments, name, data, current) {
 	  var prevSpot = (0, _getLast2.default)(segments);
 	  var isChanged = segments.length > 1 || segments[0].isChanged;
 	  var isUpdate = !isChanged && segments[0].duration === _constants2.default.MIN_DURATION;
 
 	  if (isUpdate) {
-	    segments[0].end.value = data[name];
+	    segments[0].end.value = current[name];
 	    segments[0].duration = data.time - segments[0].delay;
 	    // if not - create entirely new segement
 	  } else {
 	    var duration = data.time - prevSpot.end.time;
+
 	    segments.push((0, _createSegment2.default)({
 	      index: segments.length + 1,
-	      startValue: prevSpot.endValue,
-	      endValue: data[name],
+	      startValue: prevSpot.end.value,
+	      endValue: current[name],
 	      duration: duration
 	    }));
 	  }
@@ -22642,25 +22647,40 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	    case 'ADD_SPOT':
 	      {
-	        var x = data.x;
-	        var y = data.y;
-	        var id = data.id;
+	        var _ret = function () {
+	          var x = data.x;
+	          var y = data.y;
+	          var id = data.id;
 
-	        return (0, _change2.default)(state, [id, 'props', _constants2.default.POSITION_NAME], function (segments) {
-	          return addPropertySegment([].concat((0, _toConsumableArray3.default)(segments)), _constants2.default.POSITION_NAME, data);
-	        });
+	          var current = state[id].currentProps;
+
+	          return {
+	            v: (0, _change2.default)(state, [id, 'props', _constants2.default.POSITION_NAME], function (segments) {
+	              return addSegment([].concat((0, _toConsumableArray3.default)(segments)), _constants2.default.POSITION_NAME, data, current);
+	            })
+	          };
+	        }();
+
+	        if ((typeof _ret === 'undefined' ? 'undefined' : (0, _typeof3.default)(_ret)) === "object") return _ret.v;
 	      }
 
 	    case 'ADD_PROPERTY_SEGMENT':
 	      {
-	        var _id = data.id;
-	        var name = data.name;
-	        var time = data.time;
+	        var _ret2 = function () {
+	          var id = data.id;
+	          var name = data.name;
+	          var time = data.time;
 
+	          var current = state[id].currentProps;
 
-	        return (0, _change2.default)(state, [_id, 'props', name], function (segments) {
-	          return addPropertySegment([].concat((0, _toConsumableArray3.default)(segments)), _constants2.default.POSITION_NAME, data);
-	        });
+	          return {
+	            v: (0, _change2.default)(state, [id, 'props', name], function (segments) {
+	              return addSegment([].concat((0, _toConsumableArray3.default)(segments)), _constants2.default.POSITION_NAME, data, current);
+	            })
+	          };
+	        }();
+
+	        if ((typeof _ret2 === 'undefined' ? 'undefined' : (0, _typeof3.default)(_ret2)) === "object") return _ret2.v;
 	      }
 
 	    case 'CHANGE_POINT_CURRENT_POSITION':
@@ -22676,12 +22696,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    case 'SHIFT_SEGMENT':
 	      {
-	        var _id2 = data.id;
+	        var _id = data.id;
 	        var prop = data.prop;
 	        var spotIndex = data.spotIndex;
 
 
-	        var _newState = (0, _change2.default)(state, [_id2, 'props', prop, spotIndex], function (prop) {
+	        var _newState = (0, _change2.default)(state, [_id, 'props', prop, spotIndex], function (prop) {
 	          var _data$delay = data.delay;
 	          var delay = _data$delay === undefined ? 0 : _data$delay;
 	          var _data$duration = data.duration;
@@ -22698,18 +22718,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return _newState;
 	      }
 
-	    case 'TOGGLE_SPOT_SELECTION':
-	      {
-	        var _id3 = data.id;
-	        var _prop = data.prop;
-	        var _spotIndex = data.spotIndex;
-	        var type = data.type;
-
-
-	        return (0, _change2.default)(state, [_id3, 'props', _prop, _spotIndex, type, 'isSelected'], function (state) {
-	          return !state;
-	        });
-	      }
+	    // case 'TOGGLE_SPOT_SELECTION': {
+	    //   const {id, prop, spotIndex, type} = data;
+	    //
+	    //   return change(state,
+	    //     [id, 'props', prop, spotIndex, type, 'isSelected'],
+	    //     state => !state
+	    //   );
+	    // }
 
 	  }
 
@@ -23884,7 +23900,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    case 'RESET_SELECTED_SPOT':
 	      {
-	        // return data;
 	        return INITIAL_STATE;
 	      }
 
@@ -26468,12 +26483,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: '_renderInputs',
 	    value: function _renderInputs() {
-	      var _props = this.props;
-	      var state = _props.state;
-	      var name = _props.name;
-	      var currentProps = state.currentProps;
-
-	      var value = currentProps[name];
+	      var value = this._getValue();
 	      var result = [];
 	      if (value instanceof Array) {
 	        for (var i = 0; i < value.length; i++) {
@@ -26487,13 +26497,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	  }, {
 	    key: '_getValue',
-	    value: function _getValue(p) {
-	      var name = p.name;
-	      var state = p.state;
+	    value: function _getValue() {
+	      var _props = this.props;
+	      var name = _props.name;
+	      var state = _props.state;
+	      var entireState = _props.entireState;
+	      var selectedSpot = entireState.selectedSpot;
 	      var currentProps = state.currentProps;
 
 
-	      return currentProps[name];
+	      if (selectedSpot.id == null) {
+	        return currentProps[name];
+	      }
+
+	      var id = selectedSpot.id;
+	      var prop = selectedSpot.prop;
+	      var spotIndex = selectedSpot.spotIndex;
+	      var type = selectedSpot.type;
+
+	      return entireState.points[id].props[prop][spotIndex][type].value;
 	    }
 	  }, {
 	    key: '_onAddSpot',
@@ -26520,14 +26542,14 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports) {
 
 	module.exports = {
-		"property-line": "_property-line_15iyu_4",
-		"is-check": "_is-check_15iyu_1",
-		"property-line__inputs": "_property-line__inputs_15iyu_1",
-		"label": "_label_15iyu_14",
-		"input": "_input_15iyu_22",
-		"button": "_button_15iyu_67",
-		"button__inner": "_button__inner_15iyu_1",
-		"is-spot": "_is-spot_15iyu_100"
+		"property-line": "_property-line_1e8wg_4",
+		"is-check": "_is-check_1e8wg_1",
+		"property-line__inputs": "_property-line__inputs_1e8wg_1",
+		"label": "_label_1e8wg_15",
+		"input": "_input_1e8wg_23",
+		"button": "_button_1e8wg_73",
+		"button__inner": "_button__inner_1e8wg_1",
+		"is-spot": "_is-spot_1e8wg_106"
 	};
 
 /***/ },
@@ -26565,7 +26587,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	// module
-	exports.push([module.id, "/*613760*/\n/*$PX:      1/16rem;*/\n/* old was 165px */\n._property-line_15iyu_4 {\n  position:       relative;\n  min-height:       24px;\n  cursor:       pointer;\n  color:       white;\n  font-size:       9px;\n  letter-spacing:       0.5px;\n  line-height:       24px;\n  background:       #3A0839;\n  border-top:       1px solid #512750;\n  width:       100%\n}\n._property-line_15iyu_4._is-check_15iyu_1 {\n  background:       #FFFFFF;\n  color:       #3A0839\n}\n._property-line__inputs_15iyu_1 {\n  position:       absolute;\n  right:       24px;\n  left:       25%\n}\n._label_15iyu_14 {\n  position: absolute;\n  left: 0;\n  width: 25%;\n  padding-left: 10px;\n  line-height: 23px;\n}\n\n._input_15iyu_22 {\n  display:      block;\n  color:        white;\n  background:   transparent;\n  border:       none;\n  height:       24px;\n  text-align:   center;\n  outline:      0;\n  font-size:    10px;\n  padding-top:  0;\n  width:        100%;\n  float:        left;\n  position:     relative;\n  border-left: 1px solid #512750\n}\n\n._input_15iyu_22 + ._input_15iyu_22 {\n  /*&:after {\n      content: '';\n      position: absolute;\n      left: 0;\n      height: 50%;\n      width: 1*$PX;\n      background: yellow;\n    }*/\n}\n\n._input_15iyu_22[data-width=\"1/2\"] {\n  width:       50%\n  /*&:first-child {\n      text-align: right;\n      padding-right: 5*$PX;\n    }\n    &:last-child {\n      text-align: left;\n      padding-left: 5*$PX;\n    }*/\n}\n\n._input_15iyu_22[data-width=\"1/3\"] {\n  width:       33.33333%\n}\n\n._input_15iyu_22[data-width=\"1/4\"] {\n  width:       25%\n}\n\n._button_15iyu_67 {\n  position:      absolute;\n  top:           0;\n  right:         0;\n  width:         24px;\n  height:        23px;\n  background:    inherit;\n  border-left:   1px solid #512750;\n}\n\n._button_15iyu_67 [data-component=\"icon\"] {\n  fill:     inherit;\n  position: absolute;\n  left:     50%;\n  top:      50%;\n  width:    5px;\n  height:   5px;\n  margin-top:  -2.5px;\n  margin-left: -2.5px;\n}\n\n._button__inner_15iyu_1 {\n  position:       absolute;\n  width:       100%;\n  height:       100%;\n  fill:       white;\n  -webkit-transition:       all .15s ease;\n  transition:       all .15s ease\n}\n\n._button_15iyu_67:hover {\n  background:       #512750\n}\n\n._button_15iyu_67._is-spot_15iyu_100 {\n  right:       24px\n}\n", ""]);
+	exports.push([module.id, "/*613760*/\n/*$PX:      1/16rem;*/\n/* old was 165px */\n._property-line_1e8wg_4 {\n  position:       relative;\n  min-height:       24px;\n  cursor:       pointer;\n  color:       white;\n  font-size:       9px;\n  letter-spacing:       0.5px;\n  line-height:       24px;\n  background:       #3A0839;\n  border-top:       1px solid #512750;\n  width:       100%;\n  cursor: default\n}\n._property-line_1e8wg_4._is-check_1e8wg_1 {\n  background:       #FFFFFF;\n  color:       #3A0839\n}\n._property-line__inputs_1e8wg_1 {\n  position:       absolute;\n  right:       24px;\n  left:       25%\n}\n._label_1e8wg_15 {\n  position: absolute;\n  left: 0;\n  width: 25%;\n  padding-left: 10px;\n  line-height: 23px;\n}\n\n._input_1e8wg_23 {\n  display:      block;\n  color:        white;\n  background:   transparent;\n  border:       none;\n  height:       24px;\n  text-align:   center;\n  outline:      0;\n  font-size:    10px;\n  padding-top:  0;\n  width:        100%;\n  float:        left;\n  position:     relative;\n  border-left: 1px solid #512750\n}\n\n._input_1e8wg_23::-moz-selection {\n  background:       #FF512F\n  /*color: $c-purple;*/\n}\n\n.input::-moz-selection {\n  background:       #FF512F\n  /*color: $c-purple;*/\n}\n\n._input_1e8wg_23::selection {\n  background:       #FF512F\n  /*color: $c-purple;*/\n}\n\n._input_1e8wg_23 + ._input_1e8wg_23 {\n  /*&:after {\n      content: '';\n      position: absolute;\n      left: 0;\n      height: 50%;\n      width: 1*$PX;\n      background: yellow;\n    }*/\n}\n\n._input_1e8wg_23[data-width=\"1/2\"] {\n  width:       50%\n  /*&:first-child {\n      text-align: right;\n      padding-right: 5*$PX;\n    }\n    &:last-child {\n      text-align: left;\n      padding-left: 5*$PX;\n    }*/\n}\n\n._input_1e8wg_23[data-width=\"1/3\"] {\n  width:       33.33333%\n}\n\n._input_1e8wg_23[data-width=\"1/4\"] {\n  width:       25%\n}\n\n._button_1e8wg_73 {\n  position:      absolute;\n  top:           0;\n  right:         0;\n  width:         24px;\n  height:        23px;\n  background:    inherit;\n  border-left:   1px solid #512750;\n}\n\n._button_1e8wg_73 [data-component=\"icon\"] {\n  fill:     inherit;\n  position: absolute;\n  left:     50%;\n  top:      50%;\n  width:    5px;\n  height:   5px;\n  margin-top:  -2.5px;\n  margin-left: -2.5px;\n}\n\n._button__inner_1e8wg_1 {\n  position:       absolute;\n  width:       100%;\n  height:       100%;\n  fill:       white;\n  -webkit-transition:       all .15s ease;\n  transition:       all .15s ease\n}\n\n._button_1e8wg_73:hover {\n  background:       #512750\n}\n\n._button_1e8wg_73._is-spot_1e8wg_106 {\n  right:       24px\n}\n", ""]);
 
 	// exports
 
@@ -29876,6 +29898,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.default = function (meta, selectedSpot, points) {
+	  if (selectedSpot.id == null) {
+	    return false;
+	  }
 	  var id = selectedSpot.id;
 	  var spotIndex = selectedSpot.spotIndex;
 	  var selType = selectedSpot.type;
@@ -29889,7 +29914,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    isSelected = meta.spotIndex === spotIndex - 1 && meta.id === id && meta.type === 'end' && meta.prop === prop;
 	  }
 
-	  if (spot.connected === 'next' && spotIndex <= pointsLen - 1) {
+	  if (spot.connected === 'next') {
 	    isSelected = meta.spotIndex === spotIndex + 1 && meta.id === id && meta.type === 'start' && meta.prop === prop;
 	  }
 	  return isSelected;
@@ -31096,6 +31121,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	      mc.on('pan', function (e) {
 	        _this3.setState({ deltaX: _this3._clampDeltaX(10 * e.deltaX, 7000) });
+	      });
+
+	      mc.on('panstart', function (e) {
+	        store.dispatch({ type: 'RESET_SELECTED_SPOT' });
 	      });
 
 	      mc.on('panend', function (e) {

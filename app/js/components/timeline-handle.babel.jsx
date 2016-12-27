@@ -35,6 +35,10 @@ class TimelineHandle extends Component {
       this.setState({ deltaX: this._clampDeltaX(10*e.deltaX, 7000) });
     });
 
+    mc.on('panstart', (e) => {
+      store.dispatch({ type: 'RESET_SELECTED_SPOT' });
+    });
+
     mc.on('panend', (e) => {
       const {state} = this.props;
       const data = state.progress + this.state.deltaX;

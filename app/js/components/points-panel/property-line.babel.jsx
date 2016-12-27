@@ -26,9 +26,7 @@ class PropertyLine extends Component {
   }
 
   _renderInputs() {
-    const {state, name} = this.props;
-    const {currentProps} = state;
-    const value = currentProps[name];
+    const value = this._getValue();
     const result = [];
     if (value instanceof Array) {
       for (let i = 0; i < value.length; i++) {
@@ -43,11 +41,15 @@ class PropertyLine extends Component {
     return result;
   }
 
-  _getValue(p) {
-    const {name, state} = p;
+  _getValue() {
+    const {name, state, entireState} = this.props;
+    const {selectedSpot} = entireState;
     const {currentProps} = state;
 
-    return currentProps[name];
+    if (selectedSpot.id == null) { return currentProps[name]; }
+
+    const {id, prop, spotIndex, type} = selectedSpot;
+    return entireState.points[id].props[prop][spotIndex][type].value;
   }
 
   @bind

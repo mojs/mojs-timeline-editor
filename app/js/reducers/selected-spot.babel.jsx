@@ -14,10 +14,7 @@ const progress = (state=INITIAL_STATE, action) => {
 
   case 'SET_SELECTED_SPOT': { return { ...data }; }
 
-  case 'RESET_SELECTED_SPOT': {
-    // return data;
-    return INITIAL_STATE;
-  }
+  case 'RESET_SELECTED_SPOT': { return INITIAL_STATE; }
 
   }
 
