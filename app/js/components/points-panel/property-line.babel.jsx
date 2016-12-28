@@ -63,19 +63,19 @@ class PropertyLine extends Component {
     // and update the item by index
     if (newValue instanceof Array) { newValue[index] = value; }
 
-    const data = { ...selectedSpot, input: { index, value: newValue } };
+    const data = { ...selectedSpot, value: newValue };
 
     let step = (e.altKey) ? 10 : 1;
     if (e.shiftKey) { step *= 10; }
 
     switch (e.which) {
     case 38: {
-      data.input.value[index] += step;
+      data.value[index] += step;
       return store.dispatch({ type: 'UPDATE_SELECTED_SPOT', data });
     }
 
     case 40: {
-      data.input.value[index] -= step;
+      data.value[index] -= step;
       return store.dispatch({ type: 'UPDATE_SELECTED_SPOT', data });
     }
 

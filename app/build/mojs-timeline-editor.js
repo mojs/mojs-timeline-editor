@@ -21836,7 +21836,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = {
 	  NAME: 'MOJS_TIMLINE_EDITOR_Hjs891ksPP',
 	  /* defines if need to persist the state of the editor in localStorage */
-	  IS_PERSIST_STATE: false,
+	  IS_PERSIST_STATE: true,
 	  /* height of `mojs-timeline-player` module */
 	  PLAYER_HEIGHT: 40,
 	  /* height of a timeline line */
@@ -22748,20 +22748,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var type = data.type;
 	        var _spotIndex = data.spotIndex;
 	        var _prop = data.prop;
-	        var input = data.input;
+	        var value = data.value;
 
 	        var segments = state[_id2].props[_prop];
 	        var len = (0, _keys2.default)(segments).length;
 
-	        var _newState2 = (0, _change2.default)(state, [_id2, 'props', _prop, _spotIndex, type, 'value'], input.value);
+	        var _newState2 = (0, _change2.default)(state, [_id2, 'props', _prop, _spotIndex, type, 'value'], value);
 
 	        var spot = state[_id2].props[_prop][_spotIndex][type];
 	        if (spot.connected === 'prev' && _spotIndex > 0) {
-	          return (0, _change2.default)(_newState2, [_id2, 'props', _prop, _spotIndex - 1, 'end', 'value'], input.value);
+	          return (0, _change2.default)(_newState2, [_id2, 'props', _prop, _spotIndex - 1, 'end', 'value'], value);
 	        }
 
 	        if (spot.connected === 'next' && _spotIndex < len - 1) {
-	          return (0, _change2.default)(_newState2, [_id2, 'props', _prop, _spotIndex + 1, 'start', 'value'], input.value);
+	          return (0, _change2.default)(_newState2, [_id2, 'props', _prop, _spotIndex + 1, 'start', 'value'], value);
 	        }
 
 	        return _newState2;
@@ -26577,7 +26577,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        newValue[index] = value;
 	      }
 
-	      var data = (0, _extends3.default)({}, selectedSpot, { input: { index: index, value: newValue } });
+	      var data = (0, _extends3.default)({}, selectedSpot, { value: newValue });
 
 	      var step = e.altKey ? 10 : 1;
 	      if (e.shiftKey) {
@@ -26587,13 +26587,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	      switch (e.which) {
 	        case 38:
 	          {
-	            data.input.value[index] += step;
+	            data.value[index] += step;
 	            return store.dispatch({ type: 'UPDATE_SELECTED_SPOT', data: data });
 	          }
 
 	        case 40:
 	          {
-	            data.input.value[index] -= step;
+	            data.value[index] -= step;
 	            return store.dispatch({ type: 'UPDATE_SELECTED_SPOT', data: data });
 	          }
 
@@ -31684,6 +31684,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
 
+	var _extends2 = __webpack_require__(29);
+
+	var _extends3 = _interopRequireDefault(_extends2);
+
 	var _slicedToArray2 = __webpack_require__(234);
 
 	var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
@@ -31774,16 +31778,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: function render() {
 	      var state = this.props.state;
 
-	      var _getCoords2 = this._getCoords();
+	      var _getXY2 = this._getXY();
 
-	      var _getCoords3 = (0, _slicedToArray3.default)(_getCoords2, 2);
+	      var _getXY3 = (0, _slicedToArray3.default)(_getXY2, 2);
 
-	      var x = _getCoords3[0];
-	      var y = _getCoords3[1];
+	      var x = _getXY3[0];
+	      var y = _getXY3[1];
 
-
-	      x += this.state.deltaX;
-	      y += this.state.deltaY;
 
 	      var style = { transform: 'translate(' + x + 'px, ' + y + 'px)' };
 
@@ -31792,6 +31793,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	        onClick: this._onClick,
 	        title: state.name,
 	        'data-component': 'point' });
+	    }
+	  }, {
+	    key: '_getXY',
+	    value: function _getXY() {
+	      var _getCoords2 = this._getCoords();
+
+	      var _getCoords3 = (0, _slicedToArray3.default)(_getCoords2, 2);
+
+	      var x = _getCoords3[0];
+	      var y = _getCoords3[1];
+	      var _state = this.state;
+	      var deltaX = _state.deltaX;
+	      var deltaY = _state.deltaY;
+
+
+	      return [x + deltaX, y + deltaY];
 	    }
 	  }, {
 	    key: '_getCoords',
@@ -31842,15 +31859,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	    key: '_onPanEnd',
 	    value: function _onPanEnd(e) {
 	      var store = this.context.store;
-	      var id = this.props.state.id;
+	      var _props2 = this.props;
+	      var state = _props2.state;
+	      var entireState = _props2.entireState;
+	      var id = state.id;
+	      var selectedSpot = entireState.selectedSpot;
 	      var deltaX = e.deltaX;
 	      var deltaY = e.deltaY;
 
 
+	      if (selectedSpot.id == null) {
+	        store.dispatch({
+	          type: 'CHANGE_POINT_CURRENT_POSITION', data: { deltaX: deltaX, deltaY: deltaY, id: id }
+	        });
+	      } else {
+	        store.dispatch({
+	          type: 'UPDATE_SELECTED_SPOT',
+	          data: (0, _extends3.default)({}, selectedSpot, { value: this._getXY() })
+	        });
+	      }
 	      this.setState({ deltaX: 0, deltaY: 0 });
-	      store.dispatch({
-	        type: 'CHANGE_POINT_CURRENT_POSITION', data: { deltaX: deltaX, deltaY: deltaY, id: id }
-	      });
 	    }
 	  }, {
 	    key: '_onClick',

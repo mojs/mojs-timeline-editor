@@ -10,10 +10,7 @@ class Point extends Component {
   getInitialState() { return { deltaX: 0, deltaY: 0 }; }
   render () {
     const {state} = this.props;
-    let [x, y]  = this._getCoords();
-
-    x += this.state.deltaX;
-    y += this.state.deltaY;
+    let [x, y]  = this._getXY();
 
     const style = { transform: `translate(${x}px, ${y}px)` };
 
@@ -24,6 +21,13 @@ class Point extends Component {
             title={state.name}
             data-component="point"></div>
     );
+  }
+
+  _getXY() {
+    const [x, y] = this._getCoords();
+    const {deltaX, deltaY} = this.state;
+
+    return [ x + deltaX, y + deltaY ];
   }
 
   _getCoords() {
@@ -59,13 +63,22 @@ class Point extends Component {
   @bind
   _onPanEnd(e) {
     const {store} = this.context;
-    const {id} = this.props.state;
+    const {state, entireState} = this.props;
+    const {id} = state;
+    const {selectedSpot} = entireState;
     const { deltaX, deltaY } = e;
 
+    if (selectedSpot.id == null) {
+      store.dispatch({
+        type: 'CHANGE_POINT_CURRENT_POSITION', data: { deltaX, deltaY, id }
+      });
+    } else {
+      store.dispatch({
+        type: 'UPDATE_SELECTED_SPOT',
+        data: { ...selectedSpot, value: this._getXY() }
+      });
+    }
     this.setState({ deltaX: 0, deltaY: 0 });
-    store.dispatch({
-      type: 'CHANGE_POINT_CURRENT_POSITION', data: { deltaX, deltaY, id }
-    });
   }
 
   @bind

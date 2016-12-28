@@ -127,22 +127,22 @@ const points = (state=INITIAL_STATE, action) => {
   }
 
   case 'UPDATE_SELECTED_SPOT': {
-    const {values, id, type, spotIndex, prop, input} = data;
+    const {values, id, type, spotIndex, prop, value} = data;
     const segments = state[id].props[prop];
     const len = Object.keys(segments).length;
 
     const newState = change(state,
-      [id, 'props', prop, spotIndex, type, 'value'], input.value );
+      [id, 'props', prop, spotIndex, type, 'value'], value );
 
     const spot = state[id].props[prop][spotIndex][type];
     if (spot.connected === 'prev' && spotIndex > 0) {
       return change(newState,
-        [id, 'props', prop, spotIndex-1, 'end', 'value'], input.value );
+        [id, 'props', prop, spotIndex-1, 'end', 'value'], value );
     }
 
     if (spot.connected === 'next' && spotIndex < len-1) {
       return change(newState,
-        [id, 'props', prop, spotIndex+1, 'start', 'value'], input.value);
+        [id, 'props', prop, spotIndex+1, 'start', 'value'], value);
     }
 
     return newState;
