@@ -10,7 +10,7 @@ class Point extends Component {
   getInitialState() { return { deltaX: 0, deltaY: 0 }; }
   render () {
     const {state} = this.props;
-    let [x, y]  = this._getCoords(state);
+    let [x, y]  = this._getCoords();
 
     x += this.state.deltaX;
     y += this.state.deltaY;
@@ -26,7 +26,14 @@ class Point extends Component {
     );
   }
 
-  _getCoords(state) { return state.currentProps[C.POSITION_NAME]; }
+  _getCoords() {
+    const {state, entireState} = this.props;
+    const {selectedSpot, points} = entireState;
+    if (selectedSpot.id == null) {return state.currentProps[C.POSITION_NAME];}
+
+    const {id, prop, spotIndex, type} = selectedSpot;
+    return points[id].props[prop][spotIndex][type].value;
+  }
 
   _getClassName(state) {
     const selectClass = (state.isSelected) ? CLASSES['is-selected']: '';

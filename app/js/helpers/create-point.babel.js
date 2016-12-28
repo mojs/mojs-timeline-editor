@@ -18,7 +18,11 @@ export default (data, i=0) => {
       type:     null
     },
     props: {
-      [C.POSITION_NAME]: [ createSegment({ startValue: [x, y], delay: time }) ]
+      [C.POSITION_NAME]: [ createSegment({
+        startValue: [x, y],
+        endValue: [x, y],
+        delay: time
+      }) ]
     }
   };
 };

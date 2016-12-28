@@ -39,10 +39,9 @@ const addSegment = (segments, name, data, current) => {
   // if not - create entirely new segement
   } else {
     const duration = (data.time - prevSpot.end.time);
-
     segments.push(
       createSegment({
-        index:      segments.length + 1,
+        index:      segments.length,
         startValue: prevSpot.end.value,
         endValue:   current[name],
         duration
@@ -53,6 +52,15 @@ const addSegment = (segments, name, data, current) => {
   return segments;
 };
 
+const updateSpot = (currentValue, input) => {
+  const {index, value} = input;
+  // if value is array - update the item in index
+  if (!(currentValue instanceof Array)) { return value; }
+
+  const newValue = [...currentValue];
+  newValue[index] = value;
+  return newValue;
+};
 
 const points = (state=INITIAL_STATE, action) => {
   const {data} = action;
@@ -118,14 +126,27 @@ const points = (state=INITIAL_STATE, action) => {
     return newState;
   }
 
-  // case 'TOGGLE_SPOT_SELECTION': {
-  //   const {id, prop, spotIndex, type} = data;
-  //
-  //   return change(state,
-  //     [id, 'props', prop, spotIndex, type, 'isSelected'],
-  //     state => !state
-  //   );
-  // }
+  case 'UPDATE_SELECTED_SPOT': {
+    const {values, id, type, spotIndex, prop, input} = data;
+    const segments = state[id].props[prop];
+    const len = Object.keys(segments).length;
+
+    const newState = change(state,
+      [id, 'props', prop, spotIndex, type, 'value'], input.value );
+
+    const spot = state[id].props[prop][spotIndex][type];
+    if (spot.connected === 'prev' && spotIndex > 0) {
+      return change(newState,
+        [id, 'props', prop, spotIndex-1, 'end', 'value'], input.value );
+    }
+
+    if (spot.connected === 'next' && spotIndex < len-1) {
+      return change(newState,
+        [id, 'props', prop, spotIndex+1, 'start', 'value'], input.value);
+    }
+
+    return newState;
+  }
 
   }
 

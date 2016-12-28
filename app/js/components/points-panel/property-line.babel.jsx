@@ -26,19 +26,65 @@ class PropertyLine extends Component {
   }
 
   _renderInputs() {
-    const value = this._getValue();
+    let value = this._getValue();
+    value = (value instanceof Array) ? value : [value];
+
     const result = [];
-    if (value instanceof Array) {
-      for (let i = 0; i < value.length; i++) {
-        result.push(
-          <input  className={CLASSES['input']} value={value[i]}
-                  data-width={`1/${value.length}`} />
-        );
-      }
-    } else {
-      result.push( <input className={CLASSES['input']} value={value} /> );
+    for (let i = 0; i < value.length; i++) {
+      result.push(
+        <input  className={CLASSES['input']}
+                value={value[i]}
+                data-width={`1/${value.length}`}
+                data-index={i}
+                onKeyDown={this._onKeyDown} />
+      );
     }
     return result;
+  }
+
+  @bind
+  _onKeyDown(e) {
+    const {store} = this.context;
+    const {state, entireState} = this.props;
+    const {selectedSpot} = entireState;
+    if (selectedSpot.id == null) { return; }
+
+    const target = e.target;
+    const index = parseInt(target.getAttribute('data-index'), 10);
+    const current = this._getValue();
+
+    // try to parse the input
+    const parsed = parseInt(target.value, 10);
+    // if fail to parse - set it to the current valid value
+    const value = (parsed != null && !isNaN(parsed)) ? parsed : current[index];
+
+    // if property holds an array clone it
+    const newValue = (current instanceof Array) ? [...current] : value;
+    // and update the item by index
+    if (newValue instanceof Array) { newValue[index] = value; }
+
+    const data = { ...selectedSpot, input: { index, value: newValue } };
+
+    let step = (e.altKey) ? 10 : 1;
+    if (e.shiftKey) { step *= 10; }
+
+    switch (e.which) {
+    case 38: {
+      data.input.value[index] += step;
+      return store.dispatch({ type: 'UPDATE_SELECTED_SPOT', data });
+    }
+
+    case 40: {
+      data.input.value[index] -= step;
+      return store.dispatch({ type: 'UPDATE_SELECTED_SPOT', data });
+    }
+
+    default: {
+      store.dispatch({ type: 'UPDATE_SELECTED_SPOT', data });
+    }
+    }
+
+
   }
 
   _getValue() {

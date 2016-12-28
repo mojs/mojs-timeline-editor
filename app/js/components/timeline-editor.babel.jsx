@@ -40,7 +40,7 @@ class TimelineEditor extends Component {
     for (let i = 0; i < props.length; i++) {
       const key = props[i];
       results.push(
-        <Point state={points[key]} />
+        <Point state={points[key]} entireState={this._state} />
       );
     }
 
