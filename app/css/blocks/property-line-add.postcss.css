@@ -1,0 +1,125 @@
+@import '../assets/globals.postcss.css';
+
+$labelWidth: 25%;
+.property-line-add {
+  @mixin pointLine;
+  width:       100%;
+  cursor: default;
+
+  &__inputs {
+    position:     absolute;
+    right:        $POINT_LINE_HEIGHT;
+    left:         0;
+  }
+
+  &.is-add {
+    .input,
+    .button {
+      display: block;
+    }
+
+    .label {
+      display: none;
+    }
+  }
+
+  &.is-valid {
+    .input {
+      &--name {
+        outline: none;
+      }
+    }
+    .button {
+      cursor:   pointer;
+      &:hover {
+        background: $c-light-purple;
+      }
+      [data-component="icon"] {
+        opacity: 1;
+        fill:    $c-green;
+      }
+    }
+  }
+}
+
+.label {
+  position: absolute;
+  left: 0;
+  width: $labelWidth;
+  padding-left: 10*$PX;
+  line-height: $POINT_LINE_HEIGHT - 1;
+  &:hover {
+    cursor: pointer;
+    /*background: $c-light-purple;*/
+    text-decoration: underline;
+  }
+}
+
+.input {
+  display:      block;
+  color:        white;
+  background:   transparent;
+  border:       none;
+  height:       $POINT_LINE_HEIGHT;
+  text-align:   center;
+  outline:      0;
+  font-size:    10*$PX;
+  padding-top:  0;
+  padding-bottom: 2*$PX;
+  position:     absolute;
+  border-left: 1*$PX solid $c-light-purple;
+  display:     none;
+
+  &::selection {
+    background: $c-orange;
+  }
+
+  &--name {
+    left: 0;
+    width: 86%;
+    border-left: none;
+    text-align: left;
+    padding-left: 10*$PX;
+    outline: 1*$PX solid $c-orange;
+  }
+
+  &--count {
+    right: 0;
+    width: $POINT_LINE_HEIGHT;
+  }
+
+}
+
+.button {
+  position:      absolute;
+  top:           0;
+  right:         0;
+  width:         $POINT_LINE_HEIGHT;
+  height:        $POINT_LINE_HEIGHT - 1;
+  background:    inherit;
+  border-left:   1px solid $c-light-purple;
+  display:       none;
+  cursor: default;
+
+  &__inner {
+    position:    absolute;
+    width:       100%;
+    height:      100%;
+    fill:        white;
+    transition:  all .15s ease;
+  }
+
+  $size: 7*$PX;
+  [data-component="icon"] {
+    fill:     inherit;
+    position: absolute;
+    left:     50%;
+    top:      50%;
+    width:    $size;
+    height:   $size;
+    margin-top:  -$size/2;
+    margin-left: -$size/2;
+    opacity:   .5;
+    cursor:   inherit;
+  }
+}

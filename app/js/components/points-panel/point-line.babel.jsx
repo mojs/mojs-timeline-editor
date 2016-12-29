@@ -5,6 +5,7 @@ const CLS = require('../../../css/blocks/point-line.postcss.css.json');
 require('../../../css/blocks/point-line');
 
 import PropertyLine from './property-line';
+import PropertyLineAdd from './property-line-add';
 import Icon from '../icon';
 
 class PointLine extends Component {
@@ -55,6 +56,8 @@ class PointLine extends Component {
         <PropertyLine id={state.id} name={name} {...this.props} />
       );
     }
+
+    results.push(<PropertyLineAdd name={'+ add'} />);
 
     return results;
   }

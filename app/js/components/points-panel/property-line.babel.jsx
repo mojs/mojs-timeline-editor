@@ -83,8 +83,6 @@ class PropertyLine extends Component {
       store.dispatch({ type: 'UPDATE_SELECTED_SPOT', data });
     }
     }
-
-
   }
 
   _getValue() {
