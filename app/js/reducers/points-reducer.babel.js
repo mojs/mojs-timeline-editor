@@ -3,7 +3,7 @@ import C from '../constants';
 import getLast       from '../helpers/get-last';
 import createPoint   from '../helpers/create-point';
 import createSegment from '../helpers/create-segment';
-import change from '../helpers/change';
+import change        from '../helpers/change';
 
 const INITIAL_STATE = {};
 
@@ -79,14 +79,21 @@ const points = (state=INITIAL_STATE, action) => {
   case 'TOGGLE_OPEN_POINT': {
     return change(state,[ data, 'isOpen' ], state => !state);
   }
-  case 'ADD_SPOT': {
-    const {x, y, id} = data;
+  case 'ADD_SNAPSHOT': {
+    const {id} = data;
     const current = state[id].currentProps;
 
-    return change(state,
-      [id, 'props', C.POSITION_NAME],
-      segments => addSegment([...segments], C.POSITION_NAME, data, current)
-    );
+    const props = Object.keys(current);
+    let newState = state;
+    for (let i = 0; i < props.length; i++) {
+      const name = props[i];
+      newState = change(newState,
+        [id, 'props', name],
+        segments => addSegment([...segments], name, data, current)
+      );
+    }
+
+    return newState;
   }
 
   case 'ADD_PROPERTY_SEGMENT': {
@@ -95,7 +102,7 @@ const points = (state=INITIAL_STATE, action) => {
 
     return change(state,
       [id, 'props', name],
-      segments => addSegment([...segments], C.POSITION_NAME, data, current)
+      segments => addSegment([...segments], name, data, current)
     );
   }
 
@@ -126,6 +133,27 @@ const points = (state=INITIAL_STATE, action) => {
     return newState;
   }
 
+  case 'ADD_POINT_PROPERTY': {
+    const {name, count} = data.property;
+    const value = Array(count).fill(0);
+
+    const newState = change(state,
+      [data.id, 'props'],
+      (props) => {
+        props[name] = [createSegment({ startValue: value, endValue: value })];
+        return props;
+      }
+    );
+
+    return change(newState,
+      [data.id, 'currentProps'],
+      (props) => {
+        props[name] = value;
+        return props;
+      }
+    );
+  }
+
   case 'UPDATE_SELECTED_SPOT': {
     const {values, id, type, spotIndex, prop, value} = data;
     const segments = state[id].props[prop];
@@ -146,6 +174,17 @@ const points = (state=INITIAL_STATE, action) => {
     }
 
     return newState;
+  }
+
+  case 'UPDATE_SELECTED_SPOT_CURRENT': {
+    const {value, name} = data;
+
+    return change(state, [data.id, 'currentProps'],
+      (currentProps) => {
+        currentProps[name] = value;
+        return currentProps;
+      }
+    );
   }
 
   }

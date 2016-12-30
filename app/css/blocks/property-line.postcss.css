@@ -18,6 +18,9 @@ $labelWidth: 25%;
   width: $labelWidth;
   padding-left: 10*$PX;
   line-height: $POINT_LINE_HEIGHT - 1;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .input {

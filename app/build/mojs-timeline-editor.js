@@ -21836,7 +21836,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = {
 	  NAME: 'MOJS_TIMLINE_EDITOR_Hjs891ksPP',
 	  /* defines if need to persist the state of the editor in localStorage */
-	  IS_PERSIST_STATE: true,
+	  IS_PERSIST_STATE: false,
 	  /* height of `mojs-timeline-player` module */
 	  PLAYER_HEIGHT: 40,
 	  /* height of a timeline line */
@@ -22668,19 +22668,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	          return !state;
 	        });
 	      }
-	    case 'ADD_SPOT':
+	    case 'ADD_SNAPSHOT':
 	      {
 	        var _ret = function () {
-	          var x = data.x;
-	          var y = data.y;
 	          var id = data.id;
 
 	          var current = state[id].currentProps;
 
+	          var props = (0, _keys2.default)(current);
+	          var newState = state;
+
+	          var _loop = function _loop(i) {
+	            var name = props[i];
+	            newState = (0, _change2.default)(newState, [id, 'props', name], function (segments) {
+	              return addSegment([].concat((0, _toConsumableArray3.default)(segments)), name, data, current);
+	            });
+	          };
+
+	          for (var i = 0; i < props.length; i++) {
+	            _loop(i);
+	          }
+
 	          return {
-	            v: (0, _change2.default)(state, [id, 'props', _constants2.default.POSITION_NAME], function (segments) {
-	              return addSegment([].concat((0, _toConsumableArray3.default)(segments)), _constants2.default.POSITION_NAME, data, current);
-	            })
+	            v: newState
 	          };
 	        }();
 
@@ -22689,7 +22699,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    case 'ADD_PROPERTY_SEGMENT':
 	      {
-	        var _ret2 = function () {
+	        var _ret3 = function () {
 	          var id = data.id;
 	          var name = data.name;
 	          var time = data.time;
@@ -22698,12 +22708,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	          return {
 	            v: (0, _change2.default)(state, [id, 'props', name], function (segments) {
-	              return addSegment([].concat((0, _toConsumableArray3.default)(segments)), _constants2.default.POSITION_NAME, data, current);
+	              return addSegment([].concat((0, _toConsumableArray3.default)(segments)), name, data, current);
 	            })
 	          };
 	        }();
 
-	        if ((typeof _ret2 === 'undefined' ? 'undefined' : (0, _typeof3.default)(_ret2)) === "object") return _ret2.v;
+	        if ((typeof _ret3 === 'undefined' ? 'undefined' : (0, _typeof3.default)(_ret3)) === "object") return _ret3.v;
 	      }
 
 	    case 'CHANGE_POINT_CURRENT_POSITION':
@@ -22741,6 +22751,31 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return _newState;
 	      }
 
+	    case 'ADD_POINT_PROPERTY':
+	      {
+	        var _ret4 = function () {
+	          var _data$property = data.property;
+	          var name = _data$property.name;
+	          var count = _data$property.count;
+
+	          var value = Array(count).fill(0);
+
+	          var newState = (0, _change2.default)(state, [data.id, 'props'], function (props) {
+	            props[name] = [(0, _createSegment2.default)({ startValue: value, endValue: value })];
+	            return props;
+	          });
+
+	          return {
+	            v: (0, _change2.default)(newState, [data.id, 'currentProps'], function (props) {
+	              props[name] = value;
+	              return props;
+	            })
+	          };
+	        }();
+
+	        if ((typeof _ret4 === 'undefined' ? 'undefined' : (0, _typeof3.default)(_ret4)) === "object") return _ret4.v;
+	      }
+
 	    case 'UPDATE_SELECTED_SPOT':
 	      {
 	        var values = data.values;
@@ -22748,23 +22783,41 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var type = data.type;
 	        var _spotIndex = data.spotIndex;
 	        var _prop = data.prop;
-	        var value = data.value;
+	        var _value = data.value;
 
 	        var segments = state[_id2].props[_prop];
 	        var len = (0, _keys2.default)(segments).length;
 
-	        var _newState2 = (0, _change2.default)(state, [_id2, 'props', _prop, _spotIndex, type, 'value'], value);
+	        var _newState2 = (0, _change2.default)(state, [_id2, 'props', _prop, _spotIndex, type, 'value'], _value);
 
 	        var spot = state[_id2].props[_prop][_spotIndex][type];
 	        if (spot.connected === 'prev' && _spotIndex > 0) {
-	          return (0, _change2.default)(_newState2, [_id2, 'props', _prop, _spotIndex - 1, 'end', 'value'], value);
+	          return (0, _change2.default)(_newState2, [_id2, 'props', _prop, _spotIndex - 1, 'end', 'value'], _value);
 	        }
 
 	        if (spot.connected === 'next' && _spotIndex < len - 1) {
-	          return (0, _change2.default)(_newState2, [_id2, 'props', _prop, _spotIndex + 1, 'start', 'value'], value);
+	          return (0, _change2.default)(_newState2, [_id2, 'props', _prop, _spotIndex + 1, 'start', 'value'], _value);
 	        }
 
 	        return _newState2;
+	      }
+
+	    case 'UPDATE_SELECTED_SPOT_CURRENT':
+	      {
+	        var _ret5 = function () {
+	          var value = data.value;
+	          var name = data.name;
+
+
+	          return {
+	            v: (0, _change2.default)(state, [data.id, 'currentProps'], function (currentProps) {
+	              currentProps[name] = value;
+	              return currentProps;
+	            })
+	          };
+	        }();
+
+	        if ((typeof _ret5 === 'undefined' ? 'undefined' : (0, _typeof3.default)(_ret5)) === "object") return _ret5.v;
 	      }
 
 	  }
@@ -23956,11 +24009,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    isOpen: true,
 	    isSelected: false,
 	    currentProps: (0, _defineProperty3.default)({}, _constants2.default.POSITION_NAME, [x, y]),
-	    selectedSpot: {
-	      prop: null,
-	      segment: 0,
-	      type: null
-	    },
+	    // selectedSpot: {
+	    //   prop:     null,
+	    //   segment:  0,
+	    //   type:     null
+	    // },
 	    props: (0, _defineProperty3.default)({}, _constants2.default.POSITION_NAME, [(0, _createSegment2.default)({
 	      startValue: [x, y],
 	      endValue: [x, y],
@@ -24429,6 +24482,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
+	var _typeof2 = __webpack_require__(73);
+
+	var _typeof3 = _interopRequireDefault(_typeof2);
+
 	var _getLast = __webpack_require__(122);
 
 	var _getLast2 = _interopRequireDefault(_getLast);
@@ -24436,7 +24493,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var copy = function copy(obj) {
-	  return obj instanceof Array ? [].concat((0, _toConsumableArray3.default)(obj)) : (0, _extends3.default)({}, obj);
+	  var type = typeof obj === 'undefined' ? 'undefined' : (0, _typeof3.default)(obj);
+	  return obj instanceof Array ? [].concat((0, _toConsumableArray3.default)(obj)) : type === 'object' ? (0, _extends3.default)({}, obj) : obj;
 	};
 	// const point1 = createPoint({ x: 10, y: 300 });
 	// const point2 = createPoint({ x: 100, y: 200 });
@@ -24463,7 +24521,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  // update the `last property` in the `path`
 	  var leaf = (0, _getLast2.default)(path);
-	  current[leaf] = typeof value === 'function' ? value(current[leaf]) : value;
+	  current[leaf] = typeof value === 'function' ? value(copy(current[leaf])) : value;
 
 	  return newState;
 	};
@@ -26377,7 +26435,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        results.push((0, _preact.h)(_propertyLine2.default, (0, _extends3.default)({ id: state.id, name: name }, this.props)));
 	      }
 
-	      results.push((0, _preact.h)(_propertyLineAdd2.default, { name: '+ add' }));
+	      results.push((0, _preact.h)(_propertyLineAdd2.default, (0, _extends3.default)({ name: '+ add' }, this.props)));
 
 	      return results;
 	    }
@@ -26399,7 +26457,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	      var data = { id: state.id, time: entireState.progress };
-	      store.dispatch({ type: 'ADD_SPOT', data: data });
+	      store.dispatch({ type: 'ADD_SNAPSHOT', data: data });
 	    }
 	  }, {
 	    key: '_onOpen',
@@ -26500,6 +26558,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var CLASSES = __webpack_require__(174);
 	__webpack_require__(175);
+	var isMatch = function isMatch(spot, id, name) {
+	  return spot.id === id && spot.prop === name;
+	};
 
 	var PropertyLine = (_class = function (_Component) {
 	  (0, _inherits3.default)(PropertyLine, _Component);
@@ -26519,7 +26580,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        { className: CLASSES['property-line'] },
 	        (0, _preact.h)(
 	          'div',
-	          { className: CLASSES['label'] },
+	          { className: CLASSES['label'], title: p.name },
 	          p.name
 	        ),
 	        (0, _preact.h)(
@@ -26560,11 +26621,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var store = this.context.store;
 	      var _props = this.props;
 	      var state = _props.state;
+	      var name = _props.name;
 	      var entireState = _props.entireState;
+	      var id = state.id;
 	      var selectedSpot = entireState.selectedSpot;
 
-	      if (selectedSpot.id == null) {
-	        return;
+	      // if selected spot doesnt match the property line -
+	      // update the current value
+
+	      if (!isMatch(selectedSpot, id, name)) {
+	        return this._onKeyDownCurrent(e);
 	      }
 
 	      var target = e.target;
@@ -26610,26 +26676,81 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	    }
 	  }, {
-	    key: '_getValue',
-	    value: function _getValue() {
+	    key: '_onKeyDownCurrent',
+	    value: function _onKeyDownCurrent(e) {
+	      var store = this.context.store;
 	      var _props2 = this.props;
-	      var name = _props2.name;
 	      var state = _props2.state;
+	      var name = _props2.name;
 	      var entireState = _props2.entireState;
 	      var selectedSpot = entireState.selectedSpot;
-	      var currentProps = state.currentProps;
 
 
-	      if (selectedSpot.id == null) {
-	        return currentProps[name];
+	      var target = e.target;
+	      var index = parseInt(target.getAttribute('data-index'), 10);
+	      var current = this._getValue();
+
+	      // try to parse the input
+	      var parsed = parseInt(target.value, 10);
+	      // if fail to parse - set it to the current valid value
+	      var value = parsed != null && !isNaN(parsed) ? parsed : current[index];
+
+	      // if property holds an array clone it
+	      var newValue = current instanceof Array ? [].concat((0, _toConsumableArray3.default)(current)) : value;
+	      // and update the item by index
+	      if (newValue instanceof Array) {
+	        newValue[index] = value;
 	      }
 
-	      var id = selectedSpot.id;
-	      var prop = selectedSpot.prop;
-	      var spotIndex = selectedSpot.spotIndex;
-	      var type = selectedSpot.type;
+	      var data = { id: state.id, name: name, value: newValue };
+	      var step = e.altKey ? 10 : 1;
+	      if (e.shiftKey) {
+	        step *= 10;
+	      }
 
-	      return entireState.points[id].props[prop][spotIndex][type].value;
+	      switch (e.which) {
+	        case 38:
+	          {
+	            data.value[index] += step;
+	            return store.dispatch({ type: 'UPDATE_SELECTED_SPOT_CURRENT', data: data });
+	          }
+
+	        case 40:
+	          {
+	            data.value[index] -= step;
+	            return store.dispatch({ type: 'UPDATE_SELECTED_SPOT_CURRENT', data: data });
+	          }
+
+	        default:
+	          {
+	            return store.dispatch({ type: 'UPDATE_SELECTED_SPOT_CURRENT', data: data });
+	          }
+	      }
+	    }
+	  }, {
+	    key: '_getValue',
+	    value: function _getValue() {
+	      var _props3 = this.props;
+	      var name = _props3.name;
+	      var state = _props3.state;
+	      var entireState = _props3.entireState;
+	      var selectedSpot = entireState.selectedSpot;
+	      var currentProps = state.currentProps;
+	      var id = state.id;
+
+	      // if selected spot matches the property line -
+	      // get the selected spot values
+
+	      if (isMatch(selectedSpot, id, name)) {
+	        var _id = selectedSpot.id;
+	        var prop = selectedSpot.prop;
+	        var spotIndex = selectedSpot.spotIndex;
+	        var type = selectedSpot.type;
+
+	        return entireState.points[_id].props[prop][spotIndex][type].value;
+	      }
+
+	      return currentProps[name];
 	    }
 	  }, {
 	    key: '_onAddSpot',
@@ -26656,14 +26777,14 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports) {
 
 	module.exports = {
-		"property-line": "_property-line_1e8wg_4",
-		"is-check": "_is-check_1e8wg_1",
-		"property-line__inputs": "_property-line__inputs_1e8wg_1",
-		"label": "_label_1e8wg_15",
-		"input": "_input_1e8wg_23",
-		"button": "_button_1e8wg_73",
-		"button__inner": "_button__inner_1e8wg_1",
-		"is-spot": "_is-spot_1e8wg_106"
+		"property-line": "_property-line_116ri_4",
+		"is-check": "_is-check_116ri_1",
+		"property-line__inputs": "_property-line__inputs_116ri_1",
+		"label": "_label_116ri_15",
+		"input": "_input_116ri_26",
+		"button": "_button_116ri_76",
+		"button__inner": "_button__inner_116ri_1",
+		"is-spot": "_is-spot_116ri_109"
 	};
 
 /***/ },
@@ -26701,7 +26822,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	// module
-	exports.push([module.id, "/*613760*/\n/*$PX:      1/16rem;*/\n/* old was 165px */\n._property-line_1e8wg_4 {\n  position:       relative;\n  min-height:       24px;\n  cursor:       pointer;\n  color:       white;\n  font-size:       9px;\n  letter-spacing:       0.5px;\n  line-height:       24px;\n  background:       #3A0839;\n  border-top:       1px solid #512750;\n  width:       100%;\n  cursor: default\n}\n._property-line_1e8wg_4._is-check_1e8wg_1 {\n  background:       #FFFFFF;\n  color:       #3A0839\n}\n._property-line__inputs_1e8wg_1 {\n  position:       absolute;\n  right:       24px;\n  left:       25%\n}\n._label_1e8wg_15 {\n  position: absolute;\n  left: 0;\n  width: 25%;\n  padding-left: 10px;\n  line-height: 23px;\n}\n\n._input_1e8wg_23 {\n  display:      block;\n  color:        white;\n  background:   transparent;\n  border:       none;\n  height:       24px;\n  text-align:   center;\n  outline:      0;\n  font-size:    10px;\n  padding-top:  0;\n  width:        100%;\n  float:        left;\n  position:     relative;\n  border-left: 1px solid #512750\n}\n\n._input_1e8wg_23::-moz-selection {\n  background:       #FF512F\n  /*color: $c-purple;*/\n}\n\n.input::-moz-selection {\n  background:       #FF512F\n  /*color: $c-purple;*/\n}\n\n._input_1e8wg_23::selection {\n  background:       #FF512F\n  /*color: $c-purple;*/\n}\n\n._input_1e8wg_23 + ._input_1e8wg_23 {\n  /*&:after {\n      content: '';\n      position: absolute;\n      left: 0;\n      height: 50%;\n      width: 1*$PX;\n      background: yellow;\n    }*/\n}\n\n._input_1e8wg_23[data-width=\"1/2\"] {\n  width:       50%\n  /*&:first-child {\n      text-align: right;\n      padding-right: 5*$PX;\n    }\n    &:last-child {\n      text-align: left;\n      padding-left: 5*$PX;\n    }*/\n}\n\n._input_1e8wg_23[data-width=\"1/3\"] {\n  width:       33.33333%\n}\n\n._input_1e8wg_23[data-width=\"1/4\"] {\n  width:       25%\n}\n\n._button_1e8wg_73 {\n  position:      absolute;\n  top:           0;\n  right:         0;\n  width:         24px;\n  height:        23px;\n  background:    inherit;\n  border-left:   1px solid #512750;\n}\n\n._button_1e8wg_73 [data-component=\"icon\"] {\n  fill:     inherit;\n  position: absolute;\n  left:     50%;\n  top:      50%;\n  width:    5px;\n  height:   5px;\n  margin-top:  -2.5px;\n  margin-left: -2.5px;\n}\n\n._button__inner_1e8wg_1 {\n  position:       absolute;\n  width:       100%;\n  height:       100%;\n  fill:       white;\n  -webkit-transition:       all .15s ease;\n  transition:       all .15s ease\n}\n\n._button_1e8wg_73:hover {\n  background:       #512750\n}\n\n._button_1e8wg_73._is-spot_1e8wg_106 {\n  right:       24px\n}\n", ""]);
+	exports.push([module.id, "/*613760*/\n/*$PX:      1/16rem;*/\n/* old was 165px */\n._property-line_116ri_4 {\n  position:       relative;\n  min-height:       24px;\n  cursor:       pointer;\n  color:       white;\n  font-size:       9px;\n  letter-spacing:       0.5px;\n  line-height:       24px;\n  background:       #3A0839;\n  border-top:       1px solid #512750;\n  width:       100%;\n  cursor: default\n}\n._property-line_116ri_4._is-check_116ri_1 {\n  background:       #FFFFFF;\n  color:       #3A0839\n}\n._property-line__inputs_116ri_1 {\n  position:       absolute;\n  right:       24px;\n  left:       25%\n}\n._label_116ri_15 {\n  position: absolute;\n  left: 0;\n  width: 25%;\n  padding-left: 10px;\n  line-height: 23px;\n  white-space: nowrap;\n  text-overflow: ellipsis;\n  overflow: hidden;\n}\n\n._input_116ri_26 {\n  display:      block;\n  color:        white;\n  background:   transparent;\n  border:       none;\n  height:       24px;\n  text-align:   center;\n  outline:      0;\n  font-size:    10px;\n  padding-top:  0;\n  width:        100%;\n  float:        left;\n  position:     relative;\n  border-left: 1px solid #512750\n}\n\n._input_116ri_26::-moz-selection {\n  background:       #FF512F\n  /*color: $c-purple;*/\n}\n\n.input::-moz-selection {\n  background:       #FF512F\n  /*color: $c-purple;*/\n}\n\n._input_116ri_26::selection {\n  background:       #FF512F\n  /*color: $c-purple;*/\n}\n\n._input_116ri_26 + ._input_116ri_26 {\n  /*&:after {\n      content: '';\n      position: absolute;\n      left: 0;\n      height: 50%;\n      width: 1*$PX;\n      background: yellow;\n    }*/\n}\n\n._input_116ri_26[data-width=\"1/2\"] {\n  width:       50%\n  /*&:first-child {\n      text-align: right;\n      padding-right: 5*$PX;\n    }\n    &:last-child {\n      text-align: left;\n      padding-left: 5*$PX;\n    }*/\n}\n\n._input_116ri_26[data-width=\"1/3\"] {\n  width:       33.33333%\n}\n\n._input_116ri_26[data-width=\"1/4\"] {\n  width:       25%\n}\n\n._button_116ri_76 {\n  position:      absolute;\n  top:           0;\n  right:         0;\n  width:         24px;\n  height:        23px;\n  background:    inherit;\n  border-left:   1px solid #512750;\n}\n\n._button_116ri_76 [data-component=\"icon\"] {\n  fill:     inherit;\n  position: absolute;\n  left:     50%;\n  top:      50%;\n  width:    5px;\n  height:   5px;\n  margin-top:  -2.5px;\n  margin-left: -2.5px;\n}\n\n._button__inner_116ri_1 {\n  position:       absolute;\n  width:       100%;\n  height:       100%;\n  fill:       white;\n  -webkit-transition:       all .15s ease;\n  transition:       all .15s ease\n}\n\n._button_116ri_76:hover {\n  background:       #512750\n}\n\n._button_116ri_76._is-spot_116ri_109 {\n  right:       24px\n}\n", ""]);
 
 	// exports
 
@@ -26719,6 +26840,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _getOwnPropertyDescriptor = __webpack_require__(135);
 
 	var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
+
+	var _extends2 = __webpack_require__(29);
+
+	var _extends3 = _interopRequireDefault(_extends2);
 
 	var _getPrototypeOf = __webpack_require__(138);
 
@@ -26796,6 +26921,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	var CLS = __webpack_require__(180);
 	__webpack_require__(181);
 
+	var DEFAULT_STATE = {
+	  count: 1,
+	  name: 'property name',
+	  isAdd: false,
+	  isValid: true
+	};
+
 	var PropertyLineAdd = (_class = function (_Component) {
 	  (0, _inherits3.default)(PropertyLineAdd, _Component);
 
@@ -26807,12 +26939,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  (0, _createClass3.default)(PropertyLineAdd, [{
 	    key: 'getInitialState',
 	    value: function getInitialState() {
-	      return {
-	        count: 1,
-	        name: 'property name',
-	        isAdd: false,
-	        isValid: true
-	      };
+	      return (0, _extends3.default)({}, DEFAULT_STATE);
 	    }
 	  }, {
 	    key: 'render',
@@ -26875,12 +27002,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: '_onNameKeyUp',
 	    value: function _onNameKeyUp(e) {
+	      var state = this.props.state;
+	      var props = state.props;
+
 	      var code = e.which;
-	      code === 13 && this._onSubmit();
+	      if (code === 13) {
+	        return this._onSubmit();
+	      }
 
 	      var name = e.target.value;
 	      var trimmedName = name.trim();
-	      var isValid = trimmedName.length > 0;
+	      var isValid = trimmedName.length > 0 && props[name] == null;
+
 	      this.setState({ name: name, isValid: isValid });
 	    }
 	  }, {
@@ -26890,7 +27023,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      if (code === 8) {
 	        return;
 	      } // backspace
-	      code === 13 && this._onSubmit();
+	      if (code === 13) {
+	        return this._onSubmit();
+	      }
 
 	      var min = 1;
 	      var max = 4;
@@ -26916,7 +27051,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: '_onSubmit',
 	    value: function _onSubmit() {
-	      console.log('submit', this.state.isValid);
+	      if (!this.state.isValid) {
+	        return;
+	      }
+
+	      var state = this.props.state;
+	      var store = this.context.store;
+
+	      var data = (0, _extends3.default)({}, state, { property: (0, _extends3.default)({}, this.state) });
+
+	      var isValid = this.state.name !== DEFAULT_STATE.name;
+	      this.setState((0, _extends3.default)({}, DEFAULT_STATE, { isValid: isValid }));
+	      store.dispatch({ type: 'ADD_POINT_PROPERTY', data: data });
 	    }
 	  }, {
 	    key: '_onLabelClick',
@@ -30322,6 +30468,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var meta = _props3.meta;
 	      var type = _props3.type;
 
+	      // console.log(type, meta);
 
 	      store.dispatch({ type: 'SET_SELECTED_SPOT', data: (0, _extends3.default)({ type: type }, meta) });
 	    }

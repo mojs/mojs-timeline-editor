@@ -96,6 +96,7 @@ class Spot extends Component {
     const {store} = this.context;
     const {meta, type}  = this.props;
 
+    // console.log(type, meta);
     store.dispatch({ type: 'SET_SELECTED_SPOT', data: { type, ...meta } });
   }
 }

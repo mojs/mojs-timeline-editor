@@ -4,7 +4,7 @@
 export default {
   NAME:               'MOJS_TIMLINE_EDITOR_Hjs891ksPP',
   /* defines if need to persist the state of the editor in localStorage */
-  IS_PERSIST_STATE:   true,
+  IS_PERSIST_STATE:   false,
   /* height of `mojs-timeline-player` module */
   PLAYER_HEIGHT:      40,
   /* height of a timeline line */

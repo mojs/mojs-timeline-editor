@@ -5,6 +5,9 @@ import Icon from '../icon';
 
 const CLASSES = require('../../../css/blocks/property-line.postcss.css.json');
 require('../../../css/blocks/property-line');
+const isMatch = (spot, id, name) => {
+  return spot.id === id && spot.prop === name;
+};
 
 class PropertyLine extends Component {
   render () {
@@ -12,7 +15,7 @@ class PropertyLine extends Component {
 
     return (
       <div className={CLASSES['property-line']}>
-        <div className={CLASSES['label']}>{p.name}</div>
+        <div className={CLASSES['label']} title={p.name}>{p.name}</div>
         <div className={CLASSES['property-line__inputs']}>
           {this._renderInputs()}
         </div>
@@ -45,9 +48,13 @@ class PropertyLine extends Component {
   @bind
   _onKeyDown(e) {
     const {store} = this.context;
-    const {state, entireState} = this.props;
+    const {state, name, entireState} = this.props;
+    const {id} = state;
     const {selectedSpot} = entireState;
-    if (selectedSpot.id == null) { return; }
+
+    // if selected spot doesnt match the property line -
+    // update the current value
+    if (!isMatch(selectedSpot, id, name)) { return this._onKeyDownCurrent(e); }
 
     const target = e.target;
     const index = parseInt(target.getAttribute('data-index'), 10);
@@ -85,15 +92,59 @@ class PropertyLine extends Component {
     }
   }
 
+  _onKeyDownCurrent(e) {
+    const {store} = this.context;
+    const {state, name, entireState} = this.props;
+    const {selectedSpot} = entireState;
+
+    const target = e.target;
+    const index = parseInt(target.getAttribute('data-index'), 10);
+    const current = this._getValue();
+
+    // try to parse the input
+    const parsed = parseInt(target.value, 10);
+    // if fail to parse - set it to the current valid value
+    const value = (parsed != null && !isNaN(parsed)) ? parsed : current[index];
+
+    // if property holds an array clone it
+    const newValue = (current instanceof Array) ? [...current] : value;
+    // and update the item by index
+    if (newValue instanceof Array) { newValue[index] = value; }
+
+    const data = { id: state.id, name, value: newValue };
+    let step = (e.altKey) ? 10 : 1;
+    if (e.shiftKey) { step *= 10; }
+
+    switch (e.which) {
+    case 38: {
+      data.value[index] += step;
+      return store.dispatch({ type: 'UPDATE_SELECTED_SPOT_CURRENT', data });
+    }
+
+    case 40: {
+      data.value[index] -= step;
+      return store.dispatch({ type: 'UPDATE_SELECTED_SPOT_CURRENT', data });
+    }
+
+    default: {
+      return store.dispatch({ type: 'UPDATE_SELECTED_SPOT_CURRENT', data });
+    }
+    }
+  }
+
   _getValue() {
     const {name, state, entireState} = this.props;
     const {selectedSpot} = entireState;
-    const {currentProps} = state;
+    const {currentProps, id} = state;
 
-    if (selectedSpot.id == null) { return currentProps[name]; }
+    // if selected spot matches the property line -
+    // get the selected spot values
+    if (isMatch(selectedSpot, id, name)) {
+      const {id, prop, spotIndex, type} = selectedSpot;
+      return entireState.points[id].props[prop][spotIndex][type].value;
+    }
 
-    const {id, prop, spotIndex, type} = selectedSpot;
-    return entireState.points[id].props[prop][spotIndex][type].value;
+    return currentProps[name];
   }
 
   @bind

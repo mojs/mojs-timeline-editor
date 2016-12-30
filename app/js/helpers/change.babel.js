@@ -13,7 +13,12 @@
 
 import getLast from './get-last';
 
-const copy = (obj) => { return (obj instanceof Array) ? [...obj] : {...obj}; };
+const copy = (obj) => {
+  const type = typeof obj;
+  return (obj instanceof Array)
+    ? [...obj]
+    : (type=== 'object') ? {...obj} : obj;
+};
 
 export default (obj, path, value) => {
   const newState = copy(obj);
@@ -29,7 +34,7 @@ export default (obj, path, value) => {
   // update the `last property` in the `path`
   const leaf = getLast(path);
   current[leaf] = (typeof value === 'function')
-    ? value(current[leaf]) : value;
+    ? value(copy(current[leaf])) : value;
 
   return newState;
 };

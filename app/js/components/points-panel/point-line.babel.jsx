@@ -57,7 +57,7 @@ class PointLine extends Component {
       );
     }
 
-    results.push(<PropertyLineAdd name={'+ add'} />);
+    results.push(<PropertyLineAdd name={'+ add'} {...this.props} />);
 
     return results;
   }
@@ -76,7 +76,7 @@ class PointLine extends Component {
     const {store} = this.context;
 
     const data = { id: state.id, time: entireState.progress };
-    store.dispatch({ type: 'ADD_SPOT', data });
+    store.dispatch({ type: 'ADD_SNAPSHOT', data });
   }
 
   @bind

@@ -1,25 +1,23 @@
 import { h, Component } from 'preact';
 import Hammer from 'hammerjs';
 import {bind} from 'decko';
-
 import clamp from '../../helpers/clamp';
 import resetEvent from '../../helpers/global-reset-event';
-
-
 import Icon from '../icon';
 
 const CLS = require('../../../css/blocks/property-line-add.postcss.css.json');
 require('../../../css/blocks/property-line-add');
 
+const DEFAULT_STATE = {
+  count:    1,
+  name:     'property name',
+  isAdd:    false,
+  isValid:  true
+};
+
 class PropertyLineAdd extends Component {
-  getInitialState() {
-    return {
-      count:    1,
-      name:     'property name',
-      isAdd:    false,
-      isValid:  true
-    };
-  }
+  getInitialState() { return {...DEFAULT_STATE}; }
+
   render () {
     return (
       <div className={this._getClassName()}
@@ -62,12 +60,15 @@ class PropertyLineAdd extends Component {
 
   @bind
   _onNameKeyUp(e) {
+    const {state} = this.props;
+    const {props} = state;
     const code = e.which;
-    (code === 13) && this._onSubmit();
+    if (code === 13) { return this._onSubmit(); }
 
     const name = e.target.value;
     const trimmedName = name.trim();
-    const isValid = trimmedName.length > 0;
+    const isValid = (trimmedName.length > 0) && props[name] == null;
+
     this.setState({ name, isValid });
   }
 
@@ -75,7 +76,7 @@ class PropertyLineAdd extends Component {
   _onCountKeyUp(e) {
     const code = e.which;
     if (code === 8) { return; } // backspace
-    (code === 13) && this._onSubmit();
+    if (code === 13) { return this._onSubmit(); }
 
     const min = 1;
     const max = 4;
@@ -100,7 +101,15 @@ class PropertyLineAdd extends Component {
 
   @bind
   _onSubmit() {
-    console.log('submit', this.state.isValid);
+    if (!this.state.isValid) { return; }
+
+    const {state} = this.props;
+    const {store} = this.context;
+    const data = {...state, property: { ...this.state }};
+
+    const isValid = this.state.name !== DEFAULT_STATE.name;
+    this.setState({ ...DEFAULT_STATE, isValid });
+    store.dispatch({ type: 'ADD_POINT_PROPERTY', data });
   }
 
   @bind
