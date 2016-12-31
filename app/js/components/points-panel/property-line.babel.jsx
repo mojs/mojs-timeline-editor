@@ -3,6 +3,8 @@ import {bind} from 'decko';
 
 import Icon from '../icon';
 
+import resetEvent from '../../helpers/global-reset-event';
+
 const CLASSES = require('../../../css/blocks/property-line.postcss.css.json');
 require('../../../css/blocks/property-line');
 const isMatch = (spot, id, name) => {

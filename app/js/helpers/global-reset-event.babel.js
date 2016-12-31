@@ -5,7 +5,7 @@ const onClick = (e) => {
   const keys = Object.keys(listeners);
   for (let i = 0; i < keys.length; i++) {
     const key = keys[i];
-    const listener = listeners[keys];
+    const listener = listeners[key];
     if (typeof listener === 'function') { listener(e); }
   }
 };

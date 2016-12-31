@@ -90,7 +90,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	/* TODO:
-	    [x] create selected spot reducer
+	    [x] add error message for property line name
 	    [x] point-timleine.babel.jsx add animation
 	        when start/end points got selected
 	    [x] test if `onClick` handler on components is optimized for mobiles
@@ -26323,7 +26323,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _propertyLine2 = _interopRequireDefault(_propertyLine);
 
-	var _propertyLineAdd = __webpack_require__(177);
+	var _propertyLineAdd = __webpack_require__(178);
 
 	var _propertyLineAdd2 = _interopRequireDefault(_propertyLineAdd);
 
@@ -26525,6 +26525,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _icon2 = _interopRequireDefault(_icon);
 
+	var _globalResetEvent = __webpack_require__(174);
+
+	var _globalResetEvent2 = _interopRequireDefault(_globalResetEvent);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
@@ -26556,8 +26560,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return desc;
 	}
 
-	var CLASSES = __webpack_require__(174);
-	__webpack_require__(175);
+	var CLASSES = __webpack_require__(175);
+	__webpack_require__(176);
 	var isMatch = function isMatch(spot, id, name) {
 	  return spot.id === id && spot.prop === name;
 	};
@@ -26774,6 +26778,52 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 174 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _keys = __webpack_require__(118);
+
+	var _keys2 = _interopRequireDefault(_keys);
+
+	var _makeID = __webpack_require__(124);
+
+	var _makeID2 = _interopRequireDefault(_makeID);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var listeners = {};
+
+	var onClick = function onClick(e) {
+	  var keys = (0, _keys2.default)(listeners);
+	  for (var i = 0; i < keys.length; i++) {
+	    var key = keys[i];
+	    var listener = listeners[key];
+	    if (typeof listener === 'function') {
+	      listener(e);
+	    }
+	  }
+	};
+
+	var add = function add(fun) {
+	  var id = (0, _makeID2.default)();
+	  listeners[id] = fun;
+	  return id;
+	};
+
+	var remove = function remove(id) {
+	  delete listeners[id];
+	};
+
+	document.addEventListener('click', onClick);
+	exports.default = { add: add, remove: remove };
+
+/***/ },
+/* 175 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -26788,13 +26838,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 175 */
+/* 176 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(176);
+	var content = __webpack_require__(177);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(161)(content, {});
@@ -26814,7 +26864,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 176 */
+/* 177 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(160)();
@@ -26828,7 +26878,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 177 */
+/* 178 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26869,7 +26919,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _preact = __webpack_require__(3);
 
-	var _hammerjs = __webpack_require__(178);
+	var _hammerjs = __webpack_require__(179);
 
 	var _hammerjs2 = _interopRequireDefault(_hammerjs);
 
@@ -26879,7 +26929,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _clamp2 = _interopRequireDefault(_clamp);
 
-	var _globalResetEvent = __webpack_require__(179);
+	var _globalResetEvent = __webpack_require__(174);
 
 	var _globalResetEvent2 = _interopRequireDefault(_globalResetEvent);
 
@@ -27060,7 +27110,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	      var data = (0, _extends3.default)({}, state, { property: (0, _extends3.default)({}, this.state) });
 
-	      var isValid = this.state.name !== DEFAULT_STATE.name;
+	      var isExist = state.props[DEFAULT_STATE.name] != null;
+	      var isDefault = this.state.name === DEFAULT_STATE.name;
+	      var isValid = !isDefault && !isExist;
 	      this.setState((0, _extends3.default)({}, DEFAULT_STATE, { isValid: isValid }));
 	      store.dispatch({ type: 'ADD_POINT_PROPERTY', data: data });
 	    }
@@ -27084,7 +27136,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = PropertyLineAdd;
 
 /***/ },
-/* 178 */
+/* 179 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*! Hammer.JS - v2.0.7 - 2016-04-22
@@ -29733,52 +29785,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 179 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _keys = __webpack_require__(118);
-
-	var _keys2 = _interopRequireDefault(_keys);
-
-	var _makeID = __webpack_require__(124);
-
-	var _makeID2 = _interopRequireDefault(_makeID);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var listeners = {};
-
-	var onClick = function onClick(e) {
-	  var keys = (0, _keys2.default)(listeners);
-	  for (var i = 0; i < keys.length; i++) {
-	    var key = keys[i];
-	    var listener = listeners[keys];
-	    if (typeof listener === 'function') {
-	      listener(e);
-	    }
-	  }
-	};
-
-	var add = function add(fun) {
-	  var id = (0, _makeID2.default)();
-	  listeners[id] = fun;
-	  return id;
-	};
-
-	var remove = function remove(id) {
-	  delete listeners[id];
-	};
-
-	document.addEventListener('click', onClick);
-	exports.default = { add: add, remove: remove };
-
-/***/ },
 /* 180 */
 /***/ function(module, exports) {
 
@@ -29984,6 +29990,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	// import resetEvent from '../helpers/global-reset-event';
+
 	var CLASSES = __webpack_require__(203);
 	__webpack_require__(204);
 
@@ -30021,6 +30029,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	      return results;
 	    }
+	    //
+	    // componentDidMount() {
+	    //   const {store} = this.context;
+	    //   console.log('b');
+	    //   resetEvent.add( (e) => {
+	    //     store.dispatch({ type: 'RESET_SELECTED_SPOT' });
+	    //     console.log('a');
+	    //   });
+	    // }
+
 	  }]);
 	  return TimelinePanel;
 	}(_preact.Component);
@@ -30193,7 +30211,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _decko = __webpack_require__(152);
 
-	var _hammerjs = __webpack_require__(178);
+	var _hammerjs = __webpack_require__(179);
 
 	var _hammerjs2 = _interopRequireDefault(_hammerjs);
 
@@ -30295,7 +30313,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _decko = __webpack_require__(152);
 
-	var _hammerjs = __webpack_require__(178);
+	var _hammerjs = __webpack_require__(179);
 
 	var _hammerjs2 = _interopRequireDefault(_hammerjs);
 
@@ -30380,8 +30398,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return (0, _preact.h)(
 	        'div',
 	        { className: this._getClassName(),
-	          style: style,
-	          'data-component': 'spot' },
+	          style: style, 'data-component': 'spot' },
 	        (0, _preact.h)('div', { className: CLASSES['spot__dot'],
 	          ref: function ref(el) {
 	            _this2._dot = el;
@@ -30924,7 +30941,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _decko = __webpack_require__(152);
 
-	var _hammerjs = __webpack_require__(178);
+	var _hammerjs = __webpack_require__(179);
 
 	var _hammerjs2 = _interopRequireDefault(_hammerjs);
 
@@ -31059,7 +31076,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _preact = __webpack_require__(3);
 
-	var _hammerjs = __webpack_require__(178);
+	var _hammerjs = __webpack_require__(179);
 
 	var _hammerjs2 = _interopRequireDefault(_hammerjs);
 
@@ -31651,7 +31668,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _preact = __webpack_require__(3);
 
-	var _hammerjs = __webpack_require__(178);
+	var _hammerjs = __webpack_require__(179);
 
 	var _hammerjs2 = _interopRequireDefault(_hammerjs);
 
@@ -32206,7 +32223,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _decko = __webpack_require__(152);
 
-	var _hammerjs = __webpack_require__(178);
+	var _hammerjs = __webpack_require__(179);
 
 	var _hammerjs2 = _interopRequireDefault(_hammerjs);
 

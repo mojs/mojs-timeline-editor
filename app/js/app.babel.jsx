@@ -8,7 +8,7 @@ import TimelineEditor from './components/timeline-editor';
 import persist from './helpers/persist';
 
 /* TODO:
-    [x] create selected spot reducer
+    [x] add error message for property line name
     [x] point-timleine.babel.jsx add animation
         when start/end points got selected
     [x] test if `onClick` handler on components is optimized for mobiles

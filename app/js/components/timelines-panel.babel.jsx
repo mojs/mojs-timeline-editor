@@ -2,6 +2,7 @@ import { h, Component } from 'preact';
 import { bind } from 'decko';
 
 import PointTimelineLine from './point-timeline-line';
+// import resetEvent from '../helpers/global-reset-event';
 
 const CLASSES = require('../../css/blocks/timelines-panel.postcss.css.json');
 require('../../css/blocks/timelines-panel');
@@ -31,6 +32,15 @@ class TimelinePanel extends Component {
 
     return results;
   }
+  //
+  // componentDidMount() {
+  //   const {store} = this.context;
+  //   console.log('b');
+  //   resetEvent.add( (e) => {
+  //     store.dispatch({ type: 'RESET_SELECTED_SPOT' });
+  //     console.log('a');
+  //   });
+  // }
 }
 
 export default TimelinePanel;

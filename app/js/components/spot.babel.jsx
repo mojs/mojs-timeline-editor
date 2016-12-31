@@ -22,9 +22,9 @@ class Spot extends Component {
       width: `${(type === 'start') ? delayWidth : durationWidth}em`
     };
 
-    return (<div className={this._getClassName()}
-                style={style}
-                data-component="spot">
+    return (<div  className={this._getClassName()}
+                  style={style} data-component="spot">
+                  
               <div  className={CLASSES['spot__dot']}
                     ref={(el) => { this._dot = el; }} />
             </div>);

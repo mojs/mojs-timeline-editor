@@ -107,7 +107,9 @@ class PropertyLineAdd extends Component {
     const {store} = this.context;
     const data = {...state, property: { ...this.state }};
 
-    const isValid = this.state.name !== DEFAULT_STATE.name;
+    const isExist   = state.props[DEFAULT_STATE.name] != null;
+    const isDefault = this.state.name === DEFAULT_STATE.name;
+    const isValid   = !isDefault && !isExist;
     this.setState({ ...DEFAULT_STATE, isValid });
     store.dispatch({ type: 'ADD_POINT_PROPERTY', data });
   }
