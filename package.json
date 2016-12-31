@@ -1,6 +1,6 @@
 {
   "name": "mojs-timeline-editor",
-  "version": "0.16.1",
+  "version": "0.17.0",
   "description": "mojs GUI for editing timeline/html elements",
   "keywords": [
     "mojs",

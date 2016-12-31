@@ -26975,8 +26975,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  count: 1,
 	  name: 'property name',
 	  isAdd: false,
-	  isValid: true
+	  error: null
 	};
+
+	var EXIST_MESSAGE = 'already exist';
 
 	var PropertyLineAdd = (_class = function (_Component) {
 	  (0, _inherits3.default)(PropertyLineAdd, _Component);
@@ -26989,12 +26991,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	  (0, _createClass3.default)(PropertyLineAdd, [{
 	    key: 'getInitialState',
 	    value: function getInitialState() {
-	      return (0, _extends3.default)({}, DEFAULT_STATE);
+	      var error = this._isExist() ? EXIST_MESSAGE : null;
+	      return (0, _extends3.default)({}, DEFAULT_STATE, { error: error });
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var _this2 = this;
+
+	      var _state = this.state;
+	      var name = _state.name;
+	      var count = _state.count;
+	      var error = _state.error;
 
 	      return (0, _preact.h)(
 	        'div',
@@ -27013,15 +27021,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	        (0, _preact.h)(
 	          'div',
 	          { className: CLS['property-line-add__inputs'] },
-	          (0, _preact.h)('input', { className: CLS['input'] + ' ' + CLS['input--name'],
-	            ref: function ref(el) {
-	              return _this2._name = el;
-	            },
-	            onKeyUp: this._onNameKeyUp,
-	            value: this.state.name, title: 'property name' }),
+	          (0, _preact.h)(
+	            'div',
+	            { className: CLS['name-input-wrapper'] },
+	            (0, _preact.h)('input', { className: CLS['input'] + ' ' + CLS['input--name'],
+	              ref: function ref(el) {
+	                return _this2._name = el;
+	              },
+	              onKeyUp: this._onNameKeyUp, value: name, title: 'property name' }),
+	            (0, _preact.h)(
+	              'label',
+	              { className: CLS['error-label'] },
+	              error
+	            )
+	          ),
 	          (0, _preact.h)('input', { className: CLS['input'] + ' ' + CLS['input--count'],
-	            value: this.state.count,
-	            onKeyUp: this._onCountKeyUp,
+	            value: count, onKeyUp: this._onCountKeyUp,
 	            title: 'number of properties [1...4]' })
 	        ),
 	        (0, _preact.h)(
@@ -27052,19 +27067,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: '_onNameKeyUp',
 	    value: function _onNameKeyUp(e) {
-	      var state = this.props.state;
-	      var props = state.props;
-
-	      var code = e.which;
-	      if (code === 13) {
+	      if (e.which === 13) {
 	        return this._onSubmit();
 	      }
 
 	      var name = e.target.value;
 	      var trimmedName = name.trim();
-	      var isValid = trimmedName.length > 0 && props[name] == null;
+	      var error = trimmedName.length <= 0 ? 'none-empty' : this._isExist(name) ? EXIST_MESSAGE : null;
 
-	      this.setState({ name: name, isValid: isValid });
+	      this.setState({ name: name, error: error });
 	    }
 	  }, {
 	    key: '_onCountKeyUp',
@@ -27094,14 +27105,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	    key: '_getClassName',
 	    value: function _getClassName() {
 	      var isAdd = this.state.isAdd ? CLS['is-add'] : '';
-	      var isValid = this.state.isValid ? CLS['is-valid'] : '';
+	      var valid = this.state.error == null ? CLS['is-valid'] : '';
 
-	      return CLS['property-line-add'] + ' ' + isAdd + ' ' + isValid;
+	      return CLS['property-line-add'] + ' ' + isAdd + ' ' + valid;
 	    }
 	  }, {
 	    key: '_onSubmit',
 	    value: function _onSubmit() {
-	      if (!this.state.isValid) {
+	      if (this.state.error != null) {
 	        return;
 	      }
 
@@ -27110,16 +27121,23 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	      var data = (0, _extends3.default)({}, state, { property: (0, _extends3.default)({}, this.state) });
 
-	      var isExist = state.props[DEFAULT_STATE.name] != null;
+	      var isExist = this._isExist();
 	      var isDefault = this.state.name === DEFAULT_STATE.name;
-	      var isValid = !isDefault && !isExist;
-	      this.setState((0, _extends3.default)({}, DEFAULT_STATE, { isValid: isValid }));
+	      var error = isDefault || isExist ? EXIST_MESSAGE : null;
+	      this.setState((0, _extends3.default)({}, DEFAULT_STATE, { error: error }));
 	      store.dispatch({ type: 'ADD_POINT_PROPERTY', data: data });
 	    }
 	  }, {
 	    key: '_onLabelClick',
 	    value: function _onLabelClick(e) {
 	      this.setState({ isAdd: true });
+	    }
+	  }, {
+	    key: '_isExist',
+	    value: function _isExist() {
+	      var name = arguments.length <= 0 || arguments[0] === undefined ? DEFAULT_STATE.name : arguments[0];
+
+	      return this.props.state.props[name] != null;
 	    }
 	  }, {
 	    key: 'componentDidMount',
@@ -29789,17 +29807,19 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports) {
 
 	module.exports = {
-		"property-line-add": "_property-line-add_1p1gv_4",
-		"is-check": "_is-check_1p1gv_1",
-		"property-line-add__inputs": "_property-line-add__inputs_1p1gv_1",
-		"is-add": "_is-add_1p1gv_15",
-		"input": "_input_1p1gv_16",
-		"button": "_button_1p1gv_17",
-		"label": "_label_1p1gv_21",
-		"is-valid": "_is-valid_1p1gv_26",
-		"input--name": "_input--name_1p1gv_1",
-		"input--count": "_input--count_1p1gv_1",
-		"button__inner": "_button__inner_1p1gv_1"
+		"property-line-add": "_property-line-add_1u5pw_4",
+		"is-check": "_is-check_1u5pw_1",
+		"property-line-add__inputs": "_property-line-add__inputs_1u5pw_1",
+		"is-add": "_is-add_1u5pw_15",
+		"input": "_input_1u5pw_16",
+		"button": "_button_1u5pw_17",
+		"name-input-wrapper": "_name-input-wrapper_1u5pw_18",
+		"label": "_label_1u5pw_22",
+		"is-valid": "_is-valid_1u5pw_27",
+		"error-label": "_error-label_1u5pw_28",
+		"input--name": "_input--name_1u5pw_1",
+		"input--count": "_input--count_1u5pw_1",
+		"button__inner": "_button__inner_1u5pw_1"
 	};
 
 /***/ },
@@ -29837,7 +29857,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	// module
-	exports.push([module.id, "/*613760*/\n/*$PX:      1/16rem;*/\n/* old was 165px */\n._property-line-add_1p1gv_4 {\n  position:       relative;\n  min-height:       24px;\n  cursor:       pointer;\n  color:       white;\n  font-size:       9px;\n  letter-spacing:       0.5px;\n  line-height:       24px;\n  background:       #3A0839;\n  border-top:       1px solid #512750;\n  width:       100%;\n  cursor: default\n}\n._property-line-add_1p1gv_4._is-check_1p1gv_1 {\n  background:       #FFFFFF;\n  color:       #3A0839\n}\n._property-line-add__inputs_1p1gv_1 {\n  position:       absolute;\n  right:       24px;\n  left:       0\n}\n._property-line-add_1p1gv_4._is-add_1p1gv_15 ._input_1p1gv_16, ._property-line-add_1p1gv_4._is-add_1p1gv_15 ._button_1p1gv_17 {\n  display:       block\n}\n._property-line-add_1p1gv_4._is-add_1p1gv_15 ._label_1p1gv_21 {\n  display:       none\n}\n._property-line-add_1p1gv_4._is-valid_1p1gv_26 ._input_1p1gv_16 {}\n._property-line-add_1p1gv_4._is-valid_1p1gv_26 ._input--name_1p1gv_1 {\n  outline:       none\n}\n._property-line-add_1p1gv_4._is-valid_1p1gv_26 ._button_1p1gv_17 {\n  cursor:       pointer;\n}\n._property-line-add_1p1gv_4._is-valid_1p1gv_26 ._button_1p1gv_17 [data-component=\"icon\"] {\n  opacity:       1;\n  fill:       #50E3C2\n}\n._property-line-add_1p1gv_4._is-valid_1p1gv_26 ._button_1p1gv_17:hover {\n  background:       #512750\n}\n\n._label_1p1gv_21 {\n  position: absolute;\n  left: 0;\n  width: 25%;\n  padding-left: 10px;\n  line-height: 23px\n}\n\n._label_1p1gv_21:hover {\n  cursor:       pointer;\n  /*background: $c-light-purple;*/\n  text-decoration:       underline\n}\n\n._input_1p1gv_16 {\n  display:      block;\n  color:        white;\n  background:   transparent;\n  border:       none;\n  height:       24px;\n  text-align:   center;\n  outline:      0;\n  font-size:    10px;\n  padding-top:  0;\n  padding-bottom: 2px;\n  position:     absolute;\n  border-left: 1px solid #512750;\n  display:     none\n\n}\n\n._input_1p1gv_16::-moz-selection {\n  background:       #FF512F\n}\n\n.input::-moz-selection {\n  background:       #FF512F\n}\n\n._input_1p1gv_16::selection {\n  background:       #FF512F\n}\n\n._input--name_1p1gv_1 {\n  left:       0;\n  width:       86%;\n  border-left:       none;\n  text-align:       left;\n  padding-left:       10px;\n  outline:       1px solid #FF512F\n}\n\n._input--count_1p1gv_1 {\n  right:       0;\n  width:       24px\n}\n\n._button_1p1gv_17 {\n  position:      absolute;\n  top:           0;\n  right:         0;\n  width:         24px;\n  height:        23px;\n  background:    inherit;\n  border-left:   1px solid #512750;\n  display:       none;\n  cursor: default;\n}\n\n._button_1p1gv_17 [data-component=\"icon\"] {\n  fill:     inherit;\n  position: absolute;\n  left:     50%;\n  top:      50%;\n  width:    7px;\n  height:   7px;\n  margin-top:  -3.5px;\n  margin-left: -3.5px;\n  opacity:   .5;\n  cursor:   inherit;\n}\n\n._button__inner_1p1gv_1 {\n  position:       absolute;\n  width:       100%;\n  height:       100%;\n  fill:       white;\n  -webkit-transition:       all .15s ease;\n  transition:       all .15s ease\n}\n", ""]);
+	exports.push([module.id, "/*613760*/\n/*$PX:      1/16rem;*/\n/* old was 165px */\n._property-line-add_1u5pw_4 {\n  position:       relative;\n  min-height:       24px;\n  cursor:       pointer;\n  color:       white;\n  font-size:       9px;\n  letter-spacing:       0.5px;\n  line-height:       24px;\n  background:       #3A0839;\n  border-top:       1px solid #512750;\n  width:       100%;\n  cursor: default\n}\n._property-line-add_1u5pw_4._is-check_1u5pw_1 {\n  background:       #FFFFFF;\n  color:       #3A0839\n}\n._property-line-add__inputs_1u5pw_1 {\n  position:       absolute;\n  right:       24px;\n  left:       0\n}\n._property-line-add_1u5pw_4._is-add_1u5pw_15 ._input_1u5pw_16, ._property-line-add_1u5pw_4._is-add_1u5pw_15 ._button_1u5pw_17, ._property-line-add_1u5pw_4._is-add_1u5pw_15 ._name-input-wrapper_1u5pw_18 {\n  display:       block\n}\n._property-line-add_1u5pw_4._is-add_1u5pw_15 ._label_1u5pw_22 {\n  display:       none\n}\n._property-line-add_1u5pw_4._is-valid_1u5pw_27 ._error-label_1u5pw_28 {\n  display:       none\n}\n._property-line-add_1u5pw_4._is-valid_1u5pw_27 ._input_1u5pw_16 {}\n._property-line-add_1u5pw_4._is-valid_1u5pw_27 ._input--name_1u5pw_1 {\n  border:       1px solid transparent\n}\n._property-line-add_1u5pw_4._is-valid_1u5pw_27 ._button_1u5pw_17 {\n  cursor:       pointer;\n}\n._property-line-add_1u5pw_4._is-valid_1u5pw_27 ._button_1u5pw_17 [data-component=\"icon\"] {\n  opacity:       1;\n  fill:       #50E3C2\n}\n._property-line-add_1u5pw_4._is-valid_1u5pw_27 ._button_1u5pw_17:hover {\n  background:       #512750\n}\n\n._name-input-wrapper_1u5pw_18 {\n  position:     absolute;\n  left:         0;\n  width:        85.5%;\n  display:      none;\n  height:       24px;\n}\n\n._error-label_1u5pw_28 {\n  position:       absolute;\n  top:            100%;\n  left:           50%;\n  padding:        2px 4px;\n  font-size:      7px;\n  line-height:    1.5;\n  letter-spacing: 0.5px;\n  font-weight:    bold;\n  margin-top:    -1px;\n  background:     #FF512F;\n  /*color: $c-purple;*/\n  /*background:     $c-purple;*/\n  /*color: $c-orange;*/\n  /*border: 1*$PX solid $c-orange;*/\n  border-bottom-left-radius:  3px;\n  border-bottom-right-radius: 3px;\n  -webkit-transform: translateX(-50%);\n          transform: translateX(-50%);\n}\n\n._label_1u5pw_22 {\n  position: absolute;\n  left: 0;\n  width: 25%;\n  padding-left: 10px;\n  line-height: 23px\n}\n\n._label_1u5pw_22:hover {\n  cursor:       pointer;\n  /*background: $c-light-purple;*/\n  text-decoration:       underline\n}\n\n._input_1u5pw_16 {\n  display:      block;\n  color:        white;\n  background:   transparent;\n  border:       none;\n  height:       24px;\n  text-align:   center;\n  outline:      0;\n  font-size:    10px;\n  padding-top:  0;\n  padding-bottom: 2px;\n  position:     absolute;\n  border-left: 1px solid #512750;\n  display:     none\n\n}\n\n._input_1u5pw_16::-moz-selection {\n  background:       #FF512F\n}\n\n.input::-moz-selection {\n  background:       #FF512F\n}\n\n._input_1u5pw_16::selection {\n  background:       #FF512F\n}\n\n._input--name_1u5pw_1 {\n  width:       100%;\n  border-left:       none;\n  text-align:       left;\n  padding-left:       10px;\n  border:       1px solid #FF512F\n}\n\n._input--count_1u5pw_1 {\n  right:       0;\n  width:       24px\n}\n\n._button_1u5pw_17 {\n  position:      absolute;\n  top:           0;\n  right:         0;\n  width:         24px;\n  height:        23px;\n  background:    inherit;\n  border-left:   1px solid #512750;\n  display:       none;\n  cursor: default;\n}\n\n._button_1u5pw_17 [data-component=\"icon\"] {\n  fill:     inherit;\n  position: absolute;\n  left:     50%;\n  top:      50%;\n  width:    7px;\n  height:   7px;\n  margin-top:  -3.5px;\n  margin-left: -3.5px;\n  opacity:   .5;\n  cursor:   inherit;\n}\n\n._button__inner_1u5pw_1 {\n  position:       absolute;\n  width:       100%;\n  height:       100%;\n  fill:       white;\n  -webkit-transition:       all .15s ease;\n  transition:       all .15s ease\n}\n", ""]);
 
 	// exports
 

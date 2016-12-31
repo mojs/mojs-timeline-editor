@@ -14,7 +14,8 @@ $labelWidth: 25%;
 
   &.is-add {
     .input,
-    .button {
+    .button,
+    .name-input-wrapper {
       display: block;
     }
 
@@ -24,9 +25,10 @@ $labelWidth: 25%;
   }
 
   &.is-valid {
+    .error-label { display: none; }
     .input {
       &--name {
-        outline: none;
+        border: 1*$PX solid transparent;
       }
     }
     .button {
@@ -40,6 +42,34 @@ $labelWidth: 25%;
       }
     }
   }
+}
+
+.name-input-wrapper {
+  position:     absolute;
+  left:         0;
+  width:        85.5%;
+  display:      none;
+  height:       $POINT_LINE_HEIGHT;
+}
+
+.error-label {
+  position:       absolute;
+  top:            100%;
+  left:           50%;
+  padding:        2*$PX 4*$PX;
+  font-size:      7*$FPX;
+  line-height:    1.5;
+  letter-spacing: .5*$PX;
+  font-weight:    bold;
+  margin-top:    -1*$PX;
+  background:     $c-orange;
+  /*color: $c-purple;*/
+  /*background:     $c-purple;*/
+  /*color: $c-orange;*/
+  /*border: 1*$PX solid $c-orange;*/
+  border-bottom-left-radius:  $BRADIUS;
+  border-bottom-right-radius: $BRADIUS;
+  transform: translateX(-50%);
 }
 
 .label {
@@ -75,12 +105,11 @@ $labelWidth: 25%;
   }
 
   &--name {
-    left: 0;
-    width: 86%;
+    width: 100%;
     border-left: none;
     text-align: left;
     padding-left: 10*$PX;
-    outline: 1*$PX solid $c-orange;
+    border: 1*$PX solid $c-orange;
   }
 
   &--count {

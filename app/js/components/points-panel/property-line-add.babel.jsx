@@ -12,13 +12,19 @@ const DEFAULT_STATE = {
   count:    1,
   name:     'property name',
   isAdd:    false,
-  isValid:  true
+  error:    null
 };
 
+const EXIST_MESSAGE = 'already exist';
+
 class PropertyLineAdd extends Component {
-  getInitialState() { return {...DEFAULT_STATE}; }
+  getInitialState() {
+    const error = this._isExist() ? EXIST_MESSAGE: null;
+    return {...DEFAULT_STATE, error};
+  }
 
   render () {
+    const {name, count, error} = this.state;
     return (
       <div className={this._getClassName()}
           onClick={ e => e.stopPropagation() }>
@@ -27,14 +33,16 @@ class PropertyLineAdd extends Component {
           {'+ add'}
         </div>
         <div className={CLS['property-line-add__inputs']}>
-          <input className={`${CLS['input']} ${CLS['input--name']}`}
-            ref={ el => this._name = el }
-            onKeyUp={this._onNameKeyUp}
-            value={this.state.name} title="property name" />
-
+          <div className={CLS['name-input-wrapper']}>
+            <input className={`${CLS['input']} ${CLS['input--name']}`}
+              ref={ el => this._name = el }
+              onKeyUp={this._onNameKeyUp} value={name} title="property name" />
+            <label className={CLS['error-label']}>
+              {error}
+            </label>
+          </div>
           <input className={`${CLS['input']} ${CLS['input--count']}`}
-            value={this.state.count}
-            onKeyUp={this._onCountKeyUp}
+            value={count} onKeyUp={this._onCountKeyUp}
             title="number of properties [1...4]" />
         </div>
         <div className={CLS['button']} onClick={this._onSubmit}>
@@ -60,16 +68,14 @@ class PropertyLineAdd extends Component {
 
   @bind
   _onNameKeyUp(e) {
-    const {state} = this.props;
-    const {props} = state;
-    const code = e.which;
-    if (code === 13) { return this._onSubmit(); }
+    if (e.which === 13) { return this._onSubmit(); }
 
     const name = e.target.value;
     const trimmedName = name.trim();
-    const isValid = (trimmedName.length > 0) && props[name] == null;
+    const error = (trimmedName.length <= 0) ? 'none-empty'
+      : this._isExist(name) ? EXIST_MESSAGE : null;
 
-    this.setState({ name, isValid });
+    this.setState({ name, error });
   }
 
   @bind
@@ -93,29 +99,33 @@ class PropertyLineAdd extends Component {
   }
 
   _getClassName() {
-    const isAdd   = this.state.isAdd ? CLS['is-add'] : '';
-    const isValid = this.state.isValid ? CLS['is-valid'] : '';
+    const isAdd = this.state.isAdd ? CLS['is-add'] : '';
+    const valid = (this.state.error == null) ? CLS['is-valid'] : '';
 
-    return `${CLS['property-line-add']} ${isAdd} ${isValid}`;
+    return `${CLS['property-line-add']} ${isAdd} ${valid}`;
   }
 
   @bind
   _onSubmit() {
-    if (!this.state.isValid) { return; }
+    if (this.state.error != null) { return; }
 
     const {state} = this.props;
     const {store} = this.context;
     const data = {...state, property: { ...this.state }};
 
-    const isExist   = state.props[DEFAULT_STATE.name] != null;
+    const isExist   = this._isExist();
     const isDefault = this.state.name === DEFAULT_STATE.name;
-    const isValid   = !isDefault && !isExist;
-    this.setState({ ...DEFAULT_STATE, isValid });
+    let error = (isDefault || isExist) ? EXIST_MESSAGE : null;
+    this.setState({ ...DEFAULT_STATE, error });
     store.dispatch({ type: 'ADD_POINT_PROPERTY', data });
   }
 
   @bind
   _onLabelClick(e) { this.setState({ isAdd: true }); }
+
+  _isExist(name=DEFAULT_STATE.name) {
+    return this.props.state.props[name] != null;
+  }
 
   componentDidMount() {
     resetEvent.add((e) => { this.setState({ isAdd: false }); });
