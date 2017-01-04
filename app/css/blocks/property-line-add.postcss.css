@@ -14,7 +14,7 @@ $labelWidth: 25%;
 
   &.is-add {
     .input,
-    .button,
+    [data-component="tools-panel-button"],
     .name-input-wrapper {
       display: block;
     }
@@ -31,7 +31,7 @@ $labelWidth: 25%;
         border: 1*$PX solid transparent;
       }
     }
-    .button {
+    [data-component="tools-panel-button"] {
       cursor:   pointer;
       &:hover {
         background: $c-light-purple;
@@ -119,7 +119,7 @@ $labelWidth: 25%;
 
 }
 
-.button {
+/*.button {
   position:      absolute;
   top:           0;
   right:         0;
@@ -151,4 +151,4 @@ $labelWidth: 25%;
     opacity:   .5;
     cursor:   inherit;
   }
-}
+}*/

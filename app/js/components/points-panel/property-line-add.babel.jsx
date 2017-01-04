@@ -1,13 +1,14 @@
-import { h, Component } from 'preact';
-import Hammer from 'hammerjs';
+import {h, Component} from 'preact';
 import {bind} from 'decko';
 import clamp from '../../helpers/clamp';
 import resetEvent from '../../helpers/global-reset-event';
-import Icon from '../icon';
+import ToolsPanelButton from '../tools-panel-button';
+import style from '../../helpers/style-decorator';
 
 const CLS = require('../../../css/blocks/property-line-add.postcss.css.json');
 require('../../../css/blocks/property-line-add');
 
+const EXIST_MESSAGE = 'already exist';
 const DEFAULT_STATE = {
   count:    1,
   name:     'property name',
@@ -15,41 +16,29 @@ const DEFAULT_STATE = {
   error:    null
 };
 
-const EXIST_MESSAGE = 'already exist';
-
+@style(CLS)
 class PropertyLineAdd extends Component {
   getInitialState() {
-    const error = this._isExist() ? EXIST_MESSAGE: null;
-    return {...DEFAULT_STATE, error};
+    return {...DEFAULT_STATE, error: this._isExist() ? EXIST_MESSAGE: null };
   }
 
   render () {
     const {name, count, error} = this.state;
     return (
-      <div className={this._getClassName()}
-          onClick={ e => e.stopPropagation() }>
-        <div className={CLS['label']} ref={ el => this._label = el }
-              onClick={this._onLabelClick}>
+      <div className={this._getClassName()} onClick={e => e.stopPropagation()}>
+        <div className="label" ref="_label" onClick={this._onLabelClick}>
           {'+ add'}
         </div>
-        <div className={CLS['property-line-add__inputs']}>
-          <div className={CLS['name-input-wrapper']}>
-            <input className={`${CLS['input']} ${CLS['input--name']}`}
-              ref={ el => this._name = el }
-              onKeyUp={this._onNameKeyUp} value={name} title="property name" />
-            <label className={CLS['error-label']}>
-              {error}
-            </label>
+        <div className="property-line-add__inputs">
+          <div className="name-input-wrapper">
+            <input className="input input--name" ref="_name" value={name}
+              onKeyUp={this._onNameKeyUp} title="property name" />
+            <label className="error-label">{error}</label>
           </div>
-          <input className={`${CLS['input']} ${CLS['input--count']}`}
-            value={count} onKeyUp={this._onCountKeyUp}
-            title="number of properties [1...4]" />
+          <input className="input input--count" onKeyUp={this._onCountKeyUp}
+                 value={count} title="number of properties [1...4]" />
         </div>
-        <div className={CLS['button']} onClick={this._onSubmit}>
-          <div className={CLS['button__inner']}>
-            <Icon shape="tick" />
-          </div>
-        </div>
+        <ToolsPanelButton onClick={this._onSubmit} icon="tick" />
       </div>
     );
   }
@@ -64,6 +53,10 @@ class PropertyLineAdd extends Component {
       this._name.select && this._name.select();
     }
     this._isFocus = false;
+  }
+
+  componentDidMount() {
+    resetEvent.add((e) => { this.setState({ isAdd: false }); });
   }
 
   @bind
@@ -99,10 +92,10 @@ class PropertyLineAdd extends Component {
   }
 
   _getClassName() {
-    const isAdd = this.state.isAdd ? CLS['is-add'] : '';
-    const valid = (this.state.error == null) ? CLS['is-valid'] : '';
+    const isAdd = (this.state.isAdd) ? 'is-add' : '';
+    const valid = (this.state.error == null) ? 'is-valid' : '';
 
-    return `${CLS['property-line-add']} ${isAdd} ${valid}`;
+    return `property-line-add ${isAdd} ${valid}`;
   }
 
   @bind
@@ -124,11 +117,8 @@ class PropertyLineAdd extends Component {
   _onLabelClick(e) { this.setState({ isAdd: true }); }
 
   _isExist(name=DEFAULT_STATE.name) {
-    return this.props.state.props[name] != null;
-  }
-
-  componentDidMount() {
-    resetEvent.add((e) => { this.setState({ isAdd: false }); });
+    const {state} = this.props;
+    return state.props[name] != null;
   }
 }
 

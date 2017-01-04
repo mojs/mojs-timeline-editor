@@ -1,0 +1,36 @@
+@import '../assets/globals.postcss.css';
+
+
+.tools-panel-button {
+  position:      absolute;
+  top:           0;
+  right:         0;
+  width:         $POINT_LINE_HEIGHT;
+  height:        $POINT_LINE_HEIGHT - 1;
+  background:    inherit;
+  border-left:   1px solid $c-light-purple;
+  display:       none;
+  cursor: default;
+
+  &__inner {
+    position:    absolute;
+    width:       100%;
+    height:      100%;
+    fill:        white;
+    transition:  all .15s ease;
+  }
+
+  $size: 7*$PX;
+  [data-component="icon"] {
+    fill:     inherit;
+    position: absolute;
+    left:     50%;
+    top:      50%;
+    width:    $size;
+    height:   $size;
+    margin-top:  -$size/2;
+    margin-left: -$size/2;
+    opacity:   .5;
+    cursor:   inherit;
+  }
+}
