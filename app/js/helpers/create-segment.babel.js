@@ -20,6 +20,7 @@ export default (o={}) => {
       value:     o.endValue,
       connected: 'next'
     }),
+    easing:     'none',
     isChanged:  false, // if was changed by the user
     isSelected: false,
     delay, duration

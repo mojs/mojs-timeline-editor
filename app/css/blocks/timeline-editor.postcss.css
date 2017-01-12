@@ -7,4 +7,8 @@
     box-sizing: border-box;
     user-select: none;
   }
+
+  &__el {
+    outline: 1px solid;
+  }
 }

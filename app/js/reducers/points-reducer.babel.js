@@ -187,6 +187,12 @@ const points = (state=INITIAL_STATE, action) => {
     );
   }
 
+  case 'SET_EASING': {
+    const {id, prop, spotIndex, easing} = data;
+
+    return change(state, [id, 'props', prop, spotIndex, 'easing'], easing);
+  }
+
   }
 
   return state;

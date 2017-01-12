@@ -1,55 +1,56 @@
+import isString from './is-string';
+import builder from './decorators/builder';
+import refsFunction from './decorators/refs';
+import classNamesFunction from './decorators/class-names';
 
-/* Function to parse a string and suppress `classNames` with `hash names`
-   from the `CLASSES`. If there is no such `hash name` - leave the className
-   as is.
-*/
-const overrideClass = (attrs, CLASSES) => {
-  if (!attrs.class) { return; }
-  const string = attrs.class.trim();
-  const split = string.split(' ');
-
-  let str = '';
-  for (let i = 0; i < split.length; i++) {
-    const className = split[i];
-    if (className) {
-      const hash = CLASSES[className];
-      str += `${(hash == null) ? className : hash} `;
-    }
-  }
-  attrs.class = str;
-};
-
-/* Function to override string `ref` with automatic function. */
-const overrideRefs = function overrideRefs(attrs, CLASSES) {
-  const {ref} = attrs;
-  if (!ref || typeof ref === 'function') { return; }
-
-  if (typeof ref === 'string') { attrs.ref = el => this[ref] = el; }
-};
-
-/* Function to apply hash name classes to the rendered VNode tree. */
-const applyAttributes = function applyAttributes(renderResult, CLASSES) {
-  if (typeof renderResult !== 'object' || renderResult == null) { return; }
-  overrideClass(renderResult.attributes, CLASSES);
-  overrideRefs.call(this, renderResult.attributes, CLASSES);
-
-  const {children=[]} = renderResult;
-  for (let i = 0; i < children.length; i++) {
-    applyAttributes.call(this, children[i], CLASSES);
-  }
-
-  return renderResult;
-};
-
-// decorator to automatically apply hash classes instead of common ones.
-export default (CLASSES) => {
-  return (Component) => {
-    return class StyledComponent extends Component {
-      render() {
-        let renderResult = super.render();
-        renderResult = applyAttributes.call(this, renderResult, CLASSES);
-        return renderResult;
+/* Decorator: `classNames`.
+    Overrides clean class names with CSS Modules `hash` classes.
+    @param {CLASSES} CSS Modules hash classes map
+    @sample:
+      @classNames(CLASSES)
+      class SomeComponent extends Component {
+        render() {
+          return (<div className="some-class" />);
+        }
       }
-    };
-  };
+      // `some-class` will be overwritten with `hash` from the `CLASSES`
+*/
+const classNamesDecorator = function classNamesDecorator(CLASSES) {
+  const fun = classNamesFunction(CLASSES);
+  const decorator = builder([fun]);
+  decorator.__decorFunction = fun;
+  return decorator;
 };
+export {classNamesDecorator as classNames};
+
+/* Decorator: `refs`.
+    Overrides clean string `_refs` with reference to the rendered element
+    @sample:
+      @refs
+      class SomeComponent extends Component {}
+*/
+const refsDecorator = builder([refsFunction]);
+refsDecorator.__decorFunction = refsFunction;
+export {refsDecorator as refs};
+
+/* Decorator: `all`.
+    Includes all decorators at once.
+    @sample:
+      @all(CLASSES)
+      class SomeComponent extends Component {}
+*/
+export function all(CLASSES) {
+  return builder([classNamesFunction(CLASSES), refsFunction]);
+}
+
+/* Decorator: `compose`.
+    Composes decorators you need into one.
+    @sample:
+      @compose(classNames(CLASSES), refs)
+      class SomeComponent extends Component {}
+*/
+export function compose(...decorators) {
+  if (decorators.length === 0) { return function id(arg) { return arg; }; }
+
+  return builder(decorators.map( item => item.__decorFunction ));
+}

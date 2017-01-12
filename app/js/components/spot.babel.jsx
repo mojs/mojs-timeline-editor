@@ -3,10 +3,12 @@ import {bind} from 'decko';
 import Hammer from 'hammerjs';
 import C from '../constants';
 import isSelectedByConnection from '../helpers/is-selected-by-connection';
+import {classNames, refs, compose} from '../helpers/style-decorator';
 
 const CLASSES = require('../../css/blocks/spot.postcss.css.json');
 require('../../css/blocks/spot');
 
+@compose(classNames(CLASSES), refs)
 class Spot extends Component {
   getInitialState() { return { dDelay: 0, dDuration: 0 }; }
 
@@ -22,21 +24,21 @@ class Spot extends Component {
       width: `${(type === 'start') ? delayWidth : durationWidth}em`
     };
 
-    return (<div  className={this._getClassName()}
-                  style={style} data-component="spot">
-                  
-              <div  className={CLASSES['spot__dot']}
-                    ref={(el) => { this._dot = el; }} />
-            </div>);
+    return (
+      <div className={this._getClassName()} style={style} data-component="spot">
+        <div className="spot__dot" ref="_dot" />
+        {this.props.children}
+      </div>
+    );
   }
 
   _getClassName() {
     const {type} = this.props;
 
-    const endClass = (type === 'end') ? CLASSES['spot--end'] : '';
-    const selectClass = this._isSelected() ? CLASSES['is-selected'] : '';
+    const endClass = (type === 'end') ? 'spot--end' : '';
+    const selectClass = this._isSelected() ? 'is-selected' : '';
 
-    return `${CLASSES['spot']} ${endClass} ${selectClass}`;
+    return `spot ${endClass} ${selectClass}`;
   }
 
   _isSelected() {
@@ -96,7 +98,6 @@ class Spot extends Component {
     const {store} = this.context;
     const {meta, type}  = this.props;
 
-    // console.log(type, meta);
     store.dispatch({ type: 'SET_SELECTED_SPOT', data: { type, ...meta } });
   }
 }

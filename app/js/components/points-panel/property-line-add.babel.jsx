@@ -3,7 +3,7 @@ import {bind} from 'decko';
 import clamp from '../../helpers/clamp';
 import resetEvent from '../../helpers/global-reset-event';
 import ToolsPanelButton from '../tools-panel-button';
-import style from '../../helpers/style-decorator';
+import {classNames, refs, compose} from '../../helpers/style-decorator';
 
 const CLS = require('../../../css/blocks/property-line-add.postcss.css.json');
 require('../../../css/blocks/property-line-add');
@@ -16,7 +16,7 @@ const DEFAULT_STATE = {
   error:    null
 };
 
-@style(CLS)
+@compose(classNames(CLS), refs)
 class PropertyLineAdd extends Component {
   getInitialState() {
     return {...DEFAULT_STATE, error: this._isExist() ? EXIST_MESSAGE: null };

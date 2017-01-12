@@ -1,0 +1,110 @@
+@import '../assets/globals.postcss.css';
+
+$height: 14*$PX;
+$width: 60*$PX;
+.easing {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 1;
+  margin-left: -$height/2;
+  margin-top: -$height/2;
+  /*transform: translate(-50%,-50%);*/
+  &:hover { opacity: .85; }
+
+  &__full {
+    width: $width;
+    height: $height;
+    background: $c-purple;
+    display: none;
+    border-radius: $BRADIUS;
+    margin-left: -$width/2;
+  }
+
+  &__short {
+    width: $height;
+    height: $height;
+    cursor: pointer;
+
+    $size: 6*$PX;
+    [data-component="icon"] {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width:  $size;
+      height: $size;
+      margin-left: -$size/2;
+      margin-top: -$size/2;
+      fill: $c-purple;
+    }
+  }
+
+  &.is-full {
+    .easing__full {
+      display: block;
+    }
+    .easing__short {
+      display: none;
+    }
+  }
+}
+
+.label {
+  position:        absolute;
+  left:            -$width/2;
+  right:           0;
+  top:             3*$PX;
+  color:           $c-white;
+  font-size:       7*$FPX;
+  /*width:           100%;*/
+  letter-spacing:  .5*$PX;
+  padding-right:   $height + 3;
+  padding-left:    5*$PX;
+
+  // ellipsis
+  white-space:     nowrap;
+  overflow:        hidden;
+  text-overflow:   ellipsis;
+}
+
+.dropdown {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  &__select {
+    height: 100%;
+    width: 100%;
+
+    appearance: none;
+    outline: 0;
+    border-radius: $BRADIUS;
+    cursor: pointer;
+    position: absolute;
+    z-index: 1;
+    opacity: 0;
+  }
+}
+
+.dropdown-icon {
+  position: absolute;
+  width: $height;
+  height: $height;
+  right: 0;
+  top: 0;
+  border-left: 1*$PX solid $c-light-purple;
+
+  $size: 6*$PX;
+  [data-component="icon"] {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: $size;
+    height: $size;
+    margin-top: -$size/2;
+    margin-left: -$size/2 - 1;
+    fill: $c-white;
+  }
+}

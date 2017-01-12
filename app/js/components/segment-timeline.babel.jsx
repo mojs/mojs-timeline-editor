@@ -7,6 +7,7 @@ const CLASSES = require('../../css/blocks/segment-timeline.postcss.css.json');
 require('../../css/blocks/segment-timeline');
 
 import Spot from './spot';
+import Easing from './easing';
 
 class SegmentTimeline extends Component {
   render () {
@@ -18,7 +19,9 @@ class SegmentTimeline extends Component {
         <div className={CLASSES['segment-timeline__bar']}>
           <div className={CLASSES['segment-timeline__delay']} />
           <Spot type="start" {...this.props} />
-          <Spot type="end" {...this.props} />
+          <Spot type="end" {...this.props}>
+            <Easing {...this.props} />
+          </Spot>
         </div>
       </div>
     );
