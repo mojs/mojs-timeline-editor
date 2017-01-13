@@ -1,0 +1,7 @@
+
+@import '../assets/globals.postcss.css';
+
+
+.curve-editor {
+  outline: $PX solid cyan;
+}

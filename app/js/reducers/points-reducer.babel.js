@@ -13,7 +13,8 @@ const resetSelectedPoints = (state) => {
 
   for (let i = 0; i < props.length; i++) {
     const prop = props[i];
-    newState[prop] = { ...state[i], isSelected: false };
+    const item = state[prop];
+    newState[prop] = { ...item, isSelected: false };
   }
   return newState;
 };
@@ -69,7 +70,7 @@ const points = (state=INITIAL_STATE, action) => {
 
   case 'ADD_POINT': {
     const newState = resetSelectedPoints(state);
-    const point = createPoint(data, newState.length);
+    const point = createPoint(data, Object.keys(newState).length);
     newState[point.id] = point;
     return newState;
   }

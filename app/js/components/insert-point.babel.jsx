@@ -5,7 +5,6 @@ const CLASSES = require('../../css/blocks/insert-point.postcss.css.json');
 require('../../css/blocks/insert-point');
 
 class Point extends Component {
-  getInitialState() { return { x: 0, y: 0 }; }
   render () {
     const {state} = this.props;
     const style  = {
@@ -46,6 +45,8 @@ class Point extends Component {
     const { pageX: x, pageY: y } = e;
     this.setState({x, y});
   }
+
+  componentWillMount() { this.setState({ x: 0, y:0 }); }
 
   componentDidMount() {
     document.addEventListener('mousemove', this._mouseMove);

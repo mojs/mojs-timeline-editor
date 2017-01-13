@@ -8,7 +8,7 @@ const CLASSES = require('../../css/blocks/timeline-handle.postcss.css.json');
 require('../../css/blocks/timeline-handle');
 
 class TimelineHandle extends Component {
-  getInitialState() { return { deltaX: 0 }; }
+  // getInitialState() { return { deltaX: 0 }; }
   render() {
     const {state} = this.props;
     const shift = (state.progress + this.state.deltaX)/10;
@@ -25,6 +25,7 @@ class TimelineHandle extends Component {
     );
   }
 
+  componentWillMount() { this.setState({ deltaX: 0 }); }
 
   componentDidMount() {
     const mc = new Hammer.Manager(this._head);

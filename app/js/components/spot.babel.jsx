@@ -10,7 +10,7 @@ require('../../css/blocks/spot');
 
 @compose(classNames(CLASSES), refs)
 class Spot extends Component {
-  getInitialState() { return { dDelay: 0, dDuration: 0 }; }
+  // getInitialState() { return { dDelay: 0, dDuration: 0 }; }
 
   render () {
     const {meta, type, state} = this.props;
@@ -52,6 +52,8 @@ class Spot extends Component {
               meta.prop === prop
             ) || isSelectedByConnection({...meta, type}, selectedSpot, points);
   }
+
+  componentWillMount() { this.setState({ dDelay: 0, dDuration: 0 }); }
 
   componentDidMount() {
     const mc  = new Hammer.Manager(this._dot);

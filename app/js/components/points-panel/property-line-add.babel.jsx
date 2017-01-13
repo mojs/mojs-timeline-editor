@@ -18,9 +18,10 @@ const DEFAULT_STATE = {
 
 @compose(classNames(CLS), refs)
 class PropertyLineAdd extends Component {
-  getInitialState() {
-    return {...DEFAULT_STATE, error: this._isExist() ? EXIST_MESSAGE: null };
-  }
+  // getInitialState() {
+  //   this.setState({ x: 0, y: 0 });
+  //   return {...DEFAULT_STATE, error: this._isExist() ? EXIST_MESSAGE: null };
+  // }
 
   render () {
     const {name, count, error} = this.state;
@@ -56,6 +57,11 @@ class PropertyLineAdd extends Component {
   }
 
   componentDidMount() {
+    this.setState({
+      ...DEFAULT_STATE,
+      error: this._isExist() ? EXIST_MESSAGE: null
+    });
+
     resetEvent.add((e) => { this.setState({ isAdd: false }); });
   }
 

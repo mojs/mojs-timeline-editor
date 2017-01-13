@@ -12,7 +12,10 @@ require('../../../css/blocks/main-panel');
 
 class MainPanel extends Component {
 
-  getInitialState() { return { deltaY: 0 }; }
+  constructor() {
+    super();
+    this.state = { deltaY: 0 };
+  }
 
   render () {
     const props    = this.props;

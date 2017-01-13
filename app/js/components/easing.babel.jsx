@@ -3,6 +3,7 @@ import {bind} from 'decko';
 
 import Icon from './icon';
 import {classNames} from '../helpers/style-decorator';
+import CurveEditor from './curve-editor';
 
 const CLASSES = require('../../css/blocks/easing.postcss.css.json');
 require('../../css/blocks/easing');
@@ -13,14 +14,14 @@ const DELIMITER = <option value={GAP} disabled>{GAP}</option>;
 @classNames(CLASSES)
 class Easing extends Component {
   render () {
-    // const {shift} = this.props;
-    const {easing} = this.props.state;
-    // const style = { transform: `translateX(${delay/10/2}px)` };
+    const {state, meta} = this.props;
+    const {easing} = state;
 
     return (
       <div className={this._getClassName()}>
         <div className="easing__short"><Icon shape="plus" /></div>
         <div className="easing__full">
+          {easing === 'custom' ? <CurveEditor meta={meta} /> : null}
           <div className="label" title={easing}>{easing}</div>
           <div className="dropdown-icon"><Icon shape="dropdown" /></div>
         </div>
@@ -79,6 +80,15 @@ class Easing extends Component {
     );
   }
 
+  // _renderEasing() {
+  //   const {state, meta} = this.props;
+  //   const {easing} = state;
+  //
+  //   return (easing === 'custom')
+  //     ? <CurveEditor meta={meta} />
+  //     : <div className="label" title={easing}>{easing}</div>;
+  // }
+
   _makeOption(name) {
     const {easing} = this.props.state;
     return <option value={name} selected={easing===name}>{name}</option>;
@@ -97,8 +107,6 @@ class Easing extends Component {
 
     const data = { ...this.props.meta, easing: value };
     store.dispatch({ type: 'SET_EASING', data });
-
-    // console.log(value);
   }
 
   @bind

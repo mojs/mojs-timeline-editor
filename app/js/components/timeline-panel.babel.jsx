@@ -34,9 +34,7 @@ class TimelinePanel extends Component {
   }
 
   // will be removed when `preact` issue with nested `svg` will be fixed
-  componentDidMount() {
-    this._svg.classList.add(CLASSES['main-svg']);
-  }
+  componentDidMount() { this._svg.classList.add(CLASSES['main-svg']); }
 
   @bind
   _createTimeline() {

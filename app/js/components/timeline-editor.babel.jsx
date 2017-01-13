@@ -8,10 +8,10 @@ import Point from './point';
 import C from '../constants';
 import {classNames} from '../helpers/style-decorator';
 
-const CLASSES = require('../../css/blocks/timeline-editor.postcss.css.json');
+// const CLASSES = require('../../css/blocks/timeline-editor.postcss.css.json');
 require('../../css/blocks/timeline-editor');
 
-@classNames(CLASSES)
+@classNames(require('../../css/blocks/timeline-editor.postcss.css.json'))
 class TimelineEditor extends Component {
   render () {
     const {store} = this.context;
@@ -24,8 +24,7 @@ class TimelineEditor extends Component {
         {this._renderPoints()}
         <div className="timeline-editor" onMouseMove={this._mouseMove}>
           <Icons />
-          <MainPanel state={state.mainPanel} entireState={state}
-                    isPlayerPassed={true} />
+          <MainPanel state={state.mainPanel} entireState={state} />
         </div>
       </div>
     );
@@ -50,13 +49,6 @@ class TimelineEditor extends Component {
     const {store} = this.context;
     store.subscribe(this.forceUpdate.bind(this));
     document.addEventListener('mousemove', this._docMouseMove);
-
-    // let isInside = true;
-    // setInterval(() => {
-    //   console.time('1');
-    //   store.dispatch({ type: 'CONTROLS_SET_MOUSE_INSIDE', data: isInside });
-    //   console.timeEnd('1');
-    // }, 2000);
   }
 
   @bind

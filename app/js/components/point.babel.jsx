@@ -7,7 +7,11 @@ const CLASSES = require('../../css/blocks/point.postcss.css.json');
 require('../../css/blocks/point');
 
 class Point extends Component {
-  getInitialState() { return { deltaX: 0, deltaY: 0 }; }
+  // getInitialState() { return { deltaX: 0, deltaY: 0 }; }
+  constructor() {
+    super();
+    this.state = { deltaX: 0, deltaY: 0 };
+  }
   render () {
     const {state} = this.props;
     let [x, y]  = this._getXY();
@@ -33,6 +37,7 @@ class Point extends Component {
   _getCoords() {
     const {state, entireState} = this.props;
     const {selectedSpot, points} = entireState;
+
     if (selectedSpot.id == null) {return state.currentProps[C.POSITION_NAME];}
 
     const {id, prop, spotIndex, type} = selectedSpot;
