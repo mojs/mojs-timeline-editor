@@ -62,8 +62,8 @@ class MainPanel extends Component {
     const {deltaY} = this.state;
 
     const data = this._clampDeltaY(deltaY);
-    store.dispatch({ type: 'MAIN_PANEL_SET_YSIZE', data });
     this.setState({ deltaY: 0 });
+    store.dispatch({ type: 'MAIN_PANEL_SET_YSIZE', data });
   }
 
   @bind
@@ -89,9 +89,7 @@ class MainPanel extends Component {
     return `${className} ${transitionClass}`;
   }
 
-  _clampHeight(height) {
-    return Math.max(this._getMinHeight(), height);
-  }
+  _clampHeight(height) { return Math.max(this._getMinHeight(), height); }
 
   _clampDeltaY(deltaY) {
     const {ySize}  = this.props;
@@ -115,9 +113,8 @@ class MainPanel extends Component {
     }
   }
 
-  _getMinHeight() {
-    return (this.props.isPlayerPassed) ? C.PLAYER_HEIGHT : 0;
-  }
+  _getMinHeight() { return C.PLAYER_HEIGHT; }
+
 }
 
 export default MainPanel;

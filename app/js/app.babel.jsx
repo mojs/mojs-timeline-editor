@@ -15,7 +15,7 @@ import persist from './helpers/persist';
 
 render(
   <Provider store={store}>
-    <TimelineEditor isPlayerPassed={true} />
+    <TimelineEditor />
   </Provider>,
   document.body
 );

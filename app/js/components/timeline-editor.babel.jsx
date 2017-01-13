@@ -21,7 +21,7 @@ class TimelineEditor extends Component {
     return (
       <div>
         <InsertPoint state={state} />
-        {this._renderPoints()}
+        <div>{this._renderPoints()}</div>
         <div className="timeline-editor" onMouseMove={this._mouseMove}>
           <Icons />
           <MainPanel state={state.mainPanel} entireState={state} />

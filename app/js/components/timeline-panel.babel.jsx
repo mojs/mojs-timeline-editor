@@ -69,7 +69,7 @@ class TimelinePanel extends Component {
   }
 
   _getDashType(dashNumber, dashesPerSec) {
-    const isLarge = !(dashNumber % (dashesPerSec / 2)) || (dashNumber === 0);
+    const isLarge  = !(dashNumber % (dashesPerSec / 2)) || (dashNumber === 0);
     const isMiddle = !(dashNumber % (dashesPerSec / 4));
     return isLarge ? 'large' : isMiddle ? 'middle' : 'small';
   }

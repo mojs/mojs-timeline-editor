@@ -29,7 +29,7 @@ class ResizeHandle extends Component {
       p.onResizeStart && p.onResizeStart(e);
       e.stopPropagation();
     }).on('panend', (e) => {
-      p.onResizeEnd(e);
+      p.onResizeEnd && p.onResizeEnd(e);
       e.stopPropagation();
     });
   }

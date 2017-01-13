@@ -1,5 +1,6 @@
 import { h, Component } from 'preact';
 import {bind} from 'decko';
+import {classNames} from '../helpers/style-decorator';
 
 const CLASSES =
   require('../../css/blocks/point-timeline-line.postcss.css.json');
@@ -7,18 +8,20 @@ require('../../css/blocks/point-timeline-line');
 
 import SegmentTimeline from './segment-timeline';
 
+@classNames(CLASSES)
 class PointTimelineLine extends Component {
   render () {
     const {state} = this.props;
 
     return (
-      <div  className={this._getClassName(state)}
+      <div className={this._getClassName(state)}
             data-component="point-timeline-line">
 
-        <div className={CLASSES['point-timeline-line__inner']}>
-          <div className={CLASSES['point-timeline-line__header']}></div>
-          <div className={CLASSES['point-timeline-line__body']}>
-            { this._renderProperties(state) }
+        <div className="point-timeline-line__inner">
+          <div className="point-timeline-line__header" />
+          <div className="point-timeline-line__body">
+            <span>{ this._renderProperties(state) }</span>
+            <div className="point-timeline-line__property" />
           </div>
         </div>
       </div>
@@ -52,17 +55,17 @@ class PointTimelineLine extends Component {
     }
 
     return (
-      <div className={CLASSES['point-timeline-line__property']}>
+      <div className="point-timeline-line__property">
         {results}
       </div>
     );
   }
 
   _getClassName(state) {
-    const selectClass = (state.isSelected) ? CLASSES['is-selected']: '';
-    const openClass = (state.isOpen) ? CLASSES['is-open']: '';
+    const selectClass = (state.isSelected) ? 'is-selected': '';
+    const openClass = (state.isOpen) ? 'is-open': '';
 
-    return `${CLASSES['point-timeline-line']} ${selectClass} ${openClass}`;
+    return `point-timeline-line ${selectClass} ${openClass}`;
   }
 
 }
