@@ -30916,9 +30916,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  (0, _createClass3.default)(Spot, [{
 	    key: 'render',
-
-	    // getInitialState() { return { dDelay: 0, dDuration: 0 }; }
-
 	    value: function render() {
 	      var _props = this.props,
 	          meta = _props.meta,
@@ -30954,16 +30951,30 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var endClass = type === 'end' ? 'spot--end' : '';
 	      var selectClass = this._isSelected() ? 'is-selected' : '';
 
-	      return 'spot ' + endClass + ' ' + selectClass;
+	      return 'spot ' + endClass + ' ' + selectClass + ' ' + this._getEasingClass();
+	    }
+	  }, {
+	    key: '_getEasingClass',
+	    value: function _getEasingClass() {
+	      var _props2 = this.props,
+	          type = _props2.type,
+	          state = _props2.state;
+
+	      if (type === 'start') {
+	        return '';
+	      }
+
+	      var durationWidth = state.duration / 10 + this.state.dDuration;
+	      return durationWidth >= 80 ? 'is-easing' : '';
 	    }
 	  }, {
 	    key: '_isSelected',
 	    value: function _isSelected() {
-	      var _props2 = this.props,
-	          type = _props2.type,
-	          state = _props2.state,
-	          entireState = _props2.entireState,
-	          meta = _props2.meta;
+	      var _props3 = this.props,
+	          type = _props3.type,
+	          state = _props3.state,
+	          entireState = _props3.entireState,
+	          meta = _props3.meta;
 	      var selectedSpot = entireState.selectedSpot,
 	          points = entireState.points;
 	      var id = selectedSpot.id,
@@ -31026,9 +31037,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    key: '_tap',
 	    value: function _tap(e) {
 	      var store = this.context.store;
-	      var _props3 = this.props,
-	          meta = _props3.meta,
-	          type = _props3.type;
+	      var _props4 = this.props,
+	          meta = _props4.meta,
+	          type = _props4.type;
 
 
 	      store.dispatch({ type: 'SET_SELECTED_SPOT', data: (0, _extends3.default)({ type: type }, meta) });
@@ -31082,10 +31093,11 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports) {
 
 	module.exports = {
-		"spot": "_spot_rfnn7_4",
-		"spot--end": "_spot--end_rfnn7_1",
-		"spot__dot": "_spot__dot_rfnn7_55",
-		"is-selected": "_is-selected_rfnn7_54"
+		"spot": "_spot_101ld_4",
+		"spot--end": "_spot--end_101ld_1",
+		"spot__dot": "_spot__dot_101ld_56",
+		"is-selected": "_is-selected_101ld_55",
+		"is-easing": "_is-easing_101ld_61"
 	};
 
 /***/ },
@@ -31123,7 +31135,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	// module
-	exports.push([module.id, "/*613760*/\n/*$PX:      1/16rem;*/\n/* old was 165px */\n\n._spot_rfnn7_4 {\n  position:    relative;\n  height:      100%;\n  float:       left;\n  background:  #BCA5AA;\n  height:      20px;\n  border-top-left-radius: 3px;\n  border-bottom-left-radius: 3px\n}\n\n._spot--end_rfnn7_1 {\n  display:    block;\n  background:    transparent\n  /*background: yellow;*/\n  /*z-index: 0;*/\n}\n\n._spot__dot_rfnn7_55 {\n  width:    6px;\n  height:    6px;\n  background:    #3A0839;\n  position:    absolute;\n  z-index:    1;\n  top:    50%;\n  right:    -3px;\n  margin-top:    -3px;\n  /*margin-left: -($size/2);*/\n  cursor:    pointer;\n  -webkit-transform:    rotate(45deg);\n          transform:    rotate(45deg)\n}\n\n._spot__dot_rfnn7_55:hover, ._spot__dot_rfnn7_55:active {\n  background:    #512750;\n  outline:    1px solid #FF512F;\n  outline:    2px solid #BCA5AA\n}\n\n._spot__dot_rfnn7_55:after {\n  content:    '';\n  position:    absolute;\n  width:    300%;\n  height:    300%;\n  margin-left:    -100%;\n  margin-top:    -100%;\n  -webkit-transform:    rotate(45deg);\n          transform:    rotate(45deg);\n  -webkit-user-select:    none;\n     -moz-user-select:    none;\n      -ms-user-select:    none;\n          user-select:    none\n}\n\n._spot_rfnn7_4._is-selected_rfnn7_54 ._spot__dot_rfnn7_55 {\n  background:    #FF512F\n}\n", ""]);
+	exports.push([module.id, "/*613760*/\n/*$PX:      1/16rem;*/\n/* old was 165px */\n\n._spot_101ld_4 {\n  position:    relative;\n  height:      100%;\n  float:       left;\n  background:  #BCA5AA;\n  height:      20px;\n  border-top-left-radius: 3px;\n  border-bottom-left-radius: 3px;\n\n}\n\n._spot_101ld_4 [data-component=\"easing\"] {\n  display: none;\n\n}\n\n._spot--end_101ld_1 {\n  display:    block;\n  background:    transparent;\n\n}\n\n._spot__dot_101ld_56 {\n  width:    6px;\n  height:    6px;\n  background:    #3A0839;\n  position:    absolute;\n  z-index:    1;\n  top:    50%;\n  right:    -3px;\n  margin-top:    -3px;\n  cursor:    pointer;\n  -webkit-transform:    rotate(45deg);\n          transform:    rotate(45deg);\n\n}\n\n._spot__dot_101ld_56:hover, ._spot__dot_101ld_56:active {\n  background:    #512750;\n  outline:    1px solid #FF512F;\n  outline:    2px solid #BCA5AA;\n\n}\n\n._spot__dot_101ld_56:after {\n  content:    '';\n  position:    absolute;\n  width:    300%;\n  height:    300%;\n  margin-left:    -100%;\n  margin-top:    -100%;\n  -webkit-transform:    rotate(45deg);\n          transform:    rotate(45deg);\n  -webkit-user-select:    none;\n     -moz-user-select:    none;\n      -ms-user-select:    none;\n          user-select:    none;\n\n}\n\n._spot_101ld_4._is-selected_101ld_55 ._spot__dot_101ld_56 {\n  background:    #FF512F;\n\n}\n\n._spot_101ld_4._is-easing_101ld_61 [data-component=\"easing\"] {\n  display:    block;\n\n}\n", ""]);
 
 	// exports
 
@@ -31242,7 +31254,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	      return (0, _preact.h)(
 	        'div',
-	        { className: this._getClassName() },
+	        { className: this._getClassName(), 'data-component': 'easing' },
 	        (0, _preact.h)(
 	          'div',
 	          { className: 'easing__short' },
@@ -43810,14 +43822,14 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports) {
 
 	module.exports = {
-		"easing": "_easing_1qc94_5",
-		"easing__full": "_easing__full_1qc94_43",
-		"easing__short": "_easing__short_1qc94_46",
-		"is-full": "_is-full_1qc94_42",
-		"label": "_label_1qc94_52",
-		"dropdown": "_dropdown_1qc94_70",
-		"dropdown__select": "_dropdown__select_1qc94_1",
-		"dropdown-icon": "_dropdown-icon_1qc94_91"
+		"easing": "_easing_1w7b1_6",
+		"easing__full": "_easing__full_1w7b1_44",
+		"easing__short": "_easing__short_1w7b1_47",
+		"is-full": "_is-full_1w7b1_42",
+		"label": "_label_1w7b1_53",
+		"dropdown": "_dropdown_1w7b1_71",
+		"dropdown__select": "_dropdown__select_1w7b1_1",
+		"dropdown-icon": "_dropdown-icon_1w7b1_92"
 	};
 
 /***/ },
@@ -43855,7 +43867,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	// module
-	exports.push([module.id, "/*613760*/\n/*$PX:      1/16rem;*/\n/* old was 165px */\n._easing_1qc94_5 {\n  position: absolute;\n  left: 50%;\n  top: 50%;\n  z-index: 1;\n  margin-left: -7px;\n  margin-top: -7px\n  /*transform: translate(-50%,-50%);*/\n}\n._easing_1qc94_5:hover {\n  opacity: .85;\n}\n._easing__full_1qc94_43 {\n  width: 60px;\n  height: 14px;\n  background: #3A0839;\n  display: none;\n  border-radius: 3px;\n  margin-left: -30px;\n}\n._easing__short_1qc94_46 {\n  width: 14px;\n  height: 14px;\n  cursor: pointer;\n}\n._easing__short_1qc94_46 [data-component=\"icon\"] {\n  position: absolute;\n  left: 50%;\n  top: 50%;\n  width: 6px;\n  height: 6px;\n  margin-left: -3px;\n  margin-top: -3px;\n  fill: #3A0839;\n}\n._easing_1qc94_5._is-full_1qc94_42 ._easing__full_1qc94_43 {\n  display: block;\n}\n._easing_1qc94_5._is-full_1qc94_42 ._easing__short_1qc94_46 {\n  display: none;\n}\n\n._label_1qc94_52 {\n  position:        absolute;\n  left:            -30px;\n  right:           0;\n  top:             3px;\n  color:           #FFFFFF;\n  font-size:       7px;\n  /*width:           100%;*/\n  letter-spacing:  0.5px;\n  padding-right:   17px;\n  padding-left:    5px;\n\n  // ellipsis\n  white-space:     nowrap;\n  overflow:        hidden;\n  text-overflow:   ellipsis;\n}\n\n._dropdown_1qc94_70 {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  z-index: 1\n}\n\n._dropdown__select_1qc94_1 {\n  height: 100%;\n  width: 100%;\n  -webkit-appearance: none;\n     -moz-appearance: none;\n          appearance: none;\n  outline: 0;\n  border-radius: 3px;\n  cursor: pointer;\n  position: absolute;\n  z-index: 1;\n  opacity: 0;\n}\n\n._dropdown-icon_1qc94_91 {\n  position: absolute;\n  width: 14px;\n  height: 14px;\n  right: 0;\n  top: 0;\n  border-left: 1px solid #512750;\n}\n\n._dropdown-icon_1qc94_91 [data-component=\"icon\"] {\n  position: absolute;\n  left: 50%;\n  top: 50%;\n  width: 6px;\n  height: 6px;\n  margin-top: -3px;\n  margin-left: -4px;\n  fill: #FFFFFF;\n}\n", ""]);
+	exports.push([module.id, "/*613760*/\n/*$PX:      1/16rem;*/\n/* old was 165px */\n._easing_1w7b1_6 {\n  position: absolute;\n  left: 50%;\n  top: 50%;\n  z-index: 1;\n  margin-left: -6px;\n  margin-top: -7px\n}\n._easing_1w7b1_6:hover {\n  opacity: .85\n}\n._easing__full_1w7b1_44 {\n  width: 60px;\n  height: 14px;\n  background: #3A0839;\n  display: none;\n  border-radius: 3px;\n  margin-left: -30px;\n  letter-spacing: \n}\n._easing__short_1w7b1_47 {\n  width: 14px;\n  height: 14px;\n  cursor: pointer;\n}\n._easing__short_1w7b1_47 [data-component=\"icon\"] {\n  position: absolute;\n  left: 50%;\n  top: 50%;\n  width: 6px;\n  height: 6px;\n  margin-left: -3px;\n  margin-top: -3px;\n  fill: #3A0839\n}\n._easing_1w7b1_6._is-full_1w7b1_42 {\n  margin-left: 0;\n}\n._easing_1w7b1_6._is-full_1w7b1_42 ._easing__full_1w7b1_44 {\n  display: block\n}\n._easing_1w7b1_6._is-full_1w7b1_42 ._easing__short_1w7b1_47 {\n  display: none\n}\n\n._label_1w7b1_53 {\n  position:        absolute;\n  left:            -30px;\n  right:           0;\n  top:             3px;\n  color:           #FFFFFF;\n  font-size:       7px;\n  /*width:           100%;*/\n  letter-spacing:  0.5px;\n  padding-right:   17px;\n  padding-left:    5px;\n\n  // ellipsis\n  white-space:     nowrap;\n  overflow:        hidden;\n  text-overflow:   ellipsis;\n}\n\n._dropdown_1w7b1_71 {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  z-index: 1\n}\n\n._dropdown__select_1w7b1_1 {\n  height: 100%;\n  width: 100%;\n  -webkit-appearance: none;\n     -moz-appearance: none;\n          appearance: none;\n  outline: 0;\n  border-radius: 3px;\n  cursor: pointer;\n  position: absolute;\n  z-index: 1;\n  opacity: 0\n}\n\n._dropdown-icon_1w7b1_92 {\n  position: absolute;\n  width: 14px;\n  height: 14px;\n  right: 0;\n  top: 0;\n  border-left: 1px solid #512750;\n}\n\n._dropdown-icon_1w7b1_92 [data-component=\"icon\"] {\n  position: absolute;\n  left: 50%;\n  top: 50%;\n  width: 6px;\n  height: 6px;\n  margin-top: -3px;\n  margin-left: -4px;\n  fill: #FFFFFF;\n}\n", ""]);
 
 	// exports
 
@@ -44382,8 +44394,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: function render() {
 	      return (0, _preact.h)(
 	        'div',
-	        { className: CLASSES['resize-handle'],
-	          'data-component': 'resize-handle' },
+	        { className: CLASSES['resize-handle'], 'data-component': 'resize-handle' },
 	        (0, _preact.h)(_icon2.default, { shape: 'ellipsis' })
 	      );
 	    }
@@ -44397,8 +44408,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	      mc.add(new _hammerjs2.default.Pan({ threshold: 0 }));
 	      mc.on('pan', function (e) {
-	        p.onResize(e.deltaY);
-	        e.stopPropagation();
+	        p.onResize(e.deltaY);e.stopPropagation();
 	      }).on('panstart', function (e) {
 	        p.onResizeStart && p.onResizeStart(e);
 	        e.stopPropagation();

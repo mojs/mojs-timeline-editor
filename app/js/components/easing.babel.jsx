@@ -18,7 +18,7 @@ class Easing extends Component {
     const {easing} = state;
 
     return (
-      <div className={this._getClassName()}>
+      <div className={this._getClassName()} data-component="easing">
         <div className="easing__short"><Icon shape="plus" /></div>
         <div className="easing__full">
           {easing === 'custom' ? <CurveEditor meta={meta} /> : null}

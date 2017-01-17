@@ -13,8 +13,6 @@
   &--end {
     display:    block;
     background: transparent;
-    /*background: yellow;*/
-    /*z-index: 0;*/
   }
 
   $size: 6*$PX;
@@ -27,7 +25,6 @@
     top:          50%;
     right:       -($size/2);
     margin-top:  -($size/2);
-    /*margin-left: -($size/2);*/
     cursor:       pointer;
     transform:    rotate(45deg);
 
@@ -51,9 +48,20 @@
     }
   }
 
+  [data-component="easing"] {
+    display: none;
+  }
+
   &.is-selected {
     .spot__dot {
       background: $c-orange;
     }
   }
+
+  &.is-easing {
+    [data-component="easing"] {
+      display: block;
+    }
+  }
+
 }

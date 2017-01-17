@@ -2,14 +2,14 @@
 
 $height: 14*$PX;
 $width: 60*$PX;
+$iconSize: 6*$PX;
 .easing {
   position: absolute;
   left: 50%;
   top: 50%;
   z-index: 1;
-  margin-left: -$height/2;
+  margin-left: -$iconSize;
   margin-top: -$height/2;
-  /*transform: translate(-50%,-50%);*/
   &:hover { opacity: .85; }
 
   &__full {
@@ -19,6 +19,7 @@ $width: 60*$PX;
     display: none;
     border-radius: $BRADIUS;
     margin-left: -$width/2;
+    letter-spacing: ;
   }
 
   &__short {
@@ -26,20 +27,20 @@ $width: 60*$PX;
     height: $height;
     cursor: pointer;
 
-    $size: 6*$PX;
     [data-component="icon"] {
       position: absolute;
       left: 50%;
       top: 50%;
-      width:  $size;
-      height: $size;
-      margin-left: -$size/2;
-      margin-top: -$size/2;
+      width:  $iconSize;
+      height: $iconSize;
+      margin-left: -$iconSize/2;
+      margin-top: -$iconSize/2;
       fill: $c-purple;
     }
   }
 
   &.is-full {
+    margin-left: 0;
     .easing__full {
       display: block;
     }

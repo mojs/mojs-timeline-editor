@@ -10,8 +10,6 @@ require('../../css/blocks/spot');
 
 @compose(classNames(CLASSES), refs)
 class Spot extends Component {
-  // getInitialState() { return { dDelay: 0, dDuration: 0 }; }
-
   render () {
     const {meta, type, state} = this.props;
     const {delay, duration} = state;
@@ -38,7 +36,15 @@ class Spot extends Component {
     const endClass = (type === 'end') ? 'spot--end' : '';
     const selectClass = this._isSelected() ? 'is-selected' : '';
 
-    return `spot ${endClass} ${selectClass}`;
+    return `spot ${endClass} ${selectClass} ${this._getEasingClass()}`;
+  }
+
+  _getEasingClass() {
+    const {type, state} = this.props;
+    if (type === 'start') { return ''; }
+
+    const durationWidth = state.duration/10 + this.state.dDuration;
+    return (durationWidth >= 80) ? 'is-easing' : '';
   }
 
   _isSelected() {
