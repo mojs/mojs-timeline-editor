@@ -1,7 +1,15 @@
 {
-  "name": "mojs-timeline-editor",
+  "name": "@mojs/timeline-editor",
+  "description": "GUI for interactive `html`/`custom points`/`timeline` editing while crafting your animations",
   "version": "0.19.2",
-  "description": "mojs GUI for editing timeline/html elements",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "serve": "node node_modules/webpack-dev-server/bin/webpack-dev-server.js --content-base app/ --inline --hot",
+    "precommit": "npm run eslint",
+    "eslint": "eslint app/js/**/*.js"
+  },
+  "main": "app/build/mojs-timeline-editor.js",
   "keywords": [
     "mojs",
     "motion",
@@ -12,27 +20,20 @@
     "timeline editor",
     "svg"
   ],
-  "main": "app/build/mojs-timeline-editor.js",
-  "scripts": {
-    "serve": "node node_modules/webpack-dev-server/bin/webpack-dev-server.js --content-base app/ --inline --hot",
-    "precommit": "npm run eslint",
-    "eslint": "eslint app/js/**/*.js"
+  "author": {
+    "name": "Oleg Solomka",
+    "email": "legomushroom@gmail.com",
+    "url": "https://twitter.com/legomushroom",
+    "github": "@legomushroom"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/legomushroom/mojs-timeline-editor.git"
   },
-  "author": {
-    "name": "Oleg Solomka",
-    "email": "legomushroom@gmail.com",
-    "twitter": "@legomushroom",
-    "url": "https://github.com/legomushroom/"
-  },
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/legomushroom/mojs-timeline-editor/issues"
   },
-  "homepage": "https://github.com/legomushroom/mojs-timeline-editor#readme",
+  "homepage": "https://github.com/mojs/mojs-timeline-editor",
   "dependencies": {
     "decko": "^1.1.3",
     "hammerjs": "^2.0.8",
